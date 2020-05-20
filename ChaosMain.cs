@@ -9,9 +9,10 @@ namespace ChaosIV {
 
 		Timer EffectTimer;
 		List<Action> Loops = new List<Action>();
-
 		List<Effect> Effects = new List<Effect>();
 		List<Effect> RecentEffects = new List<Effect>(3);
+
+		Font smol = new Font("Arial", 0.02f, FontScaling.ScreenUnits);
 
 		bool isBlind = false;
 		
@@ -44,23 +45,23 @@ namespace ChaosIV {
 
 			// Draw Timer Bar
 			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 0.02f), Color.FromArgb(10, 10, 10));
-			e.Graphics.DrawText("ChaosIV", new RectangleF(0f, 0f, 1f, 0.02f), TextAlignment.Center, Color.FromArgb(20, 20, 20), new Font("Arial", 0.02f, FontScaling.ScreenUnits));
+			e.Graphics.DrawText("ChaosIV", new RectangleF(0f, 0f, 1f, 0.02f), TextAlignment.Center, Color.FromArgb(20, 20, 20), smol);
 			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, (float)((double)EffectTimer.ElapsedTime / 30000), 0.02f), Color.Yellow);
 
 			// Draw Recent Effects
 			if (RecentEffects.Count >= 1) {
 				e.Graphics.DrawRectangle(0.5f, 0.05f, (float)(((double)(RecentEffects[0].Timer.Interval - RecentEffects[0].Timer.ElapsedTime) / RecentEffects[0].Timer.Interval) * 0.4), 0.02f, Color.FromArgb(40, 40, 40));
-				e.Graphics.DrawText(RecentEffects[0].Name, new RectangleF(0f, 0.04f, 1f, 0.02f), TextAlignment.Center, new Font("Arial", 0.02f, FontScaling.ScreenUnits));
+				e.Graphics.DrawText(RecentEffects[0].Name, new RectangleF(0f, 0.04f, 1f, 0.02f), TextAlignment.Center, smol);
 			}
 
 			if (RecentEffects.Count >= 2) {
 				e.Graphics.DrawRectangle(0.5f, 0.05f, (float)(((double)(RecentEffects[1].Timer.Interval - RecentEffects[1].Timer.ElapsedTime) / RecentEffects[1].Timer.Interval) * 0.4), 0.02f, Color.FromArgb(40, 40, 40));
-				e.Graphics.DrawText(RecentEffects[1].Name, new RectangleF(0f, 0.07f, 1f, 0.02f), TextAlignment.Center, new Font("Arial", 0.02f, FontScaling.ScreenUnits));
+				e.Graphics.DrawText(RecentEffects[1].Name, new RectangleF(0f, 0.07f, 1f, 0.02f), TextAlignment.Center, smol);
 			}
 
 			if (RecentEffects.Count == 3) {
 				e.Graphics.DrawRectangle(0.5f, 0.05f, (float)(((double)(RecentEffects[2].Timer.Interval - RecentEffects[2].Timer.ElapsedTime) / RecentEffects[2].Timer.Interval) * 0.4), 0.02f, Color.FromArgb(40, 40, 40));
-				e.Graphics.DrawText(RecentEffects[2].Name, new RectangleF(0f, 0.1f, 1f, 0.02f), TextAlignment.Center, new Font("Arial", 0.02f, FontScaling.ScreenUnits));
+				e.Graphics.DrawText(RecentEffects[2].Name, new RectangleF(0f, 0.1f, 1f, 0.02f), TextAlignment.Center, smol);
 			}
 		}
 
