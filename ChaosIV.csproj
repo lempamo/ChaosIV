@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>lempamo</Authors>
+    <PackageProjectUrl>https://github.com/lempamo/ChaosIV</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/lempamo/ChaosIV</RepositoryUrl>
+    <Description>Chaos mod for GTA IV</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath></OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ScriptHookDotNet">
+      <HintPath>..\bin\ScriptHookDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(TargetPath)&quot; &quot;$(TargetPath)\..\..\..\..\..\..\ChaosIV.net.dll&quot;&#xD;&#xA;cd &quot;$(ProjectDir)\..\..\..\&quot;&#xD;&#xA;LaunchGTAIV.exe -availablevidmem 20.0" />
+  </Target>
+
+</Project>
