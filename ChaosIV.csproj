@@ -5,7 +5,7 @@
     <Authors>lempamo</Authors>
     <PackageProjectUrl>https://github.com/lempamo/ChaosIV</PackageProjectUrl>
     <RepositoryUrl>https://github.com/lempamo/ChaosIV</RepositoryUrl>
-    <Description>Chaos mod for GTA IV</Description>
+    <Description>Chaos mod for GTA IV [prerelease build]</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

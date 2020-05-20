@@ -21,15 +21,15 @@ namespace ChaosIV {
 			Tick += new EventHandler(ChaosLoop);
 			PerFrameDrawing += new GraphicsEventHandler(ChaosDraw);
 
-			//Effects.Add(new Effect("Nothing", EffectMiscNothing));
-			//Effects.Add(new Effect("Obliterate All Nearby Peds", EffectPedsObliterateNearby));
-			//Effects.Add(new Effect("Remove Weapons From Everyone", EffectPedsRemoveWeapons));
+			Effects.Add(new Effect("Nothing", EffectMiscNothing));
+			Effects.Add(new Effect("Obliterate All Nearby Peds", EffectPedsObliterateNearby));
+			Effects.Add(new Effect("Remove Weapons From Everyone", EffectPedsRemoveWeapons));
 			Effects.Add(new Effect("Blind", EffectPlayerBlindStart, new Timer(28000), null, EffectPlayerBlindStop));
-			//Effects.Add(new Effect("Exit Current Vehicle", EffectPlayerExitCurrentVehicle));
-			//Effects.Add(new Effect("Remove All Weapons", EffectPlayerRemoveWeapons));
-			//Effects.Add(new Effect("Break All Doors of Current Vehicle", EffectVehicleBreakDoorsPlayer));
-			//Effects.Add(new Effect("Launch All Vehicles Up", EffectVehicleLaunchAllUp));
-			//Effects.Add(new Effect("Repair Current Vehicle", EffectVehicleRepairPlayer));
+			Effects.Add(new Effect("Exit Current Vehicle", EffectPlayerExitCurrentVehicle));
+			Effects.Add(new Effect("Remove All Weapons", EffectPlayerRemoveWeapons));
+			Effects.Add(new Effect("Break All Doors of Current Vehicle", EffectVehicleBreakDoorsPlayer));
+			Effects.Add(new Effect("Launch All Vehicles Up", EffectVehicleLaunchAllUp));
+			Effects.Add(new Effect("Repair Current Vehicle", EffectVehicleRepairPlayer));
 
 			EffectTimer = new Timer();
 			EffectTimer.Tick += new EventHandler(DeployEffect);
