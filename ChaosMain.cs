@@ -11,6 +11,133 @@ namespace ChaosIV {
 		List<Action> Loops = new List<Action>();
 		List<Effect> Effects = new List<Effect>();
 		List<Effect> RecentEffects = new List<Effect>(3);
+		Dictionary<string, float> Speeds = new Dictionary<string, float>() { //nyoom
+			{"ADMIRAL", 140},
+			{"AIRTUG", 140},
+			{"AMBULAN", 140},
+			{"ANDROM", 160},
+			{"ANNHIL", 160},
+			{"BANSHEE", 160},
+			{"BENSON", 115},
+			{"BIFF", 110},
+			{"BLISTA", 150},
+			{"BOBBER", 125},
+			{"BOBCAT", 125},
+			{"BOXVILLE", 110},
+			{"BUCCANEER", 140},
+			{"BURRITO", 130},
+			{"BURRITO2", 130},
+			{"BUS", 135},
+			{"CABBY", 135},
+			{"CABLECAR", 80},
+			{"CAVCADE", 135},
+			{"CHAVOS", 145},
+			{"COGNONTI", 150},
+			{"COMET", 160},
+			{"CONTENDE", 135},
+			{"COQUETTE", 160},
+			{"DF8", 150},
+			{"DILETT", 130},
+			{"DINGHY", 60},
+			{"DODO", 160},
+			{"DUKES", 135},
+			{"EMPEROR", 130},
+			{"EMPEROR2", 130},
+			{"ESPERNTO", 120},
+			{"FACTION", 140},
+			{"FAGGIO", 80},
+			{"FBI", 150},
+			{"FELTZER", 145},
+			{"FEROCI", 140},
+			{"FIGHTER", 160},
+			{"FIRETRUK", 140},
+			{"FLATBED", 115},
+			{"FORTUNE", 143},
+			{"FORKLIFT", 50},
+			{"FUTO", 140},
+			{"FXT", 130},
+			{"HABANRO", 130},
+			{"HAKUMAI", 135},
+			{"HELLFURY", 125},
+			{"HUNT", 145},
+			{"INFERNUS", 160},
+			{"INGOT", 130},
+			{"INTRUDER", 135},
+			{"JETMAX", 75},
+			{"LANSTALK", 135},
+			{"LOKUS", 135},
+			{"MANANA", 130},
+			{"MARBELLA", 130},
+			{"MARQUI", 30},
+			{"MAVERICK", 160},
+			{"MERIT", 140},
+			{"MINVAN", 130},
+			{"MOONB", 130},
+			{"MRTASTY", 110},
+			{"MULE", 100},
+			{"NOOSE", 150},
+			{"NRG900", 150},
+			{"ORACLE", 143},
+			{"PACKER", 105},
+			{"PATRIOT", 130},
+			{"PCJ", 140},
+			{"PEREN", 130},
+			{"PEYOTE", 135},
+			{"PHANTOM", 135},
+			{"PINNACLE", 140},
+			{"PMP600", 140},
+			{"POLICE", 150},
+			{"POLICE2", 150},
+			{"POLMAV", 160},
+			{"POLPAT", 140},
+			{"PONY", 115},
+			{"PREDATOR", 70},
+			{"PREMIER", 138},
+			{"PRES", 145},
+			{"PRIMO", 140},
+			{"RANCHER", 130},
+			{"REBLA", 134},
+			{"REEFER", 40},
+			{"RIPLEY", 70},
+			{"ROMAN", 140},
+			{"ROMERO", 120},
+			{"RUINER", 150},
+			{"SABRE", 140},
+			{"SABRE2", 140},
+			{"SABREGT", 145},
+			{"SANCHEZ", 130},
+			{"SCHAFTER", 141},
+			{"SENTINEL", 150},
+			{"SOLAIR", 130},
+			{"SPEEDO", 125},
+			{"SQUALO", 70},
+			{"STALION", 140},
+			{"STEED", 100},
+			{"STOCKADE", 120},
+			{"STRATUM", 135},
+			{"STRETCH", 140},
+			{"SUBWAY", 80},
+			{"SULTAN", 145},
+			{"SULTANRS", 150},
+			{"SUPERGT", 155},
+			{"TAXI", 135},
+			{"TAXI2", 135},
+			{"TOURMAV", 160},
+			{"TRASH", 100},
+			{"TROPIC", 75},
+			{"TUG", 40},
+			{"TURISMO", 160},
+			{"URANUS", 130},
+			{"VIGERO", 135},
+			{"VIGERO2", 135},
+			{"VINCENT", 130},
+			{"VIRGO", 125},
+			{"VOODOO", 120},
+			{"WASHINGTON", 135},
+			{"WILLARD", 130},
+			{"YANKEE", 105},
+			{"ZOMBIE", 125}
+		}; 
 
 		Font smol = new Font("Arial", 0.02f, FontScaling.ScreenUnits);
 
@@ -35,11 +162,12 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Five Wanted Stars", EffectPlayerWantedFiveStars));
 
 			//Effects.Add(new Effect("Break All Doors of Current Vehicle", EffectVehicleBreakDoorsPlayer)); // this one seems to be crashing
+			Effects.Add(new Effect("Full Acceleration", EffectVehicleFullAccel, new Timer(28000), EffectVehicleFullAccel, EffectVehicleFullAccel));
 			Effects.Add(new Effect("Launch All Vehicles Up", EffectVehicleLaunchAllUp));
 			Effects.Add(new Effect("Repair Current Vehicle", EffectVehicleRepairPlayer));
 			Effects.Add(new Effect("Spawn Police Cruiser", EffectVehicleSpawnPolice));
-			Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] {"Blue Traffic"}));
-			Effects.Add(new Effect("Blue Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Black Traffic" }));
+			Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Blue Traffic" }));
+			Effects.Add(new Effect("Blue Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Black Traffic" }));
 
 			EffectTimer = new Timer();
 			EffectTimer.Tick += new EventHandler(DeployEffect);
@@ -55,22 +183,22 @@ namespace ChaosIV {
 
 			// Draw Timer Bar
 			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 0.02f), Color.FromArgb(10, 10, 10));
-			e.Graphics.DrawText("ChaosIV", new RectangleF(0f, 0f, 1f, 0.02f), TextAlignment.Center, Color.FromArgb(20, 20, 20), smol);
+			e.Graphics.DrawText("ChaosIV", new RectangleF(0f, 0f, 1f, 0.02f), TextAlignment.Center, Color.FromArgb(40, 40, 40), smol);
 			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, (float)((double)EffectTimer.ElapsedTime / 30000), 0.02f), Color.Yellow);
 
 			// Draw Recent Effects
 			if (RecentEffects.Count >= 1) {
-				if (RecentEffects[0].Timer != null) e.Graphics.DrawRectangle(0.5f, 0.05f, (float)(((double)(RecentEffects[0].Timer.Interval - RecentEffects[0].Timer.ElapsedTime) / RecentEffects[0].Timer.Interval) * 0.4), 0.02f, Color.FromArgb(128, 60, 60, 60));
+				if (RecentEffects[0].Timer != null) e.Graphics.DrawRectangle(0.5f, 0.05f, (float)(((double)(RecentEffects[0].Timer.Interval - RecentEffects[0].Timer.ElapsedTime) / RecentEffects[0].Timer.Interval) * 0.4), 0.02f, Color.FromArgb(128, 80, 80, 80));
 				e.Graphics.DrawText(RecentEffects[0].Name, new RectangleF(0f, 0.04f, 1f, 0.02f), TextAlignment.Center, smol);
 			}
 
 			if (RecentEffects.Count >= 2) {
-				if (RecentEffects[1].Timer != null) e.Graphics.DrawRectangle(0.5f, 0.08f, (float)(((double)(RecentEffects[1].Timer.Interval - RecentEffects[1].Timer.ElapsedTime) / RecentEffects[1].Timer.Interval) * 0.4), 0.02f, Color.FromArgb(128, 60, 60, 60));
+				if (RecentEffects[1].Timer != null) e.Graphics.DrawRectangle(0.5f, 0.08f, (float)(((double)(RecentEffects[1].Timer.Interval - RecentEffects[1].Timer.ElapsedTime) / RecentEffects[1].Timer.Interval) * 0.4), 0.02f, Color.FromArgb(128, 80, 80, 80));
 				e.Graphics.DrawText(RecentEffects[1].Name, new RectangleF(0f, 0.07f, 1f, 0.02f), TextAlignment.Center, smol);
 			}
 
 			if (RecentEffects.Count == 3) {
-				if (RecentEffects[2].Timer != null) e.Graphics.DrawRectangle(0.5f, 0.11f, (float)(((double)(RecentEffects[2].Timer.Interval - RecentEffects[2].Timer.ElapsedTime) / RecentEffects[2].Timer.Interval) * 0.4), 0.02f, Color.FromArgb(128, 60, 60, 60));
+				if (RecentEffects[2].Timer != null) e.Graphics.DrawRectangle(0.5f, 0.11f, (float)(((double)(RecentEffects[2].Timer.Interval - RecentEffects[2].Timer.ElapsedTime) / RecentEffects[2].Timer.Interval) * 0.4), 0.02f, Color.FromArgb(128, 80, 80, 80));
 				e.Graphics.DrawText(RecentEffects[2].Name, new RectangleF(0f, 0.1f, 1f, 0.02f), TextAlignment.Center, smol);
 			}
 		}
@@ -98,6 +226,14 @@ namespace ChaosIV {
 			if (next.Timer != null && RecentEffects.Contains(next)) {
 				RecentEffects.Find(x => x.Name == next.Name).Start();
 			} else {
+				if (next.Conflicts != null) {
+					foreach(string c in next.Conflicts) {
+						if (RecentEffects.Find(x => x.Name == c).Name != null) {
+							RecentEffects.Remove(RecentEffects.Find(x => x.Name == c));
+						}
+					}
+				}
+
 				next.Start();
 				if (next.Timer != null) {
 					next.Timer.Start();
@@ -111,7 +247,7 @@ namespace ChaosIV {
 				} else {
 					foreach (Effect f in RecentEffects) {
 						if (f.Timer != null) {
-							if (!f.Timer.isRunning) {
+							if (f.Timer.ElapsedTime > f.Timer.Interval) {
 								RecentEffects.Remove(f);
 								break;
 							}
@@ -131,7 +267,7 @@ namespace ChaosIV {
 
 		#region Misc Effects
 		public void EffectMiscNothing() {
-			Console.Out.WriteLine("ok maybe not quite \"nothing\" but eh who cares");
+			Console.WriteLine("ok maybe not quite \"nothing\" but eh who cares");
 		}
 		#endregion
 
@@ -182,7 +318,7 @@ namespace ChaosIV {
 		}
 
 		public void EffectPlayerTeleportGetALife() {
-			Player.TeleportTo(new Vector3(10, 65, 222));
+			Player.TeleportTo(10, 65);
 		}
 
 		public void EffectPlayerRemoveWeapons() {
@@ -206,6 +342,15 @@ namespace ChaosIV {
 				Player.Character.CurrentVehicle.Door(VehicleDoor.LeftRear).Break();
 				Player.Character.CurrentVehicle.Door(VehicleDoor.RightFront).Break();
 				Player.Character.CurrentVehicle.Door(VehicleDoor.RightRear).Break();
+			}
+		}
+
+		public void EffectVehicleFullAccel() {
+			foreach (Vehicle v in World.GetAllVehicles()) {
+				if (v.Exists() & v.isOnAllWheels) {
+					Game.Console.Print(v.Name);
+					v.Speed = Speeds[v.Name]; 
+				}
 			}
 		}
 
