@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using GTA;
 
 namespace ChaosIV {
@@ -15,7 +16,6 @@ namespace ChaosIV {
 			{"ADMIRAL", 140},
 			{"AIRTUG", 140},
 			{"AMBULAN", 140},
-			{"ANDROM", 160},
 			{"ANNHIL", 160},
 			{"BANSHEE", 160},
 			{"BENSON", 115},
@@ -53,7 +53,7 @@ namespace ChaosIV {
 			{"FIRETRUK", 140},
 			{"FLATBED", 115},
 			{"FORTUNE", 143},
-			{"FORKLIFT", 50},
+			{"FORK", 50},
 			{"FUTO", 140},
 			{"FXT", 130},
 			{"HABANRO", 130},
@@ -124,8 +124,8 @@ namespace ChaosIV {
 			{"TAXI", 135},
 			{"TAXI2", 135},
 			{"TOURMAV", 160},
-			{"TRASH", 100},
 			{"TROPIC", 75},
+			{"TRUSH", 100},
 			{"TURISMO", 160},
 			{"URANUS", 130},
 			{"VIGERO", 135},
@@ -144,12 +144,11 @@ namespace ChaosIV {
 		bool isBlind = false;
 
 		public ChaosMain() {
-			Interval = 50;
+			Interval = 33;
 			Tick += new EventHandler(ChaosLoop);
 			PerFrameDrawing += new GraphicsEventHandler(ChaosDraw);
 
-			Effects.Add(new Effect("x0.2 Gamespeed", EffectMiscGameSpeedFifth, new Timer(28000), null, EffectMiscGameSpeedNormal, new[] { "x0.5 Gamespeed" }));
-			Effects.Add(new Effect("x0.5 Gamespeed", EffectMiscGameSpeedHalf, new Timer(28000), null, EffectMiscGameSpeedNormal, new[] { "x0.2 Gamespeed" }));
+			Effects.Add(new Effect("Zero Gravity", EffectMiscNoGravity, new Timer(28000), null, EffectMiscNormalGravity));
 			Effects.Add(new Effect("Nothing", EffectMiscNothing));
 
 			Effects.Add(new Effect("Everyone Is A Ghost", EffectPedsInvisibleLoop, new Timer(88000), EffectPedsInvisibleLoop, EffectPedsInvisibleStop));
@@ -158,18 +157,34 @@ namespace ChaosIV {
 
 			Effects.Add(new Effect("Blind", EffectPlayerBlindStart, new Timer(28000), null, EffectPlayerBlindStop));
 			Effects.Add(new Effect("Exit Current Vehicle", EffectPlayerExitCurrentVehicle));
+			Effects.Add(new Effect("Give Rocket Launcher", EffectPlayerGiveRocket));
+			Effects.Add(new Effect("Heal Player", EffectPlayerHeal));
+			Effects.Add(new Effect("Ignite Player", EffectPlayerIgnite));
+			Effects.Add(new Effect("Randomize Player Outfit", EffectPlayerRandomClothes));
 			Effects.Add(new Effect("Remove All Weapons", EffectPlayerRemoveWeapons));
+			Effects.Add(new Effect("Set Player Into Random Vehicle", EffectPlayerSetVehicleRandom));
 			Effects.Add(new Effect("Teleport To GetALife Building", EffectPlayerTeleportGetALife));
 			Effects.Add(new Effect("Clear Wanted Level", EffectPlayerWantedClear));
 			Effects.Add(new Effect("Five Wanted Stars", EffectPlayerWantedFiveStars));
 
 			//Effects.Add(new Effect("Break All Doors of Current Vehicle", EffectVehicleBreakDoorsPlayer)); // this one seems to be crashing
 			Effects.Add(new Effect("Full Acceleration", EffectVehicleFullAccel, new Timer(28000), EffectVehicleFullAccel, EffectVehicleFullAccel));
+			Effects.Add(new Effect("Kill Engine Of Current Vehicle", EffectVehicleKillEnginePlayer));
 			Effects.Add(new Effect("Launch All Vehicles Up", EffectVehicleLaunchAllUp));
+			Effects.Add(new Effect("Pop Tires Of Current Vehicle", EffectVehiclePopTiresPlayer));
 			Effects.Add(new Effect("Repair Current Vehicle", EffectVehicleRepairPlayer));
+			Effects.Add(new Effect("Spawn Bus", EffectVehicleSpawnBus));
+			Effects.Add(new Effect("Spawn Infernus", EffectVehicleSpawnInfernus));
 			Effects.Add(new Effect("Spawn Police Cruiser", EffectVehicleSpawnPolice));
+			Effects.Add(new Effect("Spawn Random Vehicle", EffectVehicleSpawnRandom));
 			Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Blue Traffic" }));
 			Effects.Add(new Effect("Blue Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Black Traffic" }));
+
+			Effects.Add(new Effect("Advance One Day", EffectTimeAdvanceOneDay));
+			Effects.Add(new Effect("x0.2 Gamespeed", EffectTimeGameSpeedFifth, new Timer(28000), null, EffectTimeGameSpeedNormal, new[] { "x0.5 Gamespeed" }));
+			Effects.Add(new Effect("x0.5 Gamespeed", EffectTimeGameSpeedHalf, new Timer(28000), null, EffectTimeGameSpeedNormal, new[] { "x0.2 Gamespeed" }));
+			Effects.Add(new Effect("Set Time To Noon", EffectTimeSetNoon));
+			Effects.Add(new Effect("Timelapse", EffectTimeLapse, new Timer(88000), EffectTimeLapse, EffectTimeLapse));
 
 			EffectTimer = new Timer();
 			EffectTimer.Tick += new EventHandler(DeployEffect);
@@ -271,16 +286,15 @@ namespace ChaosIV {
 		// !!! EFFECT METHODS BEGIN BELOW !!! //
 
 		#region Misc Effects
-		public void EffectMiscGameSpeedFifth() {
-			Game.TimeScale = 0.2f;
+		public void EffectMiscNoGravity() {
+			// floating free...
+			// one, two, three...
+			// eternity....
+			World.GravityEnabled = false;
 		}
 
-		public void EffectMiscGameSpeedHalf() {
-			Game.TimeScale = 0.5f;
-		}
-
-		public void EffectMiscGameSpeedNormal() {
-			Game.TimeScale = 1f;
+		public void EffectMiscNormalGravity() {
+			World.GravityEnabled = true;
 		}
 
 		public void EffectMiscNothing() {
@@ -334,12 +348,32 @@ namespace ChaosIV {
 			if (Player.Character.isInVehicle()) Player.Character.LeaveVehicle();
 		}
 
-		public void EffectPlayerTeleportGetALife() {
-			Player.TeleportTo(10, 65);
+		public void EffectPlayerGiveRocket() {
+			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.Heavy_RocketLauncher, 10).CollectableByCar = true;
+		}
+
+		public void EffectPlayerHeal() {
+			Player.Character.Health = 100;
+		}
+
+		public void EffectPlayerIgnite() {
+			Player.Character.isOnFire = true;
+		}
+
+		public void EffectPlayerRandomClothes() {
+			Player.Character.RandomizeOutfit();
 		}
 
 		public void EffectPlayerRemoveWeapons() {
 			Player.Character.Weapons.RemoveAll();
+		}
+
+		public void EffectPlayerSetVehicleRandom() {
+			Player.Character.WarpIntoVehicle(World.GetAllVehicles()[R.Next(World.GetAllVehicles().Length)], VehicleSeat.Driver);
+		}
+
+		public void EffectPlayerTeleportGetALife() {
+			Player.TeleportTo(16, 65);
 		}
 
 		public void EffectPlayerWantedClear() {
@@ -348,6 +382,33 @@ namespace ChaosIV {
 
 		public void EffectPlayerWantedFiveStars() {
 			Player.WantedLevel = 5;
+		}
+		#endregion
+
+		#region Time Effects
+		public void EffectTimeAdvanceOneDay() {
+			World.OneDayForward();
+		}
+
+		public void EffectTimeGameSpeedFifth() {
+			Game.TimeScale = 0.2f;
+		}
+
+		public void EffectTimeGameSpeedHalf() {
+			Game.TimeScale = 0.5f;
+		}
+
+		public void EffectTimeGameSpeedNormal() {
+			Game.TimeScale = 1f;
+		}
+
+		public void EffectTimeLapse() {
+			World.UnlockDayTime();
+			World.CurrentDayTime = World.CurrentDayTime.Add(new TimeSpan(0, 30, 0));
+		}
+
+		public void EffectTimeSetNoon() {
+			World.CurrentDayTime = new TimeSpan(World.CurrentDayTime.Days, 12, 0, 0);
 		}
 		#endregion
 
@@ -367,9 +428,13 @@ namespace ChaosIV {
 			foreach (Vehicle v in World.GetAllVehicles()) {
 				if (v.Exists() & v.isOnAllWheels) {
 					Game.Console.Print(v.Name);
-					v.Speed = Speeds[v.Name]; 
+					v.Speed = Speeds[v.Name];
 				}
 			}
+		}
+
+		public void EffectVehicleKillEnginePlayer() {
+			if (Player.Character.isInVehicle()) Player.Character.CurrentVehicle.EngineHealth = 0;
 		}
 
 		public void EffectVehicleLaunchAllUp() {
@@ -378,12 +443,37 @@ namespace ChaosIV {
 			}
 		}
 
+		public void EffectVehiclePopTiresPlayer() {
+			if (Player.Character.isInVehicle()) {
+				if (!Player.Character.CurrentVehicle.Model.isBoat | !Player.Character.CurrentVehicle.Model.isHelicopter) {
+					Player.Character.CurrentVehicle.BurstTire(VehicleWheel.FrontLeft);
+					Player.Character.CurrentVehicle.BurstTire(VehicleWheel.RearLeft);
+					if (!Player.Character.CurrentVehicle.Model.isBike) {
+						Player.Character.CurrentVehicle.BurstTire(VehicleWheel.FrontRight);
+						Player.Character.CurrentVehicle.BurstTire(VehicleWheel.RearRight);
+					}
+				}
+			}
+		}
+
 		public void EffectVehicleRepairPlayer() {
 			if (Player.Character.isInVehicle()) Player.Character.CurrentVehicle.Repair();
 		}
 
+		public void EffectVehicleSpawnBus() {
+			World.CreateVehicle(new Model("BUS"), Player.Character.Position.Around(2f));
+		}
+
+		public void EffectVehicleSpawnInfernus() {
+			World.CreateVehicle(new Model("INFERNUS"), Player.Character.Position.Around(2f));
+		}
+
 		public void EffectVehicleSpawnPolice() {
 			World.CreateVehicle(new Model("POLICE"), Player.Character.Position.Around(2f));
+		}
+
+		public void EffectVehicleSpawnRandom() {
+			World.CreateVehicle(new Model(Speeds.Keys.ToArray()[R.Next(Speeds.Count)]), Player.Character.Position.Around(2f));
 		}
 
 		public void EffectVehicleTrafficBlack() {
