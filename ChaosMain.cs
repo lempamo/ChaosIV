@@ -23,7 +23,7 @@ namespace ChaosIV {
 			{"BLISTA", 150},
 			{"BOBBER", 125},
 			{"BOBCAT", 125},
-			{"BOXVILLE", 110},
+			{"BOXVLE", 110},
 			{"BUCCANEER", 140},
 			{"BURRITO", 130},
 			{"BURRITO2", 130},
@@ -77,6 +77,7 @@ namespace ChaosIV {
 			{"MULE", 100},
 			{"NOOSE", 150},
 			{"NRG900", 150},
+			{"NSTOCK", 120},
 			{"ORACLE", 143},
 			{"PACKER", 105},
 			{"PATRIOT", 130},
@@ -102,6 +103,7 @@ namespace ChaosIV {
 			{"ROMAN", 140},
 			{"ROMERO", 120},
 			{"RUINER", 150},
+			{"RUSTBOAT", 40},
 			{"SABRE", 140},
 			{"SABRE2", 140},
 			{"SABREGT", 145},
@@ -113,7 +115,6 @@ namespace ChaosIV {
 			{"SQUALO", 70},
 			{"STALION", 140},
 			{"STEED", 100},
-			{"STOCKADE", 120},
 			{"STRATUM", 135},
 			{"STRETCH", 140},
 			{"SUBWAY", 80},
@@ -125,7 +126,6 @@ namespace ChaosIV {
 			{"TOURMAV", 160},
 			{"TRASH", 100},
 			{"TROPIC", 75},
-			{"TUG", 40},
 			{"TURISMO", 160},
 			{"URANUS", 130},
 			{"VIGERO", 135},
@@ -136,7 +136,7 @@ namespace ChaosIV {
 			{"WASHINGTON", 135},
 			{"WILLARD", 130},
 			{"YANKEE", 105},
-			{"ZOMBIE", 125}
+			{"ZOMB", 125}
 		}; 
 
 		Font smol = new Font("Arial", 0.02f, FontScaling.ScreenUnits);
@@ -148,6 +148,8 @@ namespace ChaosIV {
 			Tick += new EventHandler(ChaosLoop);
 			PerFrameDrawing += new GraphicsEventHandler(ChaosDraw);
 
+			Effects.Add(new Effect("x0.2 Gamespeed", EffectMiscGameSpeedFifth, new Timer(28000), null, EffectMiscGameSpeedNormal, new[] { "x0.5 Gamespeed" }));
+			Effects.Add(new Effect("x0.5 Gamespeed", EffectMiscGameSpeedHalf, new Timer(28000), null, EffectMiscGameSpeedNormal, new[] { "x0.2 Gamespeed" }));
 			Effects.Add(new Effect("Nothing", EffectMiscNothing));
 
 			Effects.Add(new Effect("Everyone Is A Ghost", EffectPedsInvisibleLoop, new Timer(88000), EffectPedsInvisibleLoop, EffectPedsInvisibleStop));
@@ -229,6 +231,9 @@ namespace ChaosIV {
 				if (next.Conflicts != null) {
 					foreach(string c in next.Conflicts) {
 						if (RecentEffects.Find(x => x.Name == c).Name != null) {
+							RecentEffects.Find(x => x.Name == c).Stop();
+							RecentEffects.Find(x => x.Name == c).Timer.Stop();
+							Loops.Remove(RecentEffects.Find(x => x.Name == c).Loop);
 							RecentEffects.Remove(RecentEffects.Find(x => x.Name == c));
 						}
 					}
@@ -266,8 +271,20 @@ namespace ChaosIV {
 		// !!! EFFECT METHODS BEGIN BELOW !!! //
 
 		#region Misc Effects
+		public void EffectMiscGameSpeedFifth() {
+			Game.TimeScale = 0.2f;
+		}
+
+		public void EffectMiscGameSpeedHalf() {
+			Game.TimeScale = 0.5f;
+		}
+
+		public void EffectMiscGameSpeedNormal() {
+			Game.TimeScale = 1f;
+		}
+
 		public void EffectMiscNothing() {
-			Console.WriteLine("ok maybe not quite \"nothing\" but eh who cares");
+			Game.Console.Print("ok maybe not quite \"nothing\" but eh who cares");
 		}
 		#endregion
 
@@ -337,11 +354,12 @@ namespace ChaosIV {
 		#region Vehicle Effects
 		public void EffectVehicleBreakDoorsPlayer() {
 			if (Player.Character.isInVehicle()) {
-				Player.Character.CurrentVehicle.Door(VehicleDoor.Hood).Break();
+				//Player.Character.CurrentVehicle.Door(VehicleDoor.Hood).Break();
+				Player.Character.CurrentVehicle.Door(VehicleDoor.LeftFront).Open();
 				Player.Character.CurrentVehicle.Door(VehicleDoor.LeftFront).Break();
-				Player.Character.CurrentVehicle.Door(VehicleDoor.LeftRear).Break();
-				Player.Character.CurrentVehicle.Door(VehicleDoor.RightFront).Break();
-				Player.Character.CurrentVehicle.Door(VehicleDoor.RightRear).Break();
+				//Player.Character.CurrentVehicle.Door(VehicleDoor.LeftRear).Break();
+				//Player.Character.CurrentVehicle.Door(VehicleDoor.RightFront).Break();
+				//Player.Character.CurrentVehicle.Door(VehicleDoor.RightRear).Break();
 			}
 		}
 
