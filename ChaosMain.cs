@@ -12,6 +12,13 @@ namespace ChaosIV {
 		List<Action> Loops = new List<Action>();
 		List<Effect> Effects = new List<Effect>();
 		List<Effect> RecentEffects = new List<Effect>(3);
+		List<Vector3> Safehouses = new List<Vector3>() {
+			new Vector3(900, -500, 0),  // broker
+			new Vector3(595, 1400, 0),  // bohan
+			new Vector3(115, 845, 0),   // algonquin - middle park east
+			new Vector3(-420, 1490, 0), // algonquin - northwood
+			new Vector3(-963, 897, 0),  // alderney
+		};
 		Dictionary<string, float> Speeds = new Dictionary<string, float>() { //nyoom
 			{"ADMIRAL", 140},
 			{"AIRTUG", 140},
@@ -60,7 +67,7 @@ namespace ChaosIV {
 			{"HUNT", 145},
 			{"INFERNUS", 160},
 			{"INGOT", 130},
-			{"INTRUDER", 135},
+			{"INTRUD", 135},
 			{"JETMAX", 75},
 			{"LANSTALK", 135},
 			{"LOKUS", 135},
@@ -151,6 +158,7 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Nothing", EffectMiscNothing));
 
 			Effects.Add(new Effect("Everyone Is A Ghost", EffectPedsInvisibleLoop, new Timer(88000), EffectPedsInvisibleLoop, EffectPedsInvisibleStop));
+			Effects.Add(new Effect("Ignite All Nearby Peds", EffectPedsIgniteNearby));
 			Effects.Add(new Effect("Obliterate All Nearby Peds", EffectPedsObliterateNearby));
 			Effects.Add(new Effect("Remove Weapons From Everyone", EffectPedsRemoveWeapons));
 
@@ -163,30 +171,20 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Give Rocket Launcher", EffectPlayerGiveRocket));
 			Effects.Add(new Effect("Heal Player", EffectPlayerHeal));
 			Effects.Add(new Effect("Ignite Player", EffectPlayerIgnite));
+			Effects.Add(new Effect("Launch Player Up", EffectPlayerLaunchUp));
+			Effects.Add(new Effect("Ragdoll", EffectPlayerRagdoll));
 			Effects.Add(new Effect("Randomize Player Outfit", EffectPlayerRandomClothes));
 			Effects.Add(new Effect("Remove All Weapons", EffectPlayerRemoveWeapons));
-			Effects.Add(new Effect("Set Player Into Random Seat", EffectPlayerSetRandomSeat));
+			Effects.Add(new Effect("Set Player Into Random Unoccupied Seat", EffectPlayerSetRandomSeat));
 			Effects.Add(new Effect("Set Player Into Closest Vehicle", EffectPlayerSetVehicleClosest));
 			Effects.Add(new Effect("Set Player Into Random Vehicle", EffectPlayerSetVehicleRandom));
 			Effects.Add(new Effect("Suicide", EffectPlayerSuicide));
 			Effects.Add(new Effect("Teleport To Alderney Prison", EffectPlayerTeleportAlderneyPrison));
 			Effects.Add(new Effect("Teleport To GetALife Building", EffectPlayerTeleportGetALife));
+			Effects.Add(new Effect("Teleport To The Heart Of Liberty City", EffectPlayerTeleportHeart));
+			Effects.Add(new Effect("Teleport To Nearest Safehouse", EffectPlayerTeleportNearestSafehouse));
 			Effects.Add(new Effect("Clear Wanted Level", EffectPlayerWantedClear));
 			Effects.Add(new Effect("Five Wanted Stars", EffectPlayerWantedFiveStars));
-
-			//Effects.Add(new Effect("Break All Doors of Current Vehicle", EffectVehicleBreakDoorsPlayer)); // this one seems to be crashing
-			Effects.Add(new Effect("Full Acceleration", EffectVehicleFullAccel, new Timer(28000), EffectVehicleFullAccel, EffectVehicleFullAccel));
-			Effects.Add(new Effect("Invisible Vehicles", EffectVehicleInvisibleLoop, new Timer(88000), EffectVehicleInvisibleLoop, EffectVehicleInvisibleStop));
-			Effects.Add(new Effect("Kill Engine Of Current Vehicle", EffectVehicleKillEnginePlayer));
-			Effects.Add(new Effect("Launch All Vehicles Up", EffectVehicleLaunchAllUp));
-			Effects.Add(new Effect("Pop Tires Of Current Vehicle", EffectVehiclePopTiresPlayer));
-			Effects.Add(new Effect("Repair Current Vehicle", EffectVehicleRepairPlayer));
-			Effects.Add(new Effect("Spawn Bus", EffectVehicleSpawnBus));
-			Effects.Add(new Effect("Spawn Infernus", EffectVehicleSpawnInfernus));
-			Effects.Add(new Effect("Spawn Police Cruiser", EffectVehicleSpawnPolice));
-			Effects.Add(new Effect("Spawn Random Vehicle", EffectVehicleSpawnRandom));
-			Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Blue Traffic" }));
-			Effects.Add(new Effect("Blue Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Black Traffic" }));
 
 			Effects.Add(new Effect("Advance One Day", EffectTimeAdvanceOneDay));
 			Effects.Add(new Effect("x0.2 Gamespeed", EffectTimeGameSpeedFifth, new Timer(28000), null, EffectTimeGameSpeedNormal, new[] { "x0.5 Gamespeed" }));
@@ -196,6 +194,25 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Set Time To Morning", EffectTimeSetMorning));
 			Effects.Add(new Effect("Set Time To Noon", EffectTimeSetNoon));
 			Effects.Add(new Effect("Timelapse", EffectTimeLapse, new Timer(88000), EffectTimeLapse, EffectTimeLapse));
+
+			//Effects.Add(new Effect("Break All Doors of Current Vehicle", EffectVehicleBreakDoorsPlayer)); // this one seems to be crashing
+			Effects.Add(new Effect("Full Acceleration", EffectVehicleFullAccel, new Timer(28000), EffectVehicleFullAccel, EffectVehicleFullAccel));
+			Effects.Add(new Effect("Invisible Vehicles", EffectVehicleInvisibleLoop, new Timer(88000), EffectVehicleInvisibleLoop, EffectVehicleInvisibleStop));
+			Effects.Add(new Effect("Kill Engine Of Current Vehicle", EffectVehicleKillEnginePlayer));
+			Effects.Add(new Effect("Launch All Vehicles Up", EffectVehicleLaunchAllUp));
+			Effects.Add(new Effect("Mass Breakdown", EffectVehicleMassBreakdown));
+			Effects.Add(new Effect("Pop Tires Of Current Vehicle", EffectVehiclePopTiresPlayer));
+			Effects.Add(new Effect("Repair Current Vehicle", EffectVehicleRepairPlayer));
+			Effects.Add(new Effect("Spawn Bus", EffectVehicleSpawnBus));
+			Effects.Add(new Effect("Spawn Infernus", EffectVehicleSpawnInfernus));
+			Effects.Add(new Effect("Spawn Police Cruiser", EffectVehicleSpawnPolice));
+			Effects.Add(new Effect("Spawn Random Vehicle", EffectVehicleSpawnRandom));
+			Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Blue Traffic", "Red Traffic" }));
+			Effects.Add(new Effect("Blue Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Black Traffic", "Red Traffic" }));
+			Effects.Add(new Effect("Red Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Black Traffic", "Blue Traffic" }));
+
+			Effects.Add(new Effect("Sunny Weather", EffectWeatherSunny));
+			Effects.Add(new Effect("Stormy Weather", EffectWeatherThunder));
 
 			EffectTimer = new Timer();
 			EffectTimer.Tick += new EventHandler(DeployEffect);
@@ -338,9 +355,22 @@ namespace ChaosIV {
 			}
 		}
 
+		public void EffectPedsIgniteNearby() {
+			foreach (Ped p in World.GetAllPeds()) {
+				if (p.Exists() & (p != Player.Character)) {
+					p.isOnFire = true;
+				}
+			}
+		}
+
 		public void EffectPedsObliterateNearby() {
 			foreach (Ped p in World.GetAllPeds()) {
 				if (p.Exists() & (p != Player.Character)) {
+					World.AddExplosion(p.Position);
+				}
+			}
+			foreach (Ped p in World.GetAllPeds()) {
+				if (p.Exists() & (p != Player.Character) & !p.isDead) {
 					World.AddExplosion(p.Position);
 				}
 			}
@@ -398,6 +428,14 @@ namespace ChaosIV {
 			Player.Character.isOnFire = true;
 		}
 
+		public void EffectPlayerLaunchUp() {
+			Player.Character.ApplyForce(new Vector3(0f, 0f, 50f));
+		}
+
+		public void EffectPlayerRagdoll() {
+			Player.Character.isRagdoll = true;
+		}
+
 		public void EffectPlayerRandomClothes() {
 			Player.Character.RandomizeOutfit();
 		}
@@ -431,6 +469,24 @@ namespace ChaosIV {
 
 		public void EffectPlayerTeleportGetALife() {
 			Player.TeleportTo(16, 65);
+		}
+
+		public void EffectPlayerTeleportHeart() {
+			Player.TeleportTo(new Vector3(-608, -755, 66));
+		}
+
+		public void EffectPlayerTeleportNearestSafehouse() {
+			float d = 9999;
+			Vector3 s = Player.Character.Position;
+
+			foreach (Vector3 v in Safehouses) {
+				if (Player.Character.Position.DistanceTo(v) < d) {
+					d = Player.Character.Position.DistanceTo(v);
+					s = v;
+				}
+			}
+
+			Player.TeleportTo(s);
 		}
 
 		public void EffectPlayerWantedClear() {
@@ -523,6 +579,12 @@ namespace ChaosIV {
 			}
 		}
 
+		public void EffectVehicleMassBreakdown() {
+			foreach (Vehicle v in World.GetAllVehicles()) {
+				if (v.Exists()) v.EngineHealth = 0;
+			}
+		}
+
 		public void EffectVehiclePopTiresPlayer() {
 			if (Player.Character.isInVehicle()) {
 				if (!Player.Character.CurrentVehicle.Model.isBoat | !Player.Character.CurrentVehicle.Model.isHelicopter) {
@@ -566,6 +628,22 @@ namespace ChaosIV {
 			foreach (Vehicle v in World.GetAllVehicles()) {
 				if (v.Exists()) v.Color = ColorIndex.BrightBluePoly3;
 			}
+		}
+
+		public void EffectVehicleTrafficRed() {
+			foreach (Vehicle v in World.GetAllVehicles()) {
+				if (v.Exists()) v.Color = ColorIndex.VeryRed;
+			}
+		}
+		#endregion
+
+		#region Weather Effects
+		public void EffectWeatherSunny() {
+			World.Weather = Weather.ExtraSunny;
+		}
+
+		public void EffectWeatherThunder() {
+			World.Weather = Weather.ThunderStorm;
 		}
 		#endregion
 	}
