@@ -157,6 +157,9 @@ namespace ChaosIV {
 			//Effects.Add(new Effect("Zero Gravity", EffectMiscNoGravity, new Timer(28000), null, EffectMiscNormalGravity)); //this one doesn't affect vehicles :/
 			Effects.Add(new Effect("Nothing", EffectMiscNothing));
 
+			Effects.Add(new Effect("Peds Don't See Very Well", EffectPedsBlindLoop, new Timer(88000), EffectPedsBlindLoop, EffectPedsBlindStop));
+			Effects.Add(new Effect("All Nearby Peds Flee", EffectPedsFlee));
+			Effects.Add(new Effect("You Are Famous", EffectPedsFollow));
 			Effects.Add(new Effect("Everyone Is A Ghost", EffectPedsInvisibleLoop, new Timer(88000), EffectPedsInvisibleLoop, EffectPedsInvisibleStop));
 			Effects.Add(new Effect("Ignite All Nearby Peds", EffectPedsIgniteNearby));
 			Effects.Add(new Effect("Obliterate All Nearby Peds", EffectPedsObliterateNearby));
@@ -183,6 +186,7 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Teleport To GetALife Building", EffectPlayerTeleportGetALife));
 			Effects.Add(new Effect("Teleport To The Heart Of Liberty City", EffectPlayerTeleportHeart));
 			Effects.Add(new Effect("Teleport To Nearest Safehouse", EffectPlayerTeleportNearestSafehouse));
+			Effects.Add(new Effect("Teleport To Waypoint", EffectPlayerTeleportWaypoint));
 			Effects.Add(new Effect("Clear Wanted Level", EffectPlayerWantedClear));
 			Effects.Add(new Effect("Five Wanted Stars", EffectPlayerWantedFiveStars));
 
@@ -207,10 +211,12 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Spawn Infernus", EffectVehicleSpawnInfernus));
 			Effects.Add(new Effect("Spawn Police Cruiser", EffectVehicleSpawnPolice));
 			Effects.Add(new Effect("Spawn Random Vehicle", EffectVehicleSpawnRandom));
+			Effects.Add(new Effect("Need A Cab?", EffectVehicleSpawnTaxis));
 			Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Blue Traffic", "Red Traffic" }));
 			Effects.Add(new Effect("Blue Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Black Traffic", "Red Traffic" }));
 			Effects.Add(new Effect("Red Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Black Traffic", "Blue Traffic" }));
 
+			Effects.Add(new Effect("Foggy Weather", EffectWeatherFoggy));
 			Effects.Add(new Effect("Sunny Weather", EffectWeatherSunny));
 			Effects.Add(new Effect("Stormy Weather", EffectWeatherThunder));
 
@@ -339,6 +345,41 @@ namespace ChaosIV {
 		#endregion
 
 		#region Ped Effects
+		public void EffectPedsBlindLoop() {
+			foreach (Ped p in World.GetAllPeds()) {
+				if (p.Exists() & (p != Player.Character)) {
+					p.SenseRange = 0f;
+				}
+			}
+		}
+
+		public void EffectPedsBlindStop() {
+			foreach (Ped p in World.GetAllPeds()) {
+				if (p.Exists() & (p != Player.Character)) {
+					p.SenseRange = 50f;
+				}
+			}
+		}
+
+		public void EffectPedsFlee() {
+			foreach (Ped p in World.GetAllPeds()) {
+				if (p.Exists() & (p != Player.Character)) {
+					p.Task.FleeFromChar(Player.Character);
+					p.Task.AlwaysKeepTask = true;
+				}
+			}
+		}
+
+		public void EffectPedsFollow() {
+			foreach (Ped p in World.GetAllPeds()) {
+				if (p.Exists() & (p != Player.Character)) {
+					p.LeaveVehicle();
+					p.Task.GoTo(Player.Character);
+					p.Task.AlwaysKeepTask = true;
+				}
+			}
+		}
+
 		public void EffectPedsInvisibleLoop() {
 			foreach (Ped p in World.GetAllPeds()) {
 				if (p.Exists()) {
@@ -489,6 +530,10 @@ namespace ChaosIV {
 			Player.TeleportTo(s);
 		}
 
+		public void EffectPlayerTeleportWaypoint() {
+			if (Game.GetWaypoint() != null) Player.TeleportTo(Game.GetWaypoint().Position);
+		}
+
 		public void EffectPlayerWantedClear() {
 			Player.WantedLevel = 0;
 		}
@@ -618,6 +663,12 @@ namespace ChaosIV {
 			World.CreateVehicle(new Model(Speeds.Keys.ToArray()[R.Next(Speeds.Count)]), Player.Character.Position.Around(2f));
 		}
 
+		public void EffectVehicleSpawnTaxis() { // this one's for the speedrunners out there :^)
+			for (int i = 0; i < 10; i++) {
+				World.CreateVehicle(new Model("TAXI"), Player.Character.Position.Around((float)R.NextDouble() * 8f)).CreatePedOnSeat(VehicleSeat.Driver, new Model("m_m_taxidriver"));
+			}
+		}
+
 		public void EffectVehicleTrafficBlack() {
 			foreach (Vehicle v in World.GetAllVehicles()) {
 				if (v.Exists()) v.Color = ColorIndex.Black;
@@ -638,6 +689,10 @@ namespace ChaosIV {
 		#endregion
 
 		#region Weather Effects
+		public void EffectWeatherFoggy() {
+			World.Weather = Weather.Foggy;
+		}
+
 		public void EffectWeatherSunny() {
 			World.Weather = Weather.ExtraSunny;
 		}
