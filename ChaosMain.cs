@@ -188,7 +188,7 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Give Rocket Launcher", EffectPlayerGiveRocket));
 			Effects.Add(new Effect("Heal Player", EffectPlayerHeal));
 			Effects.Add(new Effect("Ignite Player", EffectPlayerIgnite));
-			Effects.Add(new Effect("Invincibility", EffectPlayerInvincible, new Timer(88000), EffectPlayerInvincible, EffectPlayerInvincible));
+			Effects.Add(new Effect("Invincibility", EffectPlayerInvincible, new Timer(88000), EffectPlayerInvincible, EffectPlayerInvincibleStop));
 			Effects.Add(new Effect("Launch Player Up", EffectPlayerLaunchUp));
 			Effects.Add(new Effect("Millionaire", EffectPlayerMillionaire));
 			Effects.Add(new Effect("Ragdoll", EffectPlayerRagdoll));
