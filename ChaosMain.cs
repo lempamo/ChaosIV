@@ -23,67 +23,84 @@ namespace ChaosIV {
 		// the fact that i have to make this instead of using a maxspeed function is very stupid. oh well
 		Dictionary<string, float> Speeds = new Dictionary<string, float>() { //nyoom
 			{"ADMIRAL", 140}, {"AIRTUG", 140},
-			{"AMBULAN", 140}, {"ANNHIL", 160},
-			{"ALBANY", 140}, {"BANSHEE", 160}, 
-			{"BENSON", 115}, {"BIFF", 110}, 
+			{"AKUMA", 150}, {"ALBANY", 140},
+			{"AMBULAN", 140}, {"ANGEL", 125}, 
+			{"ANNHIL", 160}, {"APC", 80},
+			{"AVAN", 100}, {"BANSHEE", 160}, 
+			{"BATI", 150}, {"BATI2", 150},
+			{"BENSON", 115}, {"BIFF", 110}, {"BLADE", 83},
 			{"BLISTA", 150}, {"BOBBER", 125}, 
 			{"BOBCAT", 125}, {"BOXVLE", 110}, 
-			{"BUCCNEER", 140}, {"BURRITO", 130}, 
-			{"BURRITO2", 130}, {"BUS", 135}, 
-			{"CABBY", 135}, {"CABLECAR", 80}, 
+			{"BUCCNEER", 140}, {"BUFFALO", 155},
+			{"BULLET", 163}, {"BURRITO", 130}, 
+			{"BURRITO2", 130}, {"BUS", 135},
+			{"BUZZARD", 160}, {"CABBY", 135},
+			{"CABLECAR", 80}, {"CADDY", 40},
 			{"CAVCADE", 135}, {"CHAV", 145}, 
 			{"COGNONTI", 150}, {"COMET", 160}, 
-			{"CONTENDE", 135}, {"COQUETTE", 160}, 
-			{"DF8", 150}, {"DILANTE", 130}, 
-			{"DINGHY", 60}, {"DUKES", 135}, 
+			{"CONTENDE", 135}, {"COQUETTE", 160},
+			{"DAEMON", 125}, {"DF8", 150},
+			{"DIABO", 125}, {"DILANTE", 130}, 
+			{"DINGHY", 60}, {"DOUBLE", 150},
+			{"DOUBLE2", 160}, {"DUKES", 135}, 
 			{"EMPEROR", 130}, {"EMPEROR2", 130}, 
-			{"ESPERNTO", 120}, {"FACTION", 140}, 
+			{"ESPERNTO", 120}, {"F620", 155}, {"FACTION", 140}, 
 			{"FAGGIO", 80}, {"FBI", 150}, 
 			{"FELTZER", 145}, {"FEROCI", 140}, 
 			{"FEROCI2", 140}, {"FIRETRUK", 140}, 
-			{"FLATBED", 115}, {"FORTUNE", 143}, 
+			{"FLATBED", 115}, {"FLOATER", 80}, {"FORTUNE", 143}, 
 			{"FORK", 50}, {"FUTO", 140}, 
-			{"FXT", 130}, {"HABANRO", 130}, 
-			{"HAKUMAI", 135}, {"HELLFURY", 125}, 
+			{"FXT", 130}, {"GBURRITO", 130},
+			{"HABANRO", 130}, {"HAKUCH", 150},
+			{"HAKUCH2", 160}, {"HAKUMAI", 135},
+			{"HELLFURY", 125}, {"HEXER", 125},
 			{"HUNT", 145}, {"INFERNUS", 160}, 
-			{"INGOT", 130}, {"INTRUD", 135}, 
-			{"JETMAX", 75}, {"LANSTALK", 135}, 
-			{"LOKUS", 135}, {"MANANA", 130}, 
+			{"INGOT", 130}, {"INNOV", 125},
+			{"INTRUD", 135}, {"JETMAX", 75},
+			{"LANSTALK", 135}, {"LIMO2", 140},
+			{"LOKUS", 135}, {"LYCAN", 125}, {"MANANA", 130}, 
 			{"MARBELLA", 130}, {"MARQUI", 30}, 
 			{"MAVERICK", 160}, {"MERIT", 140}, 
 			{"MINVAN", 130}, {"MOONB", 130}, 
 			{"MRTASTY", 110}, {"MULE", 100}, 
 			{"NOOSE", 150}, {"NRG900", 150}, 
 			{"NSTOCK", 120}, {"ORACLE", 143}, 
-			{"PACKER", 105}, {"PATRIOT", 130}, 
+			{"PACKER", 105}, {"PATRIOT", 130}, {"PBUS", 140},
 			{"PCJ", 140}, {"PEREN", 130}, 
 			{"PEREN2", 130}, {"PEYOTE", 135}, 
 			{"PHANTOM", 135}, {"PINCLE", 140}, 
 			{"PMP600", 140}, {"POLICE", 150}, 
-			{"POLICE2", 150}, {"POLMAV", 160}, 
+			{"POLICE2", 150}, {"POLICE3", 150},
+			{"POLICE4", 160}, {"POLICEB", 130}, {"POLMAV", 160}, 
 			{"POLPAT", 140}, {"PONY", 115}, 
 			{"PREDTOR", 70}, {"PREMIER", 138}, 
 			{"PRES", 145}, {"PRIMO", 140}, 
 			{"RANCHER", 130}, {"REBLA", 134}, 
-			{"REEFER", 40}, {"RIPLEY", 70}, 
+			{"REEFER", 40}, {"REGINA", 130},
+			{"REVENANT", 130}, {"RHAPSODY", 130}, {"RIPLEY", 70}, 
 			{"ROMERO", 120}, {"RUINER", 150},
 			{"RUSTBOAT", 40}, {"SABRE", 140},
 			{"SABRE2", 140}, {"SABREGT", 145},
 			{"SANCHEZ", 130}, {"SCHAFTER", 141},
-			{"SENTINEL", 150}, {"SOLAIR", 130},
+			{"SCHAFTE2", 141}, {"SENTINEL", 150},
+			{"SERRANO", 145}, {"SKYLIFT", 160},
+			{"SLAMVAN", 125}, {"SMUGGLER", 85}, {"SOLAIR", 130},
 			{"SPEEDO", 125}, {"SQUALO", 70},
 			{"STALION", 140}, {"STEED", 100},
 			{"STRATUM", 135}, {"STRETCH", 140},
 			{"SUBWAY", 80}, {"SULTAN", 145},
 			{"SULTANRS", 150}, {"SUPER", 155},
+			{"SUPERD", 160}, {"SUPERD2", 160},
+			{"SWIFT", 160}, {"TAMPA", 145},
 			{"TAXI", 135}, {"TAXI2", 135},
-			{"TOURMAV", 160}, {"TROPIC", 75},
+			{"TOURMAV", 160}, {"TOWTRUCK", 125}, {"TROPIC", 75},
 			{"TRUSH", 100}, {"TURISMO", 160},
-			{"URANUS", 130}, {"VIGERO", 135},
+			{"URANUS", 130}, {"VADER", 154}, {"VIGERO", 135},
 			{"VIGERO2", 135}, {"VINCENT", 130},
 			{"VIRGO", 125}, {"VOODOO", 120},
-			{"WASHINGT", 135}, {"WILARD", 130},
-			{"YANKEE", 105}, {"ZOMB", 125}
+			{"WASHINGT", 135}, {"WAYFAR", 125},
+			{"WILARD", 130}, {"WOLFS", 125},
+			{"YANKEE", 105}, {"YANKEE2", 130}, {"ZOMB", 125}
 		};
 		List<string> Vehicles = new List<string>() { 
 			"ADMIRAL", "AIRTUG", "AMBULANCE", "ANNIHILATOR", "BANSHEE", "BENSON",
@@ -122,58 +139,22 @@ namespace ChaosIV {
 			PerFrameDrawing += new GraphicsEventHandler(ChaosDraw);
 
 			if (Game.CurrentEpisode != GameEpisode.GTAIV) {
-				Speeds.Add("BATI2", 150);
-				Speeds.Add("DOUBLE", 150);
-				Speeds.Add("HAKUCH", 150);
-				Speeds.Add("HEXER", 125);
-				Speeds.Add("SLAMVAN", 125);
-				Speeds.Add("TAMPA", 145);
+				Vehicles.AddRange(new string[] {"BATI2", "DOUBLE", "HAKUCHOU", "HEXER", "SLAMVAN", "TAMPA"});
 
 				if (Game.CurrentEpisode == GameEpisode.TLAD) {
 					barcolor = Color.Red;
 
-					Speeds.Add("ANGEL", 125);
-					Speeds.Add("BATI", 150);
-					Speeds.Add("DAEMON", 125);
-					Speeds.Add("DIABO", 125);
-					Speeds.Add("DOUBLE2", 160);
-					Speeds.Add("HAKUCH2", 160);
-					Speeds.Add("INNOV", 125);
-					Speeds.Add("LYCAN", 125);
-					Speeds.Add("GBURRITO", 130);
-					Speeds.Add("PBUS", 140);
-					Speeds.Add("REGINA", 130);
-					Speeds.Add("REVENANT", 130);
-					Speeds.Add("RHAPSODY", 130);
-					Speeds.Add("TOWTRUCK", 125);
-					Speeds.Add("WAYFAR", 125);
-					Speeds.Add("WOLFS", 125);
-					Speeds.Add("YANKEE2", 130);
+					Vehicles.AddRange(new string[] {"ANGEL", "BATI", "DAEMON", "DIABOLUS", "DOUBLE2", "GBURRITO",
+						"HAKUCHOU2", "INNOVATION", "LYCAN", "PBUS", "REGINA", "REVENANT", "RHAPSODY", "TOWTRUCK",
+						"WAYFARER", "WOLFSBANE", "YANKEE2"
+					});
 				} else {
 					barcolor = Color.Magenta;
 
-					Speeds.Add("AKUMA", 150);
-					Speeds.Add("APC", 80);
-					Speeds.Add("AVAN", 100);
-					Speeds.Add("BLADE", 83);
-					Speeds.Add("BUFFALO", 155);
-					Speeds.Add("BULLET", 163);
-					Speeds.Add("BUZZARD", 160);
-					Speeds.Add("CADDY", 40);
-					Speeds.Add("F620", 155);
-					Speeds.Add("FLOATER", 80);
-					Speeds.Add("LIMO2", 140);
-					Speeds.Add("POLICE3", 150);
-					Speeds.Add("POLICE4", 160);
-					Speeds.Add("POLICEB", 130);
-					Speeds.Add("SCHAFTE2", 141);
-					Speeds.Add("SERRANO", 145);
-					Speeds.Add("SKYLIFT", 160);
-					Speeds.Add("SMUGGLER", 85);
-					Speeds.Add("SUPERD", 160);
-					Speeds.Add("SUPERD2", 160);
-					Speeds.Add("SWIFT", 160);
-					Speeds.Add("VADER", 154);
+					Vehicles.AddRange(new string[] {"AKUMA", "APC", "AVAN", "BLADE", "BUFFALO", "BULLET",
+						"BUZZARD", "CADDY", "F620", "FLOATER", "LIMO2", "POLICE3", "POLICE4", "POLICEB",
+						"SCHAFTER2", "SERRANO", "SKYLIFT", "SMUGGLER", "SUPERD", "SUPERD2", "SWIFT", "VADER"
+					});
 				}
 			}
 
@@ -551,8 +532,8 @@ namespace ChaosIV {
 
 		public void EffectPedsOHKO() {
 			foreach (Ped p in World.GetAllPeds()) {
-				if (p.Exists() & !p.isDead) {
-					p.Health = 1;
+				if (p.Exists() & !p.isDead & p.Health > 5) {
+					p.Health = 5;
 					p.Armor = 0;
 				}
 			}
