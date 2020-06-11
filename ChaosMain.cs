@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using GTA;
+using GTA.Native;
 
 namespace ChaosIV {
     public class ChaosMain : Script {
@@ -131,6 +133,7 @@ namespace ChaosIV {
 		Color barcolor = Color.Yellow;
 
 		bool isBlind = false;
+		bool isHUDless = false;
 		int lagTicks = 0;
 
 		public ChaosMain() {
@@ -160,6 +163,7 @@ namespace ChaosIV {
 
 			Effects.Add(new Effect("Invert Current Velocity", EffectMiscInvertVelocity));
 			//Effects.Add(new Effect("Zero Gravity", EffectMiscNoGravity, new Timer(28000), null, EffectMiscNormalGravity)); //this one doesn't affect vehicles :/
+			Effects.Add(new Effect("No HUD", EffectMiscNoHUD, new Timer(88000), null, EffectMiscShowHUD));
 			Effects.Add(new Effect("Nothing", EffectMiscNothing));
 			Effects.Add(new Effect("SPEEN", EffectMiscSPEEN, new Timer(28000), EffectMiscSPEEN, EffectMiscSPEEN));
 
@@ -221,7 +225,7 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Set Time To Noon", EffectTimeSetNoon));
 			Effects.Add(new Effect("Timelapse", EffectTimeLapse, new Timer(88000), EffectTimeLapse, EffectTimeLapse));
 
-			//Effects.Add(new Effect("Break All Doors of Current Vehicle", EffectVehicleBreakDoorsPlayer)); // this one seems to be crashing
+			Effects.Add(new Effect("Break All Doors of Current Vehicle", EffectVehicleBreakDoorsPlayer));
 			Effects.Add(new Effect("Clean Current Vehicle", EffectVehicleCleanPlayer));
 			Effects.Add(new Effect("Explode Nearby Vehicles", EffectVehicleExplodeNearby));
 			Effects.Add(new Effect("Explode Current Vehicle", EffectVehicleExplodePlayer));
@@ -264,6 +268,9 @@ namespace ChaosIV {
 			// Blind
 			if (isBlind) e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 1f), Color.Black);
 
+			// No HUD
+			if (isHUDless) Function.Call("HIDE_HUD_AND_RADAR_THIS_FRAME");
+
 			// Draw Timer Bar
 			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 0.02f), Color.FromArgb(10, 10, 10));
 			e.Graphics.DrawText("ChaosIV", new RectangleF(0f, 0f, 1f, 0.02f), TextAlignment.Center, Color.FromArgb(40, 40, 40), smol);
@@ -290,7 +297,7 @@ namespace ChaosIV {
 			for (int i = RecentEffects.Count - 1; i >= 0; i--) {
 				if (RecentEffects[i].Timer != null) {
 					if (RecentEffects[i].Timer.ElapsedTime > RecentEffects[i].Timer.Interval) {
-						RecentEffects[i].Stop();
+						RecentEffects[i].Stop?.Invoke();
 						RecentEffects[i].Timer.Stop();
 						Loops.Remove(RecentEffects[i].Loop);
 						RecentEffects.RemoveAt(i);
@@ -312,7 +319,7 @@ namespace ChaosIV {
 				if (next.Conflicts != null) {
 					foreach(string c in next.Conflicts) {
 						if (RecentEffects.Find(x => x.Name == c).Name != null) {
-							RecentEffects.Find(x => x.Name == c).Stop();
+							RecentEffects.Find(x => x.Name == c).Stop?.Invoke();
 							RecentEffects.Find(x => x.Name == c).Timer.Stop();
 							Loops.Remove(RecentEffects.Find(x => x.Name == c).Loop);
 							RecentEffects.Remove(RecentEffects.Find(x => x.Name == c));
@@ -321,12 +328,8 @@ namespace ChaosIV {
 				}
 
 				next.Start();
-				if (next.Timer != null) {
-					next.Timer.Start();
-				}
-				if (next.Loop != null) {
-					Loops.Add(next.Loop);
-				}
+				if (next.Timer != null) next.Timer.Start();
+				if (next.Loop != null) Loops.Add(next.Loop);
 
 				if (RecentEffects.Count != 3) {
 					RecentEffects.Add(next);
@@ -367,12 +370,20 @@ namespace ChaosIV {
 			World.GravityEnabled = false;
 		}
 
+		public void EffectMiscNoHUD() {
+			isHUDless = true;
+		}
+
 		public void EffectMiscNormalGravity() {
 			World.GravityEnabled = true;
 		}
 
 		public void EffectMiscNothing() {
 			Game.Console.Print("ok maybe not quite \"nothing\" but eh who cares");
+		}
+
+		public void EffectMiscShowHUD() {
+			isHUDless = false;
 		}
 
 		public void EffectMiscSPEEN() {
@@ -458,11 +469,11 @@ namespace ChaosIV {
 		public void EffectPedsGiveAllRocket() {
 			foreach (Ped p in World.GetAllPeds()) {
 				if (p.Exists() & (p != Player.Character)) {
-					Pickup.CreateWeaponPickup(p.Position, Weapon.Heavy_RocketLauncher, 9999).GiveToPed(p);
+					Function.Call("GIVE_WEAPON_TO_CHAR", p, 18, 9999);
 					p.Weapons.Select(Weapon.Heavy_RocketLauncher);
 				}
 			}
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.Heavy_RocketLauncher, 9999).CollectableByCar = true;
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 18, 9999);
 		}
 
 		public void EffectPedsInvincibleLoop() {
@@ -566,7 +577,7 @@ namespace ChaosIV {
 			var doc = World.CreatePed(new Model("m_m_dodgydoc"), Player.Character.Position.Around(10f), RelationshipGroup.Criminal);
 			doc.Task.FightAgainst(Player.Character);
 			doc.Task.AlwaysKeepTask = true;
-			Pickup.CreateWeaponPickup(doc.Position, Weapon.Melee_Knife, 9999).GiveToPed(doc);
+			Function.Call("GIVE_WEAPON_TO_CHAR", doc, 3, 9999);
 			doc.Weapons.Select(Weapon.Melee_Knife);
 		}
 
@@ -611,22 +622,22 @@ namespace ChaosIV {
 		}
 
 		public void EffectPlayerGiveAll() {
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.Melee_Knife, 9999).CollectableByCar = true;
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.Handgun_Glock, 9999).CollectableByCar = true;
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.SMG_MP5, 9999).CollectableByCar = true;
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.Shotgun_Baretta, 9999).CollectableByCar = true;
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.Rifle_AK47, 9999).CollectableByCar = true;
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.SniperRifle_M40A1, 9999).CollectableByCar = true;
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.Heavy_RocketLauncher, 9999).CollectableByCar = true;
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.Thrown_Grenade, 9999).CollectableByCar = true;
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 3, 9999); // knife
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 7, 9999); // pistol
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 13, 9999); // smg
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 11, 9999); // shotgun
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 14, 9999); // rifle
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 17, 9999); // sniper
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 18, 9999); // rocket launcher
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 4, 9999); // grenades
 		}
 
 		public void EffectPlayerGiveGrenades() {
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.Thrown_Grenade, 9999).CollectableByCar = true;
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 4, 9999);
 		}
 
 		public void EffectPlayerGiveRocket() {
-			Pickup.CreateWeaponPickup(Player.Character.Position, Weapon.Heavy_RocketLauncher, 9999).CollectableByCar = true;
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 18, 9999);
 		}
 
 		public void EffectPlayerHeal() {
@@ -713,6 +724,14 @@ namespace ChaosIV {
 
 		public void EffectPlayerTeleportWaypoint() {
 			if (Game.GetWaypoint() != null) Player.TeleportTo(Game.GetWaypoint().Position);
+			else {
+				foreach (Blip b in Blip.GetAllBlipsOfType(BlipType.Contact).Concat(Blip.GetAllBlipsOfType(BlipType.Coordinate)).Concat(Blip.GetAllBlipsOfType(BlipType.Ped))) {
+					if (b.Icon == BlipIcon.Misc_Objective) {
+						Player.TeleportTo(b.Position);
+						break;
+					}
+				}
+			}
 		}
 
 		public void EffectPlayerWantedAddTwo() {
@@ -753,7 +772,7 @@ namespace ChaosIV {
 			lagTicks++;
 
 			if (lagTicks < 50) Game.TimeScale = 1f;
-			else Game.TimeScale = 0.1f;
+			else Game.TimeScale = 0.05f;
 
 			if (lagTicks >= 60) lagTicks = 0;
 		}
@@ -783,12 +802,7 @@ namespace ChaosIV {
 		#region Vehicle Effects
 		public void EffectVehicleBreakDoorsPlayer() {
 			if (Player.Character.isInVehicle()) {
-				//Player.Character.CurrentVehicle.Door(VehicleDoor.Hood).Break();
-				Player.Character.CurrentVehicle.Door(VehicleDoor.LeftFront).Open();
-				Player.Character.CurrentVehicle.Door(VehicleDoor.LeftFront).Break();
-				//Player.Character.CurrentVehicle.Door(VehicleDoor.LeftRear).Break();
-				//Player.Character.CurrentVehicle.Door(VehicleDoor.RightFront).Break();
-				//Player.Character.CurrentVehicle.Door(VehicleDoor.RightRear).Break();
+				for (int d = 0; d < 6; d++) Function.Call("BREAK_CAR_DOOR", Player.Character.CurrentVehicle, d, false);
 			}
 		}
 
