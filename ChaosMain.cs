@@ -852,9 +852,11 @@ namespace ChaosIV {
 
 		public void EffectVehicleFullAccel() {
 			foreach (Vehicle v in World.GetAllVehicles()) {
-				if (v.Exists() & v.isOnAllWheels) {
-					Game.Console.Print(v.Name);
-					v.Speed = Speeds[v.Name];
+				if (v.Exists()) {
+					if (v.isOnAllWheels) {
+						Game.Console.Print(v.Name);
+						v.Speed = Speeds[v.Name];
+					}
 				}
 			}
 		}
