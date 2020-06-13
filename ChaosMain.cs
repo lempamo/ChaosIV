@@ -194,7 +194,7 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Exit Current Vehicle", EffectPlayerExitCurrentVehicle));
 			Effects.Add(new Effect("Give All Weapons", EffectPlayerGiveAll));
 			Effects.Add(new Effect("Give Grenades", EffectPlayerGiveGrenades));
-			Effects.Add(new Effect("Give Molotov Cocktails", EffectPlayerGiveGrenades));
+			Effects.Add(new Effect("Give Molotov Cocktails", EffectPlayerGiveMolotovs));
 			Effects.Add(new Effect("Give Rocket Launcher", EffectPlayerGiveRocket));
 			Effects.Add(new Effect("Heal Player", EffectPlayerHeal));
 			Effects.Add(new Effect("Ignite Player", EffectPlayerIgnite));
