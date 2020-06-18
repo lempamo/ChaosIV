@@ -212,6 +212,7 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Repair Current Vehicle", EffectVehicleRepairPlayer));
 			Effects.Add(new Effect("Spammy Vehicle Doors", EffectVehicleSpamDoors, new Timer(88000), EffectVehicleSpamDoors, null));
 			Effects.Add(new Effect("Spawn Bus", EffectVehicleSpawnBus));
+			Effects.Add(new Effect("Spawn Faggio", EffectVehicleSpawnFaggio));
 			Effects.Add(new Effect("Spawn Infernus", EffectVehicleSpawnInfernus));
 			Effects.Add(new Effect("Spawn Maverick", EffectVehicleSpawnMaverick));
 			Effects.Add(new Effect("Spawn Police Cruiser", EffectVehicleSpawnPolice));
@@ -965,6 +966,10 @@ namespace ChaosIV {
 
 		public void EffectVehicleSpawnBus() {
 			World.CreateVehicle(new Model("BUS"), Player.Character.Position.Around(2f));
+		}
+
+		public void EffectVehicleSpawnFaggio() {
+			World.CreateVehicle(new Model("FAGGIO"), Player.Character.Position.Around(2f));
 		}
 
 		public void EffectVehicleSpawnInfernus() {
