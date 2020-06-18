@@ -569,9 +569,17 @@ namespace ChaosIV {
 
 		public void EffectPedsOHKO() {
 			foreach (Ped p in World.GetAllPeds()) {
-				if (p.Exists() & !p.isDead & p.Health > 5) {
-					p.Health = 5;
-					p.Armor = 0;
+				try {
+					if (p.Exists() && !p.isDead && p.Health > 5 && p != Player) {
+						p.Health = 5;
+						p.Armor = 0;
+					}
+					if (p == Player) {
+						p.Health = 1;
+						p.Armor = 0;
+					}
+				} catch (NonExistingObjectException) {
+					continue;
 				}
 			}
 		}
@@ -650,12 +658,12 @@ namespace ChaosIV {
 		public void EffectPlayerGiveAll() {
 			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 3, 9999); // knife
 			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 7, 9999); // pistol
-			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 13, 9999); // smg
-			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 11, 9999); // shotgun
-			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 14, 9999); // rifle
-			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 17, 9999); // sniper
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, R.Next(12, 13), 9999); // smg
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, R.Next(10, 11), 9999); // shotgun
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, R.Next(14, 15), 9999); // rifle
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, R.Next(16, 17), 9999); // sniper
 			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, 18, 9999); // rocket launcher
-			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, R.Next(4,5), 9999); // grenades or molotov
+			Function.Call("GIVE_WEAPON_TO_CHAR", Player.Character, R.Next(4, 5), 9999); // grenades or molotov
 		}
 
 		public void EffectPlayerGiveGrenades() {
