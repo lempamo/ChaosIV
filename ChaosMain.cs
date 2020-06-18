@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using GTA;
 using GTA.Native;
@@ -16,7 +17,7 @@ namespace ChaosIV {
 		List<Effect> RecentEffects = new List<Effect>(3);
 		List<Vector3> Safehouses = new List<Vector3>() {
 			new Vector3(900, -500, 0),  // broker
-			new Vector3(595, 1400, 0),  // bohan
+			new Vector3(592, 1400, 0),  // bohan
 			new Vector3(115, 845, 0),   // algonquin - middle park east
 			new Vector3(-420, 1490, 0), // algonquin - northwood
 			new Vector3(-963, 897, 0),  // alderney
@@ -24,85 +25,48 @@ namespace ChaosIV {
 
 		// the fact that i have to make this instead of using a maxspeed function is very stupid. oh well
 		Dictionary<string, float> Speeds = new Dictionary<string, float>() { //nyoom
-			{"ADMIRAL", 140}, {"AIRTUG", 140},
-			{"AKUMA", 150}, {"ALBANY", 140},
-			{"AMBULAN", 140}, {"ANGEL", 125}, 
-			{"ANNHIL", 160}, {"APC", 80},
-			{"AVAN", 100}, {"BANSHEE", 160}, 
-			{"BATI", 150}, {"BATI2", 150},
-			{"BENSON", 115}, {"BIFF", 110}, {"BLADE", 83},
-			{"BLISTA", 150}, {"BOBBER", 125}, 
-			{"BOBCAT", 125}, {"BOXVLE", 110}, 
-			{"BUCCNEER", 140}, {"BUFFALO", 155},
-			{"BULLET", 163}, {"BURRITO", 130}, 
-			{"BURRITO2", 130}, {"BUS", 135},
-			{"BUZZARD", 160}, {"CABBY", 135},
-			{"CABLECAR", 80}, {"CADDY", 40},
-			{"CAVCADE", 135}, {"CHAV", 145}, 
-			{"COGNONTI", 150}, {"COMET", 160}, 
-			{"CONTENDE", 135}, {"COQUETTE", 160},
-			{"DAEMON", 125}, {"DF8", 150},
-			{"DIABO", 125}, {"DILANTE", 130}, 
-			{"DINGHY", 60}, {"DOUBLE", 150},
-			{"DOUBLE2", 160}, {"DUKES", 135}, 
-			{"EMPEROR", 130}, {"EMPEROR2", 130}, 
-			{"ESPERNTO", 120}, {"F620", 155}, {"FACTION", 140}, 
-			{"FAGGIO", 80}, {"FBI", 150}, 
-			{"FELTZER", 145}, {"FEROCI", 140}, 
-			{"FEROCI2", 140}, {"FIRETRUK", 140}, 
-			{"FLATBED", 115}, {"FLOATER", 80}, {"FORTUNE", 143}, 
-			{"FORK", 50}, {"FUTO", 140}, 
-			{"FXT", 130}, {"GBURRITO", 130},
-			{"HABANRO", 130}, {"HAKUCH", 150},
-			{"HAKUCH2", 160}, {"HAKUMAI", 135},
-			{"HELLFURY", 125}, {"HEXER", 125},
-			{"HUNT", 145}, {"INFERNUS", 160}, 
-			{"INGOT", 130}, {"INNOV", 125},
-			{"INTRUD", 135}, {"JETMAX", 75},
-			{"LANSTALK", 135}, {"LIMO2", 140},
-			{"LOKUS", 135}, {"LYCAN", 125}, {"MANANA", 130}, 
-			{"MARBELLA", 130}, {"MARQUI", 30}, 
-			{"MAVERICK", 160}, {"MERIT", 140}, 
-			{"MINVAN", 130}, {"MOONB", 130}, 
-			{"MRTASTY", 110}, {"MULE", 100}, 
-			{"NOOSE", 150}, {"NRG900", 150}, 
-			{"NSTOCK", 120}, {"ORACLE", 143}, 
-			{"PACKER", 105}, {"PATRIOT", 130}, {"PBUS", 140},
-			{"PCJ", 140}, {"PEREN", 130}, 
-			{"PEREN2", 130}, {"PEYOTE", 135}, 
-			{"PHANTOM", 135}, {"PINCLE", 140}, 
-			{"PMP600", 140}, {"POLICE", 150}, 
-			{"POLICE2", 150}, {"POLICE3", 150},
-			{"POLICE4", 160}, {"POLICEB", 130}, {"POLMAV", 160}, 
-			{"POLPAT", 140}, {"PONY", 115}, 
-			{"PREDTOR", 70}, {"PREMIER", 138}, 
-			{"PRES", 145}, {"PRIMO", 140}, 
-			{"RANCHER", 130}, {"REBLA", 134}, 
-			{"REEFER", 40}, {"REGINA", 130},
-			{"REVENANT", 130}, {"RHAPSODY", 130}, {"RIPLEY", 70}, 
-			{"ROMERO", 120}, {"RUINER", 150},
-			{"RUSTBOAT", 40}, {"SABRE", 140},
-			{"SABRE2", 140}, {"SABREGT", 145},
-			{"SANCHEZ", 130}, {"SCHAFTER", 141},
-			{"SCHAFTE2", 141}, {"SENTINEL", 150},
-			{"SERRANO", 145}, {"SKYLIFT", 160},
-			{"SLAMVAN", 125}, {"SMUGGLER", 85}, {"SOLAIR", 130},
-			{"SPEEDO", 125}, {"SQUALO", 70},
-			{"STALION", 140}, {"STEED", 100},
-			{"STRATUM", 135}, {"STRETCH", 140},
-			{"SUBWAY", 80}, {"SULTAN", 145},
-			{"SULTANRS", 150}, {"SUPER", 155},
-			{"SUPERD", 160}, {"SUPERD2", 160},
-			{"SWIFT", 160}, {"TAMPA", 145},
-			{"TAXI", 135}, {"TAXI2", 135},
-			{"TOURMAV", 160}, {"TOWTRUCK", 125}, {"TROPIC", 75},
-			{"TRUSH", 100}, {"TURISMO", 160},
-			{"URANUS", 130}, {"VADER", 154}, {"VIGERO", 135},
-			{"VIGERO2", 135}, {"VINCENT", 130},
-			{"VIRGO", 125}, {"VOODOO", 120},
-			{"WASHINGT", 135}, {"WAYFAR", 125},
-			{"WILARD", 130}, {"WOLFS", 125},
-			{"YANKEE", 105}, {"YANKEE2", 130}, {"ZOMB", 125}
+			{"ADMIRAL", 140}, {"AIRTUG", 140}, {"AKUMA", 150}, {"ALBANY", 140},
+			{"AMBULAN", 140}, {"ANGEL", 125}, {"ANNHIL", 160}, {"APC", 80},
+			{"AVAN", 100}, {"BANSHEE", 160}, {"BATI", 150}, {"BATI2", 150},
+			{"BENSON", 115}, {"BIFF", 110}, {"BLADE", 83}, {"BLISTA", 150},
+			{"BOBBER", 125}, {"BOBCAT", 125}, {"BOXVLE", 110}, {"BUCCNEER", 140}, 
+			{"BUFFALO", 155}, {"BULLET", 163}, {"BURRITO", 130}, {"BURRITO2", 130},
+			{"BUS", 135}, {"BUZZARD", 160}, {"CABBY", 135}, {"CABLECAR", 80},
+			{"CADDY", 40}, {"CAVCADE", 135}, {"CHAV", 145}, {"COGNONTI", 150},
+			{"COMET", 160}, {"CONTENDE", 135}, {"COQUETTE", 160}, {"DAEMON", 125},
+			{"DF8", 150}, {"DIABO", 125}, {"DILANTE", 130}, {"DINGHY", 60},
+			{"DOUBLE", 150}, {"DOUBLE2", 160}, {"DUKES", 135}, {"EMPEROR", 130},
+			{"EMPEROR2", 130}, {"ESPERNTO", 120}, {"F620", 155}, {"FACTION", 140}, 
+			{"FAGGIO", 80}, {"FBI", 150}, {"FELTZER", 145}, {"FEROCI", 140}, 
+			{"FEROCI2", 140}, {"FIRETRUK", 140}, {"FLATBED", 115}, {"FLOATER", 80}, 
+			{"FORTUNE", 143}, {"FORK", 50}, {"FUTO", 140}, {"FXT", 130},
+			{"GBURRITO", 130}, {"HABANRO", 130}, {"HAKUCH", 150}, {"HAKUCH2", 160},
+			{"HAKUMAI", 135}, {"HELLFURY", 125}, {"HEXER", 125}, {"HUNT", 145},
+			{"INFERNUS", 160}, {"INGOT", 130}, {"INNOV", 125}, {"INTRUD", 135},
+			{"JETMAX", 75}, {"LANSTALK", 135}, {"LIMO2", 140}, {"LOKUS", 135},
+			{"LYCAN", 125}, {"MANANA", 130}, {"MARBELLA", 130}, {"MARQUI", 30}, 
+			{"MAVERICK", 160}, {"MERIT", 140}, {"MINVAN", 130}, {"MOONB", 130}, 
+			{"MRTASTY", 110}, {"MULE", 100}, {"NOOSE", 150}, {"NRG900", 150}, 
+			{"NSTOCK", 120}, {"ORACLE", 143}, {"PACKER", 105}, {"PATRIOT", 130},
+			{"PBUS", 140}, {"PCJ", 140}, {"PEREN", 130}, {"PEREN2", 130},
+			{"PEYOTE", 135}, {"PHANTOM", 135}, {"PINCLE", 140}, {"PMP600", 140},
+			{"POLICE", 150}, {"POLICE2", 150}, {"POLICE3", 150}, {"POLICE4", 160},
+			{"POLICEB", 130}, {"POLMAV", 160}, {"POLPAT", 140}, {"PONY", 115}, 
+			{"PREDTOR", 70}, {"PREMIER", 138}, {"PRES", 145}, {"PRIMO", 140}, 
+			{"RANCHER", 130}, {"REBLA", 134}, {"REEFER", 40}, {"REGINA", 130},
+			{"REVENANT", 130}, {"RHAPSODY", 130}, {"RIPLEY", 70}, {"ROMERO", 120},
+			{"RUINER", 150}, {"RUSTBOAT", 40}, {"SABRE", 140}, {"SABRE2", 140},
+			{"SABREGT", 145}, {"SANCHEZ", 130}, {"SCHAFTER", 141}, {"SCHAFTE2", 141},
+			{"SENTINEL", 150}, {"SERRANO", 145}, {"SKYLIFT", 160}, {"SLAMVAN", 125},
+			{"SMUGGLER", 85}, {"SOLAIR", 130}, {"SPEEDO", 125}, {"SQUALO", 70},
+			{"STALION", 140}, {"STEED", 100}, {"STRATUM", 135}, {"STRETCH", 140},
+			{"SUBWAY", 80}, {"SULTAN", 145}, {"SULTANRS", 150}, {"SUPER", 155},
+			{"SUPERD", 160}, {"SUPERD2", 160}, {"SWIFT", 160}, {"TAMPA", 145},
+			{"TAXI", 135}, {"TAXI2", 135}, {"TOURMAV", 160}, {"TOWTRUCK", 125},
+			{"TROPIC", 75}, {"TRUSH", 100}, {"TURISMO", 160}, {"URANUS", 130},
+			{"VADER", 154}, {"VIGERO", 135}, {"VIGERO2", 135}, {"VINCENT", 130},
+			{"VIRGO", 125}, {"VOODOO", 120}, {"WASHINGT", 135}, {"WAYFAR", 125},
+			{"WILARD", 130}, {"WOLFS", 125}, {"YANKEE", 105}, {"YANKEE2", 130}, {"ZOMB", 125}
 		};
 		List<string> Vehicles = new List<string>() { 
 			"ADMIRAL", "AIRTUG", "AMBULANCE", "ANNIHILATOR", "BANSHEE", "BENSON",
@@ -137,7 +101,7 @@ namespace ChaosIV {
 		int lagTicks = 0;
 
 		public ChaosMain() {
-			Interval = 33;
+			Interval = 16;
 			Tick += new EventHandler(ChaosLoop);
 			PerFrameDrawing += new GraphicsEventHandler(ChaosDraw);
 
@@ -161,6 +125,7 @@ namespace ChaosIV {
 				}
 			}
 
+			Effects.Add(new Effect("Earthquake", EffectMiscEarthquake, new Timer(28000), EffectMiscEarthquake, EffectMiscEarthquake));
 			Effects.Add(new Effect("Invert Current Velocity", EffectMiscInvertVelocity));
 			//Effects.Add(new Effect("Zero Gravity", EffectMiscNoGravity, new Timer(28000), null, EffectMiscNormalGravity)); //this one doesn't affect vehicles :/
 			Effects.Add(new Effect("No HUD", EffectMiscNoHUD, new Timer(88000), null, EffectMiscShowHUD));
@@ -190,7 +155,7 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Give Armor", EffectPlayerArmor));
 			Effects.Add(new Effect("Bankrupt", EffectPlayerBankrupt));
 			Effects.Add(new Effect("Blind", EffectPlayerBlindStart, new Timer(28000), null, EffectPlayerBlindStop));
-			Effects.Add(new Effect("It's Time For A Break", EffectPlayerBreakTimeStart, new Timer(28000), null, EffectPlayerBreakTimeStop));
+			Effects.Add(new Effect("It's Time For A Break", EffectPlayerBreakTime, new Timer(28000), EffectPlayerBreakTime, EffectPlayerBreakTimeStop));
 			Effects.Add(new Effect("Exit Current Vehicle", EffectPlayerExitCurrentVehicle));
 			Effects.Add(new Effect("Give All Weapons", EffectPlayerGiveAll));
 			Effects.Add(new Effect("Give Grenades", EffectPlayerGiveGrenades));
@@ -220,8 +185,8 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Never Wanted", EffectPlayerWantedClear, new Timer(88000), EffectPlayerWantedClear, EffectPlayerWantedClear));
 
 			Effects.Add(new Effect("Advance One Day", EffectTimeAdvanceOneDay));
-			Effects.Add(new Effect("x0.2 Gamespeed", EffectTimeGameSpeedFifth, new Timer(28000), null, EffectTimeGameSpeedNormal, new[] { "x0.5 Gamespeed", "Lag" }));
-			Effects.Add(new Effect("x0.5 Gamespeed", EffectTimeGameSpeedHalf, new Timer(28000), null, EffectTimeGameSpeedNormal, new[] { "x0.2 Gamespeed", "Lag" }));
+			Effects.Add(new Effect("x0.2 Gamespeed", EffectTimeGameSpeedFifth, new Timer(7000), null, EffectTimeGameSpeedNormal, new[] { "x0.5 Gamespeed", "Lag" }));
+			Effects.Add(new Effect("x0.5 Gamespeed", EffectTimeGameSpeedHalf, new Timer(14000), null, EffectTimeGameSpeedNormal, new[] { "x0.2 Gamespeed", "Lag" }));
 			Effects.Add(new Effect("Lag", EffectTimeLagStart, new Timer(28000), EffectTimeLagLoop, EffectTimeGameSpeedNormal, new[] { "x0.2 Gamespeed", "x0.5 Gamespeed" }));
 			Effects.Add(new Effect("Set Time To Evening", EffectTimeSetEvening));
 			Effects.Add(new Effect("Set Time To Midnight", EffectTimeSetMidnight));
@@ -233,8 +198,9 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Clean Current Vehicle", EffectVehicleCleanPlayer));
 			Effects.Add(new Effect("Explode Nearby Vehicles", EffectVehicleExplodeNearby));
 			Effects.Add(new Effect("Explode Current Vehicle", EffectVehicleExplodePlayer));
+			Effects.Add(new Effect("Flip Current Vehicle", EffectVehicleFlipPlayer));
 			Effects.Add(new Effect("Full Acceleration", EffectVehicleFullAccel, new Timer(28000), EffectVehicleFullAccel, EffectVehicleFullAccel));
-			Effects.Add(new Effect("Invisible Vehicles", EffectVehicleInvisibleLoop, new Timer(88000), EffectVehicleInvisibleLoop, EffectVehicleInvisibleStop, new[] { "Black Traffic", "Blue Traffic", "Red Traffic", "White Traffic" }));
+			Effects.Add(new Effect("Invisible Vehicles", EffectVehicleInvisibleLoop, new Timer(88000), EffectVehicleInvisibleLoop, EffectVehicleInvisibleStop, new[] { "Black Traffic", "Blue Traffic", "Red Traffic", "White Traffic", "Green Traffic" }));
 			Effects.Add(new Effect("Jumpy Vehicles", EffectVehicleJumpy, new Timer(28000), EffectVehicleJumpy, EffectVehicleJumpy));
 			Effects.Add(new Effect("Kill Engine Of Current Vehicle", EffectVehicleKillEnginePlayer));
 			Effects.Add(new Effect("Launch All Vehicles Up", EffectVehicleLaunchAllUp));
@@ -252,10 +218,11 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Spawn Random Vehicle", EffectVehicleSpawnRandom));
 			Effects.Add(new Effect("Need A Cab?", EffectVehicleSpawnTaxis));
 			Effects.Add(new Effect("Spawn Tug", EffectVehicleSpawnTug));
-			Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Invisible Vehicles", "Blue Traffic", "Red Traffic", "White Traffic" }));
-			Effects.Add(new Effect("Blue Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Invisible Vehicles", "Black Traffic", "Red Traffic", "White Traffic" }));
-			Effects.Add(new Effect("Red Traffic", EffectVehicleTrafficRed, new Timer(88000), EffectVehicleTrafficRed, EffectVehicleTrafficRed, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "White Traffic" }));
-			Effects.Add(new Effect("White Traffic", EffectVehicleTrafficWhite, new Timer(88000), EffectVehicleTrafficWhite, EffectVehicleTrafficWhite, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "Red Traffic" }));
+			Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Invisible Vehicles", "Blue Traffic", "Red Traffic", "White Traffic", "Green Traffic" }));
+			Effects.Add(new Effect("Blue Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Invisible Vehicles", "Black Traffic", "Red Traffic", "White Traffic", "Green Traffic" }));
+			Effects.Add(new Effect("Green Traffic", EffectVehicleTrafficGreen, new Timer(88000), EffectVehicleTrafficGreen, EffectVehicleTrafficGreen, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "Red Traffic", "White Traffic" }));
+			Effects.Add(new Effect("Red Traffic", EffectVehicleTrafficRed, new Timer(88000), EffectVehicleTrafficRed, EffectVehicleTrafficRed, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "White Traffic", "Green Traffic" }));
+			Effects.Add(new Effect("White Traffic", EffectVehicleTrafficWhite, new Timer(88000), EffectVehicleTrafficWhite, EffectVehicleTrafficWhite, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "Red Traffic", "Green Traffic" }));
 
 			Effects.Add(new Effect("Cloudy Weather", EffectWeatherCloudy));
 			Effects.Add(new Effect("Foggy Weather", EffectWeatherFoggy));
@@ -279,7 +246,7 @@ namespace ChaosIV {
 
 			// Draw Timer Bar
 			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 0.02f), Color.FromArgb(10, 10, 10));
-			e.Graphics.DrawText("ChaosIV", new RectangleF(0f, 0f, 1f, 0.02f), TextAlignment.Center, Color.FromArgb(40, 40, 40), smol);
+			e.Graphics.DrawText("ChaosIV", new RectangleF(0f, 0f, 1f, 0.02f), TextAlignment.Center, Color.FromArgb(50, 50, 50), smol);
 			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, (float)((double)EffectTimer.ElapsedTime / 30000), 0.02f), barcolor);
 
 			// Draw Recent Effects
@@ -300,6 +267,8 @@ namespace ChaosIV {
 		}
 
 		public void ChaosLoop(object s, EventArgs e) {
+			Function.Call("SET_MAX_WANTED_LEVEL", 6);
+
 			for (int i = RecentEffects.Count - 1; i >= 0; i--) {
 				if (RecentEffects[i].Timer != null) {
 					if (RecentEffects[i].Timer.ElapsedTime > RecentEffects[i].Timer.Interval) {
@@ -312,7 +281,13 @@ namespace ChaosIV {
 			}
 
 			if (Loops.Count > 0) {
-				foreach (Action a in Loops) a();
+				foreach (Action a in Loops) {
+					try { 
+						a(); 
+					} catch (Exception ex) {
+						Game.Console.Print(ex.Message + ex.StackTrace);
+					}
+			 	}
 			}
 		}
 
@@ -361,6 +336,31 @@ namespace ChaosIV {
 		// !!! EFFECT METHODS BEGIN BELOW !!! //
 
 		#region Misc Effects
+		public void EffectMiscEarthquake() {
+			Vector3 q = new Vector3(0, 0, R.Next(-9, 7)); 
+			foreach (Vehicle v in World.GetAllVehicles()) {
+				try {
+					if (v.Exists()) v.ApplyForce(q);
+				} catch (NonExistingObjectException) { 
+					continue;
+				}
+			}
+			foreach (Ped p in World.GetAllPeds()) {
+				try {
+					if (p.Exists()) p.ApplyForce(q);
+				} catch (NonExistingObjectException) {
+					continue;
+				}
+			}
+			foreach (GTA.Object o in World.GetAllObjects()) {
+				try {
+					if (o.Exists()) o.ApplyForce(q);
+				} catch (NonExistingObjectException) {
+					continue;
+				}
+			}
+		}
+
 		public void EffectMiscInvertVelocity() {
 			if (Player.Character.isInVehicle()) {
 				Player.Character.CurrentVehicle.Velocity = new Vector3(Player.Character.CurrentVehicle.Velocity.X * -1, Player.Character.CurrentVehicle.Velocity.Y * -1, Player.Character.CurrentVehicle.Velocity.Z * -1);
@@ -378,6 +378,8 @@ namespace ChaosIV {
 
 		public void EffectMiscNoHUD() {
 			isHUDless = true;
+			Function.Call("DISPLAY_HUD", false);
+			Function.Call("DISPLAY_RADAR", false);
 		}
 
 		public void EffectMiscNormalGravity() {
@@ -390,6 +392,8 @@ namespace ChaosIV {
 
 		public void EffectMiscShowHUD() {
 			isHUDless = false;
+			Function.Call("DISPLAY_HUD", true);
+			Function.Call("DISPLAY_RADAR", true);
 		}
 
 		public void EffectMiscSpawnJet() {
@@ -631,7 +635,7 @@ namespace ChaosIV {
 			isBlind = false;
 		}
 
-		public void EffectPlayerBreakTimeStart() {
+		public void EffectPlayerBreakTime() {
 			Player.CanControlCharacter = false;
 		}
 
@@ -671,7 +675,8 @@ namespace ChaosIV {
 		}
 
 		public void EffectPlayerIgnite() {
-			Player.Character.isOnFire = true;
+			if (Player.Character.isInVehicle()) Player.Character.CurrentVehicle.isOnFire = true; 
+			else Player.Character.isOnFire = true;
 		}
 
 		public void EffectPlayerInvincible() {
@@ -711,11 +716,12 @@ namespace ChaosIV {
 
 		public void EffectPlayerSetVehicleClosest() {
 			Vehicle cv = World.GetClosestVehicle(Player.Character.Position, 50f);
-			if (cv.Exists()) Player.Character.WarpIntoVehicle(cv, VehicleSeat.Driver);
+			if (cv != null && cv.Exists()) Player.Character.WarpIntoVehicle(cv, VehicleSeat.Driver);
 		}
 
 		public void EffectPlayerSetVehicleRandom() {
-			Player.Character.WarpIntoVehicle(World.GetAllVehicles()[R.Next(World.GetAllVehicles().Length)], VehicleSeat.Driver);
+			Vehicle rv = World.GetAllVehicles()[R.Next(World.GetAllVehicles().Length)];
+			if (rv != null && rv.Exists()) Player.Character.WarpIntoVehicle(rv, VehicleSeat.Driver);
 		}
 
 		public void EffectPlayerSuicide() {
@@ -756,7 +762,7 @@ namespace ChaosIV {
 			if (Game.GetWaypoint() != null) Player.TeleportTo(Game.GetWaypoint().Position);
 			else {
 				foreach (Blip b in Blip.GetAllBlipsOfType(BlipType.Contact).Concat(Blip.GetAllBlipsOfType(BlipType.Coordinate)).Concat(Blip.GetAllBlipsOfType(BlipType.Ped))) {
-					if (b.Icon == BlipIcon.Misc_Objective) {
+					if (b.Icon == BlipIcon.Misc_Destination || b.Icon == BlipIcon.Misc_Destination1 || b.Icon == BlipIcon.Misc_Destination2) {
 						Player.TeleportTo(b.Position);
 						break;
 					}
@@ -850,13 +856,19 @@ namespace ChaosIV {
 			if (Player.Character.isInVehicle()) Player.Character.CurrentVehicle.Explode();
 		}
 
+		public void EffectVehicleFlipPlayer() {
+			if (Player.Character.isInVehicle()) Player.Character.CurrentVehicle.Rotation = new Vector3(Player.Character.CurrentVehicle.Rotation.X, 180, Player.Character.CurrentVehicle.Rotation.Z);
+		}
+
 		public void EffectVehicleFullAccel() {
 			foreach (Vehicle v in World.GetAllVehicles()) {
-				if (v.Exists()) {
-					if (v.isOnAllWheels) {
+				try {
+					if (v.Exists() && v.isOnAllWheels) {
 						Game.Console.Print(v.Name);
 						v.Speed = Speeds[v.Name];
 					}
+				} catch (NonExistingObjectException) {
+					continue;
 				}
 			}
 		}
@@ -875,8 +887,10 @@ namespace ChaosIV {
 
 		public void EffectVehicleJumpy() {
 			foreach (Vehicle v in World.GetAllVehicles()) {
-				if (v.Exists() & v.isOnAllWheels) {
-					v.ApplyForce(new Vector3(0f, 0f, 1f));
+				try {
+					if (v.Exists() & v.isOnAllWheels) v.ApplyForce(new Vector3(0f, 0f, 1f));
+				} catch (NonExistingObjectException) {
+					continue;
 				}
 			}
 		}
@@ -971,9 +985,19 @@ namespace ChaosIV {
 			}
 		}
 
+		public void EffectVehicleTrafficGreen() {
+			foreach (Vehicle v in World.GetAllVehicles()) {
+				if (v.Exists()) v.Color = ColorIndex.SecuricorDarkGreen;
+			}
+		}
+
 		public void EffectVehicleTrafficNone() {
 			foreach (Vehicle v in World.GetAllVehicles()) {
-				if (v.Exists() & !v.isRequiredForMission & v != Player.Character.CurrentVehicle) v.Delete();
+				try { 
+					if (v.Exists() & !v.isRequiredForMission & v != Player.Character.CurrentVehicle) v.Delete(); 
+				} catch (NonExistingObjectException) {
+					continue;
+				}
 			}
 		}
 
