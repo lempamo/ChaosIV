@@ -402,18 +402,30 @@ namespace ChaosIV {
 
 		public void EffectMiscSPEEN() {
 			foreach (GTA.Object o in World.GetAllObjects()) {
-				if (o.Exists()) o.Heading += 5f;
+				try {
+					if (o.Exists()) o.Heading += 5f;
+				} catch (NonExistingObjectException) {
+					continue;
+				}
 			}
 			foreach (Vehicle v in World.GetAllVehicles()) {
-				if (v.Exists()) {
-					v.Heading += 5f;
-					if (v.Heading >= 355f) v.Heading = 0f;
-					v.ApplyForce(new Vector3(0f, 0f, 0.1f));
+				try {
+					if (v.Exists()) {
+						v.Heading += 5f;
+						if (v.Heading >= 355f) v.Heading = 0f;
+						v.ApplyForce(new Vector3(0f, 0f, 0.1f));
+					}
+				} catch (NonExistingObjectException) {
+					continue;
 				}
 			}
 			foreach (Ped p in World.GetAllPeds()) {
-				if (p.Exists() & (p != Player.Character)) {
-					p.Heading += 5f;
+				try {
+					if (p.Exists() & (p != Player.Character)) {
+						p.Heading += 5f;
+					}
+				} catch (NonExistingObjectException) {
+					continue;
 				}
 			}
 		}
