@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO.Pipes;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
@@ -100,6 +102,11 @@ namespace ChaosIV {
 		bool isHUDless = false;
 		int lagTicks = 0;
 
+		bool twitchVoting = false;
+		NamedPipeServerStream twitchPipe = new NamedPipeServerStream("twitch-chaosiv-pipe", PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous);
+		byte[] twitchBuffer;
+		List<Effect> twitchEffectTrio = new List<Effect>(3);
+
 		public ChaosMain() {
 			Interval = 16;
 			Tick += new EventHandler(ChaosLoop);
@@ -127,7 +134,6 @@ namespace ChaosIV {
 
 			Effects.Add(new Effect("Earthquake", EffectMiscEarthquake, new Timer(28000), EffectMiscEarthquake, EffectMiscEarthquake));
 			Effects.Add(new Effect("Invert Current Velocity", EffectMiscInvertVelocity));
-			//Effects.Add(new Effect("Zero Gravity", EffectMiscNoGravity, new Timer(28000), null, EffectMiscNormalGravity)); //this one doesn't affect vehicles :/
 			Effects.Add(new Effect("No HUD", EffectMiscNoHUD, new Timer(88000), null, EffectMiscShowHUD));
 			Effects.Add(new Effect("Nothing", EffectMiscNothing));
 			Effects.Add(new Effect("Spawn Jet", EffectMiscSpawnJet));
@@ -229,6 +235,17 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Foggy Weather", EffectWeatherFoggy));
 			Effects.Add(new Effect("Sunny Weather", EffectWeatherSunny));
 			Effects.Add(new Effect("Stormy Weather", EffectWeatherThunder));
+
+
+			// Settings Time
+			var dE = Settings.GetValueString("disabledEffects").Split(',');
+
+			if (dE[0] != "") 
+				foreach (string e in dE) {
+					Effects.Remove(Effects.Find(x => x.Name == e));
+					Game.Console.Print("Disabled effect \"" + e + "\".");
+				}
+
 
 			EffectTimer = new Timer();
 			EffectTimer.Tick += new EventHandler(DeployEffect);
@@ -370,21 +387,10 @@ namespace ChaosIV {
 			}
 		}
 
-		public void EffectMiscNoGravity() {
-			// floating free...
-			// one, two, three...
-			// eternity....
-			World.GravityEnabled = false;
-		}
-
 		public void EffectMiscNoHUD() {
 			isHUDless = true;
 			Function.Call("DISPLAY_HUD", false);
 			Function.Call("DISPLAY_RADAR", false);
-		}
-
-		public void EffectMiscNormalGravity() {
-			World.GravityEnabled = true;
 		}
 
 		public void EffectMiscNothing() {
@@ -587,7 +593,7 @@ namespace ChaosIV {
 						p.Health = 5;
 						p.Armor = 0;
 					}
-					if (p == Player) {
+					if (p == Player && p.Health > 5) {
 						p.Health = 1;
 						p.Armor = 0;
 					}

@@ -3,6 +3,8 @@
 *ChaosIV* is a Chaos mod for Grand Theft Auto IV inspired by similar mods for GTA V and GTA:SA.
 The mod has been tested to work with 1.0.4.0 and 1.0.7.0, though it may likely also work with 1.0.8.0 and the Complete Edition. 
 
+A list of implemented effects can be found here: https://docs.google.com/spreadsheets/d/16mKSpQb9KH387viPWK97ejFQ6xchB1lvvpeXNYW66rI/edit?usp=sharing
+
 This mod requires an ASI loader and .NET ScriptHook in order to be installed.
 To install, simply drop the ChaosIV.net.dll file into the scripts folder within your GTA IV installation.
 
