@@ -102,11 +102,6 @@ namespace ChaosIV {
 		bool isHUDless = false;
 		int lagTicks = 0;
 
-		bool twitchVoting = false;
-		NamedPipeServerStream twitchPipe = new NamedPipeServerStream("twitch-chaosiv-pipe", PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous);
-		byte[] twitchBuffer;
-		List<Effect> twitchEffectTrio = new List<Effect>(3);
-
 		public ChaosMain() {
 			Interval = 16;
 			Tick += new EventHandler(ChaosLoop);
@@ -136,9 +131,12 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Invert Current Velocity", EffectMiscInvertVelocity));
 			Effects.Add(new Effect("No HUD", EffectMiscNoHUD, new Timer(88000), null, EffectMiscShowHUD));
 			Effects.Add(new Effect("Nothing", EffectMiscNothing));
+			Effects.Add(new Effect("One Bullet Mags", EffectMiscOneBulletMags, new Timer(88000), EffectMiscOneBulletMags, null));
 			Effects.Add(new Effect("Spawn Jet", EffectMiscSpawnJet));
 			Effects.Add(new Effect("SPEEN", EffectMiscSPEEN, new Timer(28000), EffectMiscSPEEN, EffectMiscSPEEN));
 
+			Effects.Add(new Effect("Aimbot Peds", EffectPedsAimbot, new Timer(88000), EffectPedsAimbot, null));
+			Effects.Add(new Effect("Everyone Exits Their Vehicles", EffectPedsAllExitVehs));
 			Effects.Add(new Effect("All Nearby Peds Are Wanted", EffectPedsAllNearbyWanted));
 			Effects.Add(new Effect("Peds Don't See Very Well", EffectPedsBlindLoop, new Timer(88000), EffectPedsBlindLoop, EffectPedsBlindStop));
 			Effects.Add(new Effect("In The Hood", EffectPedsDance, new Timer(88000), EffectPedsDance, EffectPedsWander));
@@ -156,6 +154,8 @@ namespace ChaosIV {
 			Effects.Add(new Effect("One Hit KO", EffectPedsOHKO, new Timer(28000), EffectPedsOHKO, EffectPedsOHKOStop));
 			Effects.Add(new Effect("Remove Weapons From Everyone", EffectPedsRemoveWeapons));
 			Effects.Add(new Effect("Revive Dead Peds", EffectPedsReviveDead));
+			Effects.Add(new Effect("Scooter Brothers", EffectPedsScooterBros));
+			//Effects.Add(new Effect("Set All Peds Into Random Vehicles", EffectPedsShuffle)); fucking ghost cars man
 			Effects.Add(new Effect("Spawn An Angry Doctor Who Wants To Knife You", EffectPedsSpawnAngryDoctor));
 
 			Effects.Add(new Effect("Give Armor", EffectPlayerArmor));
@@ -215,6 +215,7 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Mass Breakdown", EffectVehicleMassBreakdown));
 			Effects.Add(new Effect("No Traffic", EffectVehicleTrafficNone, new Timer(88000), EffectVehicleTrafficNone, null));
 			Effects.Add(new Effect("Pop Tires Of Current Vehicle", EffectVehiclePopTiresPlayer));
+			Effects.Add(new Effect("Remove Current Vehicle", EffectVehicleRemovePlayer));
 			Effects.Add(new Effect("Repair Current Vehicle", EffectVehicleRepairPlayer));
 			Effects.Add(new Effect("Spammy Vehicle Doors", EffectVehicleSpamDoors, new Timer(88000), EffectVehicleSpamDoors, null));
 			Effects.Add(new Effect("Spawn Bus", EffectVehicleSpawnBus));
@@ -235,7 +236,7 @@ namespace ChaosIV {
 			Effects.Add(new Effect("Foggy Weather", EffectWeatherFoggy));
 			Effects.Add(new Effect("Sunny Weather", EffectWeatherSunny));
 			Effects.Add(new Effect("Stormy Weather", EffectWeatherThunder));
-
+			
 
 			// Settings Time
 			var dE = Settings.GetValueString("disabledEffects").Split(',');
@@ -397,6 +398,18 @@ namespace ChaosIV {
 			Game.Console.Print("ok maybe not quite \"nothing\" but eh who cares");
 		}
 
+		public void EffectMiscOneBulletMags() {
+			foreach (Ped p in World.GetAllPeds()) {
+				if (p.Exists() & p.Weapons.Current.Slot != WeaponSlot.Melee) {
+					if (p.Weapons.Current.AmmoInClip > 1) {
+						int a = p.Weapons.Current.AmmoInClip - 1;
+						p.Weapons.Current.AmmoInClip = 1;
+						p.Weapons.Current.Ammo += a;
+					}
+				}
+			}
+		}
+
 		public void EffectMiscShowHUD() {
 			isHUDless = false;
 			Function.Call("DISPLAY_HUD", true);
@@ -439,6 +452,20 @@ namespace ChaosIV {
 		#endregion
 
 		#region Ped Effects
+		public void EffectPedsAimbot() {
+			foreach (Ped p in World.GetAllPeds()) {
+				if (p.Exists() & p != Player.Character) {
+					p.Accuracy = 100;
+				}
+			}
+		}
+
+		public void EffectPedsAllExitVehs() {
+			foreach (Vehicle v in World.GetAllVehicles()) {
+				if (v.Exists()) v.EveryoneLeaveVehicle();
+			}
+		}
+
 		public void EffectPedsAllNearbyWanted() {
 			foreach (Ped p in World.GetAllPeds()) {
 				if (p.Exists() & (p != Player.Character) & (p.PedType != PedType.Cop)) {
@@ -626,6 +653,58 @@ namespace ChaosIV {
 			}
 		}
 
+		public void EffectPedsScooterBros() {
+			Dictionary<Ped, Vehicle> scoots = new Dictionary<Ped, Vehicle>();
+
+			foreach (Ped p in World.GetAllPeds()) {
+				if (p.Exists() && p != Player && !p.isDead) {
+					if (p.isSittingInVehicle()) {
+						if (p.CurrentVehicle.Name == "FAGGIO") continue;
+					}
+
+					Vector3 tp = p.Position;
+
+					if (p.isInVehicle()) p.LeaveVehicle();
+					p.Position = new Vector3(p.Position.X, p.Position.Y, p.Position.Z + 5f);
+
+					scoots.Add(p, World.CreateVehicle(new Model("FAGGIO"), tp));
+				}
+			}
+
+			Wait(200);
+
+			foreach (KeyValuePair<Ped, Vehicle> pv in scoots) {
+				try {
+					pv.Key.WarpIntoVehicle(pv.Value, VehicleSeat.Driver);
+					Function.Call("TASK_CAR_MISSION_PED_TARGET", pv.Key, pv.Value, Player.Character, 2, 80f, 2, 0, 10);
+				} catch (NonExistingObjectException) {
+					continue;
+				}
+			}
+		}
+
+		public void EffectPedsShuffle() {
+			foreach (Ped p in World.GetAllPeds()) if (p.Exists()) p.Position = new Vector3(p.Position.X, p.Position.Y, p.Position.Z + 3f);
+
+			foreach (Ped p in World.GetAllPeds()) {
+				if (!p.Exists()) continue;
+
+				List<Vehicle> freeVs = new List<Vehicle>();
+
+				foreach (Vehicle v in World.GetAllVehicles()) if (v.Exists() && v.GetFreeSeat() != VehicleSeat.None && !Function.Call<bool>("IS_CAR_WAITING_FOR_WORLD_COLLISION", v)) freeVs.Add(v);
+
+				Vehicle sV = freeVs[R.Next(freeVs.Count)];
+
+				for (int s = -1; s < sV.PassengerSeats; s++) {
+					if (sV.isSeatFree((VehicleSeat)s)) {
+						Game.Console.Print("warping ped" + p.Model.Hash + " into vehicleseat" + s);
+						p.WarpIntoVehicle(sV, (VehicleSeat)s);
+						break;
+					}
+				}
+			}
+		}
+
 		public void EffectPedsSpawnAngryDoctor() {
 			var doc = World.CreatePed(new Model("m_m_dodgydoc"), Player.Character.Position.Around(10f), RelationshipGroup.Criminal);
 			doc.Task.FightAgainst(Player.Character);
@@ -702,7 +781,12 @@ namespace ChaosIV {
 		}
 
 		public void EffectPlayerIgnite() {
-			if (Player.Character.isInVehicle()) Player.Character.CurrentVehicle.isOnFire = true; 
+			if (Player.Character.isInVehicle()) {
+				Player.Character.CurrentVehicle.EngineHealth = -10;
+				Player.Character.CurrentVehicle.EngineRunning = true;
+				Player.Character.CurrentVehicle.isOnFire = true;
+				Player.Character.CurrentVehicle.EngineRunning = true;
+			}
 			else Player.Character.isOnFire = true;
 		}
 
@@ -958,6 +1042,29 @@ namespace ChaosIV {
 						Player.Character.CurrentVehicle.BurstTire(VehicleWheel.RearRight);
 					}
 				}
+			}
+		}
+
+		public void EffectVehicleRemovePlayer() {
+			if (Player.Character.isInVehicle()) {
+				List<Ped> vPeds = new List<Ped>();
+				Vehicle v = Player.Character.CurrentVehicle;
+
+				for (int s = -1; s < v.PassengerSeats; s++) {
+					if (v.isSeatFree((VehicleSeat)s)) continue;
+
+					Ped p = v.GetPedOnSeat((VehicleSeat)s);
+					Function.Call("CLEAR_CHAR_TASKS_IMMEDIATELY", p);
+					Function.Call("SWITCH_PED_TO_RAGDOLL", p, 5000, 5000, 0, true, true, false);
+
+					vPeds.Add(p);
+				}
+
+				Vector3 vVel = v.Velocity;
+				v.isRequiredForMission = false;
+				v.Delete();
+
+				foreach (Ped p in vPeds) p.Velocity = vVel;
 			}
 		}
 
