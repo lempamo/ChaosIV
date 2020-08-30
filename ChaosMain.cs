@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using GTA;
 using GTA.Native;
 
@@ -102,11 +104,20 @@ namespace ChaosIV {
 		bool isHUDless = false;
 		int lagTicks = 0;
 
+		private TwitchPoll _twitchPoll = null;
+		// bool twitchVoting = false;
+
+		// NamedPipeServerStream twitchPipe = new NamedPipeServerStream("twitch-chaosiv-pipe", PipeDirection.InOut, 1,
+		// 	PipeTransmissionMode.Message, PipeOptions.Asynchronous);
+		//
+		// byte[] twitchBuffer;
+		// List<Effect> twitchEffectTrio = new List<Effect>(3);
+
 		public ChaosMain() {
 			Interval = 16;
 			Tick += new EventHandler(ChaosLoop);
 			PerFrameDrawing += new GraphicsEventHandler(ChaosDraw);
-
+			
 			if (Game.CurrentEpisode != GameEpisode.GTAIV) {
 				Vehicles.AddRange(new string[] {"BATI2", "DOUBLE", "HAKUCHOU", "HEXER", "SLAMVAN", "TAMPA"});
 
@@ -350,6 +361,9 @@ namespace ChaosIV {
 			}
 
 			EffectTimer.Start();
+
+			_twitchPoll?.Stop();
+			_twitchPoll = new TwitchPoll();
 		}
 
 		// !!! EFFECT METHODS BEGIN BELOW !!! //
@@ -1171,7 +1185,172 @@ namespace ChaosIV {
 		#endregion
 	}
 
-	public struct Effect {
+    public class TwitchPoll
+    {
+	    // NamedPipeServerStream twitchPipe = new NamedPipeServerStream("GTA4TwitchPollPipe", PipeDirection.InOut, 1,
+		    // PipeTransmissionMode.Message, PipeOptions.Asynchronous);	    
+	    
+	    NamedPipeClientStream twitchPipe = new NamedPipeClientStream(".", "GTA4TwitchPollPipe", PipeDirection.InOut);
+
+	    public TwitchPoll()
+	    {
+		    Game.Console.Print("Waiting for Poll client connection...");
+
+		    
+		    var connection = twitchPipe.ConnectAsync();
+		    connection.ContinueWith(task =>
+		    {
+			    Task.Run(WaitForConnectionCallBack);
+			    Game.Console.Print("Poll async started.");
+		    });
+		    // RunServerAsync();
+		    // Task serverTask = RunServerAsync();
+		    // serverTask.Wait(25000);
+		    // Task.WaitAll(serverTask);
+
+		    // Process pollMediatorProcess = Process.Start("FFZPollMediatorServer.exe");
+		    /*var taskWAit = twitchPipe.WaitForConnectionAsync();
+		    taskWAit.ContinueWith(async task =>
+		    {
+			    Game.Console.Print("Poll client connected.");
+
+			    try
+			    {
+				    using (var sr = new StreamReader(twitchPipe))
+				    {
+					    var message = await sr.ReadLineAsync();
+					    Game.Console.Print($"Receive: {message}");
+					    switch (message)
+					    {
+						    case "{\"type\":\"auth_ok\"}":
+							    Game.Console.Print("Trying to create a poll.");
+							    Write(@"{
+							    type: 'create',
+							    title: '[Chaos test] Chose effect',
+							    choices: [
+								    'Earthquake',
+								    'Invert Current Velocity',
+								    'No HUD',
+								],
+							    duration: 60,
+							    subscriberMultiplier: false,
+							    subscriberOnly: false,
+							    bits: 0
+						    }");
+							    break;
+					    }
+				    }
+			    }
+			    catch (IOException e)
+			    {
+				    Game.Console.Print($"ERROR Writing: {e.Message}");
+				    Console.WriteLine("ERROR Reading: {0}", e.Message);
+			    }
+		    });*/
+	    }
+
+	    public void Stop()
+	    {
+		    if (twitchPipe.IsConnected)
+		    {
+			    twitchPipe.Dispose();
+			    twitchPipe.Close();
+		    }
+	    }
+	    
+	    // private void RunServerAsync()
+	    // {
+		   //  twitchPipe.BeginWaitForConnection((WaitForConnectionCallBack), twitchPipe);
+		   //  
+		   //  // await Task.Factory.FromAsync(
+			  //  //  (cb, state) => twitchPipe.BeginWaitForConnection(cb, state),
+			  //  //  ar => twitchPipe.EndWaitForConnection(ar),
+			  //  //  null);
+	    // }
+
+	    private async void WaitForConnectionCallBack()
+	    {
+		    Game.Console.Print("Poll client connected.");
+
+		    StreamWriter writer = null;
+		    StreamReader reader = null;
+		    try
+		    {
+			    // twitchPipe.EndWaitForConnection(asyncResult);
+
+			    writer = new StreamWriter(twitchPipe);
+			    writer.AutoFlush = true;
+			    reader = new StreamReader(twitchPipe);
+
+			    await writer.WriteLineAsync("HELLO");
+			    do
+			    {
+				    Game.Console.Print($"Read");
+				    string line = await reader.ReadLineAsync();
+
+				    Game.Console.Print($"Read line: {line}");
+
+				    if (line == "{\"type\":\"auth_ok\"}")
+				    {
+					    Game.Console.Print("Trying to create a poll.");
+					    await writer.WriteLineAsync(@"{
+							    type: 'create',
+							    title: '[Chaos test] Chose effect',
+							    choices: [
+								    'Earthquake',
+								    'Invert Current Velocity',
+								    'No HUD',
+								],
+							    duration: 60,
+							    subscriberMultiplier: false,
+							    subscriberOnly: false,
+							    bits: 0
+						    }");
+
+					    break;
+				    }
+
+				    await writer.WriteLineAsync(line);
+			    } while (twitchPipe.IsConnected);
+
+			    await writer.WriteLineAsync("OLLEH");
+
+			    // Stop();
+			    // twitchPipe.Disconnect();
+		    }
+		    catch (Exception e)
+		    {
+			    Game.Console.Print($"ERROR Writing: {e.Message}");
+			    // Console.WriteLine("ERROR Writing: {0}", e.Message);
+		    }
+		    finally
+		    {
+			    writer?.Close();
+				reader?.Close();
+		    }
+	    }
+	    
+	    private async void Write(string message) 
+	    {
+		    try
+		    {
+			    using (StreamWriter sw = new StreamWriter(twitchPipe))
+			    {
+				    sw.AutoFlush = true;
+				    await sw.WriteLineAsync(message);
+			    }
+		    }
+		    // Catch the IOException that is raised if the pipe is broken
+		    // or disconnected.
+		    catch (IOException e)
+		    {
+			    Game.Console.Print($"ERROR Writing: {e.Message}");
+			    Console.WriteLine("ERROR Writing: {0}", e.Message);
+		    }
+	    }
+    }
+
+    public struct Effect {
 		public Effect(string name, Action start, string[] conflicts = null) {
 			Name = name;
 			Start = start;
