@@ -6,10 +6,23 @@
     <PackageProjectUrl>https://github.com/lempamo/ChaosIV</PackageProjectUrl>
     <RepositoryUrl>https://github.com/lempamo/ChaosIV</RepositoryUrl>
     <Description>Chaos mod for GTA IV [prerelease build]</Description>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath></OutputPath>
+    <!-- Opt into PackageReference nuget behavior so that we automatically get transitive references.
+     This is not necessary if any PackageReference exists in this project. -->
+	  <!--RestoreProjectStyle>PackageReference</RestoreProjectStyle-->
+	  <!--AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects-->
+	  <!--GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType-->
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <OutputPath />
+    <!--<RestoreProjectStyle>PackageReference</RestoreProjectStyle>-->
+    <!--<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>-->
+    <!--<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>-->
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +31,15 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Fleck" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+<!--    <PackageReference Include="System.Text.Json" Version="4.7.2" />-->
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy &quot;$(TargetPath)&quot; &quot;$(TargetPath)\..\..\..\..\..\..\ChaosIV.net.dll&quot;&#xD;&#xA;cd &quot;$(ProjectDir)\..\..\..\&quot;&#xD;&#xA;LaunchGTAIV.exe -availablevidmem 20.0" />
+<!--    <Exec Command="copy &quot;$(TargetPath)&quot; &quot;$(TargetPath)\..\..\..\..\..\..\ChaosIV.net.dll&quot;&#xD;&#xA;cd &quot;$(ProjectDir)\..\..\..\&quot;&#xD;&#xA;LaunchGTAIV.exe -availablevidmem 20.0" />-->
+    <Exec Command="copy &quot;$(TargetPath)&quot; &quot;$(TargetPath)\..\..\..\..\..\..\..\ChaosIV.net.dll&quot;" />
   </Target>
 
 </Project>
