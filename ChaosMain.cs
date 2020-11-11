@@ -141,119 +141,120 @@ namespace ChaosIV {
 			}
 
 			#region Effects list
-			//Effects.Add(new Effect("Earthquake", EffectMiscEarthquake, new Timer(28000), EffectMiscEarthquake, EffectMiscEarthquake));
+			Effects.Add(new Effect("Earthquake", EffectMiscEarthquake, new Timer(28000), EffectMiscEarthquake, EffectMiscEarthquake));
 			Effects.Add(new Effect("Invert Current Velocity", EffectMiscInvertVelocity));
-			//Effects.Add(new Effect("No HUD", EffectMiscNoHUD, new Timer(88000), null, EffectMiscShowHUD));
+			Effects.Add(new Effect("No HUD", EffectMiscNoHUD, new Timer(88000), null, EffectMiscShowHUD));
 			Effects.Add(new Effect("Nothing", EffectMiscNothing));
-			//Effects.Add(new Effect("One Bullet Mags", EffectMiscOneBulletMags, new Timer(88000), EffectMiscOneBulletMags, null));
+			Effects.Add(new Effect("Nothing", EffectMiscNothing));
+			Effects.Add(new Effect("One Bullet Mags", EffectMiscOneBulletMags, new Timer(88000), EffectMiscOneBulletMags, null));
 			Effects.Add(new Effect("Spawn Jet", EffectMiscSpawnJet));
-			//Effects.Add(new Effect("SPEEN", EffectMiscSPEEN, new Timer(28000), EffectMiscSPEEN, EffectMiscSPEEN));
+			Effects.Add(new Effect("SPEEN", EffectMiscSPEEN, new Timer(28000), EffectMiscSPEEN, EffectMiscSPEEN));
 
-			//Effects.Add(new Effect("Aimbot Peds", EffectPedsAimbot, new Timer(88000), EffectPedsAimbot, null));
+			Effects.Add(new Effect("Aimbot Peds", EffectPedsAimbot, new Timer(88000), EffectPedsAimbot, null));
 			Effects.Add(new Effect("Everyone Exits Their Vehicles", EffectPedsAllExitVehs));
-			//Effects.Add(new Effect("All Nearby Peds Are Wanted", EffectPedsAllNearbyWanted));
-			//Effects.Add(new Effect("Peds Don't See Very Well", EffectPedsBlindLoop, new Timer(88000), EffectPedsBlindLoop, EffectPedsBlindStop));
-			//Effects.Add(new Effect("In The Hood", EffectPedsDance, new Timer(88000), EffectPedsDance, EffectPedsWander));
-			//Effects.Add(new Effect("Explosive Peds", EffectPedsExplosive, new Timer(88000), EffectPedsExplosive, EffectPedsExplosive));
+			Effects.Add(new Effect("All Nearby Peds Are Wanted", EffectPedsAllNearbyWanted));
+			Effects.Add(new Effect("Peds Don't See Very Well", EffectPedsBlindLoop, new Timer(88000), EffectPedsBlindLoop, EffectPedsBlindStop));
+			Effects.Add(new Effect("In The Hood", EffectPedsDance, new Timer(88000), EffectPedsDance, EffectPedsWander));
+			Effects.Add(new Effect("Explosive Peds", EffectPedsExplosive, new Timer(88000), EffectPedsExplosive, EffectPedsExplosive));
 			Effects.Add(new Effect("All Nearby Peds Flee", EffectPedsFlee));
-			//Effects.Add(new Effect("You Are Famous", EffectPedsFollow));
-			//Effects.Add(new Effect("Give Everyone A Rocket Launcher", EffectPedsGiveAllRocket));
-			//Effects.Add(new Effect("Everyone Is Invincible", EffectPedsInvincibleLoop, new Timer(88000), EffectPedsInvincibleLoop, EffectPedsInvincibleStop));
-			//Effects.Add(new Effect("Everyone Is A Ghost", EffectPedsInvisibleLoop, new Timer(88000), EffectPedsInvisibleLoop, EffectPedsInvisibleStop));
-			//Effects.Add(new Effect("Ignite All Nearby Peds", EffectPedsIgniteNearby));
-			//Effects.Add(new Effect("Launch All Nearby Peds Up", EffectPedsLaunch));
-			//Effects.Add(new Effect("No Headshots", EffectPedsNoHeadshotsLoop, new Timer(88000), EffectPedsNoHeadshotsLoop, EffectPedsNoHeadshotsStop));
-			//Effects.Add(new Effect("No Ragdoll", EffectPedsNoRagdollLoop, new Timer(88000), EffectPedsNoRagdollLoop, EffectPedsNoRagdollStop));
-			//Effects.Add(new Effect("Obliterate All Nearby Peds", EffectPedsObliterateNearby));
-			//Effects.Add(new Effect("One Hit KO", EffectPedsOHKO, new Timer(28000), EffectPedsOHKO, EffectPedsOHKOStop));
-			//Effects.Add(new Effect("Remove Weapons From Everyone", EffectPedsRemoveWeapons));
-			//Effects.Add(new Effect("Revive Dead Peds", EffectPedsReviveDead));
-			//Effects.Add(new Effect("Scooter Brothers", EffectPedsScooterBros));
-			////Effects.Add(new Effect("Set All Peds Into Random Vehicles", EffectPedsShuffle)); fucking ghost cars man
-			//Effects.Add(new Effect("Spawn An Angry Doctor Who Wants To Knife You", EffectPedsSpawnAngryDoctor));
+            Effects.Add(new Effect("You Are Famous", EffectPedsFollow));
+            Effects.Add(new Effect("Give Everyone A Rocket Launcher", EffectPedsGiveAllRocket));
+            Effects.Add(new Effect("Everyone Is Invincible", EffectPedsInvincibleLoop, new Timer(88000), EffectPedsInvincibleLoop, EffectPedsInvincibleStop));
+            Effects.Add(new Effect("Everyone Is A Ghost", EffectPedsInvisibleLoop, new Timer(88000), EffectPedsInvisibleLoop, EffectPedsInvisibleStop));
+            Effects.Add(new Effect("Ignite All Nearby Peds", EffectPedsIgniteNearby));
+            Effects.Add(new Effect("Launch All Nearby Peds Up", EffectPedsLaunch));
+            Effects.Add(new Effect("No Headshots", EffectPedsNoHeadshotsLoop, new Timer(88000), EffectPedsNoHeadshotsLoop, EffectPedsNoHeadshotsStop));
+            Effects.Add(new Effect("No Ragdoll", EffectPedsNoRagdollLoop, new Timer(88000), EffectPedsNoRagdollLoop, EffectPedsNoRagdollStop));
+            Effects.Add(new Effect("Obliterate All Nearby Peds", EffectPedsObliterateNearby));
+            Effects.Add(new Effect("One Hit KO", EffectPedsOHKO, new Timer(28000), EffectPedsOHKO, EffectPedsOHKOStop));
+            Effects.Add(new Effect("Remove Weapons From Everyone", EffectPedsRemoveWeapons));
+            Effects.Add(new Effect("Revive Dead Peds", EffectPedsReviveDead));
+            Effects.Add(new Effect("Scooter Brothers", EffectPedsScooterBros));
+            //Effects.Add(new Effect("Set All Peds Into Random Vehicles", EffectPedsShuffle)); fucking ghost cars man
+            Effects.Add(new Effect("Spawn An Angry Doctor Who Wants To Knife You", EffectPedsSpawnAngryDoctor));
 
-			//Effects.Add(new Effect("Give Armor", EffectPlayerArmor));
-			//Effects.Add(new Effect("Bankrupt", EffectPlayerBankrupt));
-			//Effects.Add(new Effect("Blind", EffectPlayerBlindStart, new Timer(28000), null, EffectPlayerBlindStop));
-			//Effects.Add(new Effect("It's Time For A Break", EffectPlayerBreakTime, new Timer(28000), EffectPlayerBreakTime, EffectPlayerBreakTimeStop));
-			//Effects.Add(new Effect("Exit Current Vehicle", EffectPlayerExitCurrentVehicle));
-			//Effects.Add(new Effect("Give All Weapons", EffectPlayerGiveAll));
-			//Effects.Add(new Effect("Give Grenades", EffectPlayerGiveGrenades));
-			//Effects.Add(new Effect("Give Molotov Cocktails", EffectPlayerGiveMolotovs));
-			//Effects.Add(new Effect("Give Rocket Launcher", EffectPlayerGiveRocket));
-			//Effects.Add(new Effect("Heal Player", EffectPlayerHeal));
-			//Effects.Add(new Effect("Ignite Player", EffectPlayerIgnite));
-			//Effects.Add(new Effect("Invincibility", EffectPlayerInvincible, new Timer(88000), EffectPlayerInvincible, EffectPlayerInvincibleStop));
-			//Effects.Add(new Effect("Launch Player Up", EffectPlayerLaunchUp));
-			//Effects.Add(new Effect("Millionaire", EffectPlayerMillionaire));
-			//Effects.Add(new Effect("Ragdoll", EffectPlayerRagdoll));
-			//Effects.Add(new Effect("Randomize Player Outfit", EffectPlayerRandomClothes));
-			//Effects.Add(new Effect("Remove All Weapons", EffectPlayerRemoveWeapons));
-			//Effects.Add(new Effect("Set Player Into Random Unoccupied Seat", EffectPlayerSetRandomSeat));
-			//Effects.Add(new Effect("Set Player Into Closest Vehicle", EffectPlayerSetVehicleClosest));
-			//Effects.Add(new Effect("Set Player Into Random Vehicle", EffectPlayerSetVehicleRandom));
-			//Effects.Add(new Effect("Suicide", EffectPlayerSuicide));
-			//Effects.Add(new Effect("Teleport To Alderney Prison", EffectPlayerTeleportAlderneyPrison));
-			//Effects.Add(new Effect("Teleport To GetALife Building", EffectPlayerTeleportGetALife));
-			//Effects.Add(new Effect("Teleport To The Heart Of Liberty City", EffectPlayerTeleportHeart));
-			//Effects.Add(new Effect("Teleport To Nearest Safehouse", EffectPlayerTeleportNearestSafehouse));
-			//Effects.Add(new Effect("Teleport To Swingset", EffectPlayerTeleportSwingset));
-			//Effects.Add(new Effect("Teleport To Waypoint", EffectPlayerTeleportWaypoint));
-			//Effects.Add(new Effect("+2 Wanted Stars", EffectPlayerWantedAddTwo));
-			//Effects.Add(new Effect("Clear Wanted Level", EffectPlayerWantedClear));
-			//Effects.Add(new Effect("Five Wanted Stars", EffectPlayerWantedFiveStars));
-			//Effects.Add(new Effect("Never Wanted", EffectPlayerWantedClear, new Timer(88000), EffectPlayerWantedClear, EffectPlayerWantedClear));
+            Effects.Add(new Effect("Give Armor", EffectPlayerArmor));
+            Effects.Add(new Effect("Bankrupt", EffectPlayerBankrupt));
+            Effects.Add(new Effect("Blind", EffectPlayerBlindStart, new Timer(28000), null, EffectPlayerBlindStop));
+            Effects.Add(new Effect("It's Time For A Break", EffectPlayerBreakTime, new Timer(28000), EffectPlayerBreakTime, EffectPlayerBreakTimeStop));
+            Effects.Add(new Effect("Exit Current Vehicle", EffectPlayerExitCurrentVehicle));
+            Effects.Add(new Effect("Give All Weapons", EffectPlayerGiveAll));
+            Effects.Add(new Effect("Give Grenades", EffectPlayerGiveGrenades));
+            Effects.Add(new Effect("Give Molotov Cocktails", EffectPlayerGiveMolotovs));
+            Effects.Add(new Effect("Give Rocket Launcher", EffectPlayerGiveRocket));
+            Effects.Add(new Effect("Heal Player", EffectPlayerHeal));
+            Effects.Add(new Effect("Ignite Player", EffectPlayerIgnite));
+            Effects.Add(new Effect("Invincibility", EffectPlayerInvincible, new Timer(88000), EffectPlayerInvincible, EffectPlayerInvincibleStop));
+            Effects.Add(new Effect("Launch Player Up", EffectPlayerLaunchUp));
+            Effects.Add(new Effect("Millionaire", EffectPlayerMillionaire));
+            Effects.Add(new Effect("Ragdoll", EffectPlayerRagdoll));
+            Effects.Add(new Effect("Randomize Player Outfit", EffectPlayerRandomClothes));
+            Effects.Add(new Effect("Remove All Weapons", EffectPlayerRemoveWeapons));
+            Effects.Add(new Effect("Set Player Into Random Unoccupied Seat", EffectPlayerSetRandomSeat));
+            Effects.Add(new Effect("Set Player Into Closest Vehicle", EffectPlayerSetVehicleClosest));
+            Effects.Add(new Effect("Set Player Into Random Vehicle", EffectPlayerSetVehicleRandom));
+            Effects.Add(new Effect("Suicide", EffectPlayerSuicide));
+            Effects.Add(new Effect("Teleport To Alderney Prison", EffectPlayerTeleportAlderneyPrison));
+            Effects.Add(new Effect("Teleport To GetALife Building", EffectPlayerTeleportGetALife));
+            Effects.Add(new Effect("Teleport To The Heart Of Liberty City", EffectPlayerTeleportHeart));
+            Effects.Add(new Effect("Teleport To Nearest Safehouse", EffectPlayerTeleportNearestSafehouse));
+            Effects.Add(new Effect("Teleport To Swingset", EffectPlayerTeleportSwingset));
+            Effects.Add(new Effect("Teleport To Waypoint", EffectPlayerTeleportWaypoint));
+            Effects.Add(new Effect("+2 Wanted Stars", EffectPlayerWantedAddTwo));
+            Effects.Add(new Effect("Clear Wanted Level", EffectPlayerWantedClear));
+            Effects.Add(new Effect("Five Wanted Stars", EffectPlayerWantedFiveStars));
+            Effects.Add(new Effect("Never Wanted", EffectPlayerWantedClear, new Timer(88000), EffectPlayerWantedClear, EffectPlayerWantedClear));
 
-			//Effects.Add(new Effect("Advance One Day", EffectTimeAdvanceOneDay));
-			//Effects.Add(new Effect("x0.2 Gamespeed", EffectTimeGameSpeedFifth, new Timer(7000), null, EffectTimeGameSpeedNormal, new[] { "x0.5 Gamespeed", "Lag" }));
-			//Effects.Add(new Effect("x0.5 Gamespeed", EffectTimeGameSpeedHalf, new Timer(14000), null, EffectTimeGameSpeedNormal, new[] { "x0.2 Gamespeed", "Lag" }));
-			//Effects.Add(new Effect("Lag", EffectTimeLagStart, new Timer(28000), EffectTimeLagLoop, EffectTimeGameSpeedNormal, new[] { "x0.2 Gamespeed", "x0.5 Gamespeed" }));
-			//Effects.Add(new Effect("Set Time To Evening", EffectTimeSetEvening));
-			//Effects.Add(new Effect("Set Time To Midnight", EffectTimeSetMidnight));
-			//Effects.Add(new Effect("Set Time To Morning", EffectTimeSetMorning));
-			//Effects.Add(new Effect("Set Time To Noon", EffectTimeSetNoon));
-			//Effects.Add(new Effect("Timelapse", EffectTimeLapse, new Timer(88000), EffectTimeLapse, EffectTimeLapse));
+            Effects.Add(new Effect("Advance One Day", EffectTimeAdvanceOneDay));
+            Effects.Add(new Effect("x0.2 Gamespeed", EffectTimeGameSpeedFifth, new Timer(7000), null, EffectTimeGameSpeedNormal, new[] { "x0.5 Gamespeed", "Lag" }));
+            Effects.Add(new Effect("x0.5 Gamespeed", EffectTimeGameSpeedHalf, new Timer(14000), null, EffectTimeGameSpeedNormal, new[] { "x0.2 Gamespeed", "Lag" }));
+            Effects.Add(new Effect("Lag", EffectTimeLagStart, new Timer(28000), EffectTimeLagLoop, EffectTimeGameSpeedNormal, new[] { "x0.2 Gamespeed", "x0.5 Gamespeed" }));
+            Effects.Add(new Effect("Set Time To Evening", EffectTimeSetEvening));
+            Effects.Add(new Effect("Set Time To Midnight", EffectTimeSetMidnight));
+            Effects.Add(new Effect("Set Time To Morning", EffectTimeSetMorning));
+            Effects.Add(new Effect("Set Time To Noon", EffectTimeSetNoon));
+            Effects.Add(new Effect("Timelapse", EffectTimeLapse, new Timer(88000), EffectTimeLapse, EffectTimeLapse));
 
-			//Effects.Add(new Effect("Break All Doors of Current Vehicle", EffectVehicleBreakDoorsPlayer));
-			//Effects.Add(new Effect("Clean Current Vehicle", EffectVehicleCleanPlayer));
-			//Effects.Add(new Effect("Explode Nearby Vehicles", EffectVehicleExplodeNearby));
-			//Effects.Add(new Effect("Explode Current Vehicle", EffectVehicleExplodePlayer));
-			//Effects.Add(new Effect("Flip Current Vehicle", EffectVehicleFlipPlayer));
-			//Effects.Add(new Effect("Full Acceleration", EffectVehicleFullAccel, new Timer(28000), EffectVehicleFullAccel, EffectVehicleFullAccel));
-			//Effects.Add(new Effect("Invisible Vehicles", EffectVehicleInvisibleLoop, new Timer(88000), EffectVehicleInvisibleLoop, EffectVehicleInvisibleStop, new[] { "Black Traffic", "Blue Traffic", "Red Traffic", "White Traffic", "Green Traffic" }));
-			//Effects.Add(new Effect("Jumpy Vehicles", EffectVehicleJumpy, new Timer(28000), EffectVehicleJumpy, EffectVehicleJumpy));
-			//Effects.Add(new Effect("Kill Engine Of Current Vehicle", EffectVehicleKillEnginePlayer));
-			//Effects.Add(new Effect("Launch All Vehicles Up", EffectVehicleLaunchAllUp));
-			//Effects.Add(new Effect("Lock All Vehicles", EffectVehicleLockAll));
-			//Effects.Add(new Effect("Lock Vehicle Player Is In", EffectVehicleLockPlayer));
-			//Effects.Add(new Effect("Mass Breakdown", EffectVehicleMassBreakdown));
-			//Effects.Add(new Effect("No Traffic", EffectVehicleTrafficNone, new Timer(88000), EffectVehicleTrafficNone, null));
-			//Effects.Add(new Effect("Pop Tires Of Current Vehicle", EffectVehiclePopTiresPlayer));
-			//Effects.Add(new Effect("Remove Current Vehicle", EffectVehicleRemovePlayer));
-			//Effects.Add(new Effect("Repair Current Vehicle", EffectVehicleRepairPlayer));
-			//Effects.Add(new Effect("Spammy Vehicle Doors", EffectVehicleSpamDoors, new Timer(88000), EffectVehicleSpamDoors, null));
-			//Effects.Add(new Effect("Spawn Bus", EffectVehicleSpawnBus));
-			//Effects.Add(new Effect("Spawn Faggio", EffectVehicleSpawnFaggio));
-			//Effects.Add(new Effect("Spawn Infernus", EffectVehicleSpawnInfernus));
-			//Effects.Add(new Effect("Spawn Maverick", EffectVehicleSpawnMaverick));
-			//Effects.Add(new Effect("Spawn Police Cruiser", EffectVehicleSpawnPolice));
-			//Effects.Add(new Effect("Spawn Random Vehicle", EffectVehicleSpawnRandom));
-			//Effects.Add(new Effect("Need A Cab?", EffectVehicleSpawnTaxis));
-			//Effects.Add(new Effect("Spawn Tug", EffectVehicleSpawnTug));
-			//Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Invisible Vehicles", "Blue Traffic", "Red Traffic", "White Traffic", "Green Traffic" }));
-			//Effects.Add(new Effect("Blue Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Invisible Vehicles", "Black Traffic", "Red Traffic", "White Traffic", "Green Traffic" }));
-			//Effects.Add(new Effect("Green Traffic", EffectVehicleTrafficGreen, new Timer(88000), EffectVehicleTrafficGreen, EffectVehicleTrafficGreen, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "Red Traffic", "White Traffic" }));
-			//Effects.Add(new Effect("Red Traffic", EffectVehicleTrafficRed, new Timer(88000), EffectVehicleTrafficRed, EffectVehicleTrafficRed, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "White Traffic", "Green Traffic" }));
-			//Effects.Add(new Effect("White Traffic", EffectVehicleTrafficWhite, new Timer(88000), EffectVehicleTrafficWhite, EffectVehicleTrafficWhite, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "Red Traffic", "Green Traffic" }));
+            Effects.Add(new Effect("Break All Doors of Current Vehicle", EffectVehicleBreakDoorsPlayer));
+            Effects.Add(new Effect("Clean Current Vehicle", EffectVehicleCleanPlayer));
+            Effects.Add(new Effect("Explode Nearby Vehicles", EffectVehicleExplodeNearby));
+            Effects.Add(new Effect("Explode Current Vehicle", EffectVehicleExplodePlayer));
+            Effects.Add(new Effect("Flip Current Vehicle", EffectVehicleFlipPlayer));
+            Effects.Add(new Effect("Full Acceleration", EffectVehicleFullAccel, new Timer(28000), EffectVehicleFullAccel, EffectVehicleFullAccel));
+            Effects.Add(new Effect("Invisible Vehicles", EffectVehicleInvisibleLoop, new Timer(88000), EffectVehicleInvisibleLoop, EffectVehicleInvisibleStop, new[] { "Black Traffic", "Blue Traffic", "Red Traffic", "White Traffic", "Green Traffic" }));
+            Effects.Add(new Effect("Jumpy Vehicles", EffectVehicleJumpy, new Timer(28000), EffectVehicleJumpy, EffectVehicleJumpy));
+            Effects.Add(new Effect("Kill Engine Of Current Vehicle", EffectVehicleKillEnginePlayer));
+            Effects.Add(new Effect("Launch All Vehicles Up", EffectVehicleLaunchAllUp));
+            Effects.Add(new Effect("Lock All Vehicles", EffectVehicleLockAll));
+            Effects.Add(new Effect("Lock Vehicle Player Is In", EffectVehicleLockPlayer));
+            Effects.Add(new Effect("Mass Breakdown", EffectVehicleMassBreakdown));
+            Effects.Add(new Effect("No Traffic", EffectVehicleTrafficNone, new Timer(88000), EffectVehicleTrafficNone, null));
+            Effects.Add(new Effect("Pop Tires Of Current Vehicle", EffectVehiclePopTiresPlayer));
+            Effects.Add(new Effect("Remove Current Vehicle", EffectVehicleRemovePlayer));
+            Effects.Add(new Effect("Repair Current Vehicle", EffectVehicleRepairPlayer));
+            Effects.Add(new Effect("Spammy Vehicle Doors", EffectVehicleSpamDoors, new Timer(88000), EffectVehicleSpamDoors, null));
+            Effects.Add(new Effect("Spawn Bus", EffectVehicleSpawnBus));
+            Effects.Add(new Effect("Spawn Faggio", EffectVehicleSpawnFaggio));
+            Effects.Add(new Effect("Spawn Infernus", EffectVehicleSpawnInfernus));
+            Effects.Add(new Effect("Spawn Maverick", EffectVehicleSpawnMaverick));
+            Effects.Add(new Effect("Spawn Police Cruiser", EffectVehicleSpawnPolice));
+            Effects.Add(new Effect("Spawn Random Vehicle", EffectVehicleSpawnRandom));
+            Effects.Add(new Effect("Need A Cab?", EffectVehicleSpawnTaxis));
+            Effects.Add(new Effect("Spawn Tug", EffectVehicleSpawnTug));
+            Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Invisible Vehicles", "Blue Traffic", "Red Traffic", "White Traffic", "Green Traffic" }));
+            Effects.Add(new Effect("Blue Traffic", EffectVehicleTrafficBlue, new Timer(88000), EffectVehicleTrafficBlue, EffectVehicleTrafficBlue, new[] { "Invisible Vehicles", "Black Traffic", "Red Traffic", "White Traffic", "Green Traffic" }));
+            Effects.Add(new Effect("Green Traffic", EffectVehicleTrafficGreen, new Timer(88000), EffectVehicleTrafficGreen, EffectVehicleTrafficGreen, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "Red Traffic", "White Traffic" }));
+            Effects.Add(new Effect("Red Traffic", EffectVehicleTrafficRed, new Timer(88000), EffectVehicleTrafficRed, EffectVehicleTrafficRed, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "White Traffic", "Green Traffic" }));
+            Effects.Add(new Effect("White Traffic", EffectVehicleTrafficWhite, new Timer(88000), EffectVehicleTrafficWhite, EffectVehicleTrafficWhite, new[] { "Invisible Vehicles", "Black Traffic", "Blue Traffic", "Red Traffic", "Green Traffic" }));
 
-			//Effects.Add(new Effect("Cloudy Weather", EffectWeatherCloudy));
-			//Effects.Add(new Effect("Foggy Weather", EffectWeatherFoggy));
-			//Effects.Add(new Effect("Sunny Weather", EffectWeatherSunny));
-			//Effects.Add(new Effect("Stormy Weather", EffectWeatherThunder));
-			#endregion
+            Effects.Add(new Effect("Cloudy Weather", EffectWeatherCloudy));
+            Effects.Add(new Effect("Foggy Weather", EffectWeatherFoggy));
+            Effects.Add(new Effect("Sunny Weather", EffectWeatherSunny));
+            Effects.Add(new Effect("Stormy Weather", EffectWeatherThunder));
+            #endregion
 
-			// Settings Time
-			var dE = Settings.GetValueString("disabledEffects").Split(',');
+            // Settings Time
+            var dE = Settings.GetValueString("disabledEffects").Split(',');
 
 			if (dE[0] != "") 
 				foreach (string e in dE) {
@@ -269,15 +270,21 @@ namespace ChaosIV {
 				Game.Console.Print($"Starting Twitch polls with interval {_twitchPollTime}");
 
 				EffectTimer = new Timer();
-				EffectTimer.Interval = _twitchPollTime * 1000 - 1000;
-				//EffectTimer.Tick += new EventHandler((object o, EventArgs e) => { });
+				EffectTimer.Interval = _twitchPollTime * 1000;
+				//EffectTimer.Tick += new EventHandler((object o, EventArgs e) => {
+				//	_twitchPoll.CreatePollAsync(GetRandomEffectNames(), _twitchPollTime);
+				//	EffectTimer.Start();
+				//});
+				//EffectTimer.Start();
 
+				var port = Settings.GetValueInteger("ffzPort", 8088);
 				var ffzPassphrase = Settings.GetValueString("ffzPassphrase");
 
-				_twitchPoll = new TwitchPoll(ffzPassphrase);
-				_twitchPoll.OnCreated += PollOnCreate;
-				_twitchPoll.OnEnded += PollOnEnd;
-				_twitchPoll.OnAuth += PollClientConnected;
+				_twitchPoll = new TwitchPoll(port, ffzPassphrase);
+				_twitchPoll.OnConnect += PollOnConnect;
+				_twitchPoll.OnCreate += PollOnCreate;
+				_twitchPoll.OnEnd += PollOnEnd;
+				_twitchPoll.OnAuth += PollClientAuth;
 			}
 			else {
 				Game.Console.Print($"Starting random effects with interval {EffectInterval}");
@@ -287,8 +294,8 @@ namespace ChaosIV {
 				EffectTimer.Start();
 			}
 		}
-		
-		public static void ReportException(Exception ex, [CallerMemberName]string location = "(Caller name not set)")
+
+        public static void ReportException(Exception ex, [CallerMemberName]string location = "(Caller name not set)")
 		{
 			Game.Console.Print($"\n{location}:\n  Exception {ex.GetType().Name}: {ex.Message}");
 			if (ex.InnerException != null) {
@@ -306,8 +313,8 @@ namespace ChaosIV {
 			if (isHUDless) Function.Call("HIDE_HUD_AND_RADAR_THIS_FRAME");
 
 			// Draw Timer Bar
-			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 0.02f), Color.FromArgb(10, 10, 10, 80));
-			e.Graphics.DrawText("ChaosIV", new RectangleF(0f, 0f, 1f, 0.02f), TextAlignment.Center, Color.FromArgb(50, 50, 50), smol);
+			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 0.02f), Color.FromArgb(70, 10, 10, 10));
+			e.Graphics.DrawText("ChaosIV", new RectangleF(0f, 0f, 1f, 0.02f), TextAlignment.Center, Color.FromArgb(128, 128, 128), smol);
 			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, (float)((double)EffectTimer.ElapsedTime / EffectTimer.Interval), 0.02f), barcolor);
 
 			// Draw Recent Effects
@@ -361,7 +368,7 @@ namespace ChaosIV {
 			Effect next = Effects[R.Next(Effects.Count)];
 
 			if (next.Timer != null && RecentEffects.Contains(next)) {
-				//RecentEffects.Find(x => x.Name == next.Name).Start();
+				RecentEffects.Find(x => x.Name == next.Name).Start();
 			} else {
 				if (next.Conflicts != null) {
 					foreach(string c in next.Conflicts) {
@@ -374,9 +381,9 @@ namespace ChaosIV {
 					}
 				}
 
-				//next.Start();
-				//if (next.Timer != null) next.Timer.Start();
-				//if (next.Loop != null) Loops.Add(next.Loop);
+				next.Start();
+				if (next.Timer != null) next.Timer.Start();
+				if (next.Loop != null) Loops.Add(next.Loop);
 
 				if (RecentEffects.Count != 3) {
 					RecentEffects.Add(next);
@@ -399,18 +406,20 @@ namespace ChaosIV {
 			EffectTimer.Start();
 		}
 
-		private void PollClientConnected() {
-			//Task.Run(() => { _twitchPoll.CreatePollAsync(GetRandomEffectNames(), _twitchPollTime); });
-			_twitchPoll.CreatePollAsync(GetRandomEffectNames(), _twitchPollTime);
+		private void PollOnConnect() {
+            _twitchPoll.SendAuth();
 		}
 
-		private void PollOnCreate() {
+		private void PollClientAuth() {
+            _twitchPoll.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
+        }
+
+        private void PollOnCreate() {
+			EffectTimer.Stop();
 			EffectTimer.Start();
 		}
 
 		private void PollOnEnd(PollResult pollResult) {
-			EffectTimer.Stop();
-
 			// TODO: case with equal votes
 			ChoiceResult maxVotes = pollResult.choices[0];
 			for (int i = 1; i < pollResult.choices.Count; i++) {
@@ -418,22 +427,17 @@ namespace ChaosIV {
 					maxVotes = pollResult.choices[i];
 				}
 			}
-			
+
 			Effect next = Effects.Find(x => x.Name == maxVotes.text);
-			Game.Console.Print($"Effect: {next.Name}");
-			
+
 			if (next.Timer != null && RecentEffects.Contains(next)) {
-				// RecentEffects.Find(x => x.Name == next.Name).Start();
+				RecentEffects.Find(x => x.Name == next.Name).Start();
 			}
-			else
-			{
-				if (next.Conflicts != null)
-				{
-					foreach (string c in next.Conflicts)
-					{
+			else {
+				if (next.Conflicts != null) {
+					foreach (string c in next.Conflicts) {
 						Effect conflictEffect = RecentEffects.Find(x => x.Name == c);
-						if (conflictEffect.Name != null)
-						{
+						if (conflictEffect.Name != null) {
 							Loops.Remove(conflictEffect.Loop);
 							conflictEffect.Stop?.Invoke();
 							conflictEffect.Timer?.Stop();
@@ -442,12 +446,9 @@ namespace ChaosIV {
 					}
 				}
 
-				if (RecentEffects.Count == 3)
-				{
-					foreach (Effect f in RecentEffects)
-					{
-						if (f.Timer == null || f.Timer.ElapsedTime > f.Timer.Interval)
-						{
+				if (RecentEffects.Count == 3) {
+					foreach (Effect f in RecentEffects) {
+						if (f.Timer == null || f.Timer.ElapsedTime > f.Timer.Interval) {
 							Loops.Remove(f.Loop);
 							f.Stop?.Invoke();
 							f.Timer?.Stop();
@@ -456,8 +457,7 @@ namespace ChaosIV {
 						}
 					}
 
-					if (RecentEffects.Count == 3)
-					{
+					if (RecentEffects.Count == 3) {
 						Loops.Remove(RecentEffects[0].Loop);
 						RecentEffects[0].Stop?.Invoke();
 						RecentEffects[0].Timer?.Stop();
@@ -466,15 +466,14 @@ namespace ChaosIV {
 				}
 				RecentEffects.Add(next);
 
-				//next.Start();
-				//            next.Timer?.Start();
-				//            if (next.Loop != null) {
-				//	Loops.Add(next.Loop);
-				//}
+				next.Start();
+				next.Timer?.Start();
+				if (next.Loop != null) {
+					Loops.Add(next.Loop);
+				}
 			}
 
-			//Task.Run(() => { _twitchPoll.CreatePollAsync(GetRandomEffectNames(), _twitchPollTime); });
-			_twitchPoll.CreatePollAsync(GetRandomEffectNames(), _twitchPollTime);
+			_twitchPoll.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
 		}
 
 		protected string[] GetRandomEffectNames() {

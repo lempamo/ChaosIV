@@ -1,0 +1,9 @@
+; enter effect names separated by commas in here to disable them
+disabledEffects=Set All Peds Into Random Vehicles
+effectInterval=30
+; use Twitch polls. Otherwise random effects timer.
+ffzTwitchPolls=1
+; more than 15 and less than 180
+ffzPollTime=30
+ffzPassphrase=123test
+ffzPort=8081
