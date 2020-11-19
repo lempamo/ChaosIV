@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+
+using ChaosIV.WS.Messages;
+
 using GTA;
 using GTA.Native;
-using ChaosIV.WS;
-using ChaosIV.WS.Messages;
-using System.Threading.Tasks;
 
-namespace ChaosIV {
+namespace ChaosIV
+{
 	public class ChaosMain : Script {
 		static Random R = new Random();
 
@@ -105,15 +105,8 @@ namespace ChaosIV {
 		bool isHUDless = false;
 		int lagTicks = 0;
 
-		private TwitchPoll _twitchPoll;
+		private PollProxy _twitchPollProxy;
 		private int _twitchPollTime;
-		// bool twitchVoting = false;
-
-		// NamedPipeServerStream twitchPipe = new NamedPipeServerStream("twitch-chaosiv-pipe", PipeDirection.InOut, 1,
-		// 	PipeTransmissionMode.Message, PipeOptions.Asynchronous);
-		//
-		// byte[] twitchBuffer;
-		// List<Effect> twitchEffectTrio = new List<Effect>(3);
 
 		public ChaosMain() {
 			Interval = 16;
@@ -256,11 +249,12 @@ namespace ChaosIV {
             // Settings Time
             var dE = Settings.GetValueString("disabledEffects").Split(',');
 
-			if (dE[0] != "") 
+			if (dE[0] != "") { 
 				foreach (string e in dE) {
 					Effects.Remove(Effects.Find(x => x.Name == e));
 					Game.Console.Print("Disabled effect \"" + e + "\".");
 				}
+			}
 
 			EffectInterval = Settings.GetValueInteger("effectInterval", 30) * 1000;
 
@@ -271,20 +265,16 @@ namespace ChaosIV {
 
 				EffectTimer = new Timer();
 				EffectTimer.Interval = _twitchPollTime * 1000;
-				//EffectTimer.Tick += new EventHandler((object o, EventArgs e) => {
-				//	_twitchPoll.CreatePollAsync(GetRandomEffectNames(), _twitchPollTime);
-				//	EffectTimer.Start();
-				//});
-				//EffectTimer.Start();
 
 				var port = Settings.GetValueInteger("ffzPort", 8088);
 				var ffzPassphrase = Settings.GetValueString("ffzPassphrase");
 
-				_twitchPoll = new TwitchPoll(port, ffzPassphrase);
-				_twitchPoll.OnConnect += PollOnConnect;
-				_twitchPoll.OnCreate += PollOnCreate;
-				_twitchPoll.OnEnd += PollOnEnd;
-				_twitchPoll.OnAuth += PollClientAuth;
+				var scriptPath = Path.GetDirectoryName(Filename);
+				_twitchPollProxy = new PollProxy(port, ffzPassphrase, scriptPath);
+				_twitchPollProxy.OnConnect += PollOnConnect;
+				_twitchPollProxy.OnCreate += PollOnCreate;
+				_twitchPollProxy.OnEnd += PollOnEnd;
+				_twitchPollProxy.OnAuth += PollClientAuth;
 			}
 			else {
 				Game.Console.Print($"Starting random effects with interval {EffectInterval}");
@@ -407,11 +397,11 @@ namespace ChaosIV {
 		}
 
 		private void PollOnConnect() {
-            _twitchPoll.SendAuth();
+			_twitchPollProxy.SendAuth();
 		}
 
 		private void PollClientAuth() {
-            _twitchPoll.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
+			_twitchPollProxy.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
         }
 
         private void PollOnCreate() {
@@ -473,7 +463,12 @@ namespace ChaosIV {
 				}
 			}
 
-			_twitchPoll.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
+			_twitchPollProxy.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
+		}
+
+		public new void Abort() {
+			Game.Console.Print("Aborting WS server!");
+			_twitchPollProxy.Stop();
 		}
 
 		protected string[] GetRandomEffectNames() {
