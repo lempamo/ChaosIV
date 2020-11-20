@@ -3,7 +3,7 @@ namespace ChaosIV.WS.Messages
 	public class Poll : IMessage
 	{
 		public string type { get; set; } = "create";
-		public string title { get; set; } = "[ChaosIV] Chose effect";
+		public string title { get; set; } = "[ChaosIV] Choose effect";
 		public string[] choices { get; set; }
 		public int duration { get; set; } = 60;
 		public bool subscriberMultiplier { get; set; } = false;
