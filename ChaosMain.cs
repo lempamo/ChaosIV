@@ -410,15 +410,14 @@ namespace ChaosIV
 		}
 
 		private void PollOnEnd(PollResult pollResult) {
-			// TODO: case with equal votes
-			ChoiceResult maxVotes = pollResult.choices[0];
-			for (int i = 1; i < pollResult.choices.Count; i++) {
-				if (maxVotes.votes < pollResult.choices[i].votes) {
-					maxVotes = pollResult.choices[i];
-				}
-			}
+			int maxVote = pollResult.choices.Max((ChoiceResult i) => { return i.votes; });
+			var maxChoices = pollResult.choices.Where((ChoiceResult i) => { return i.votes == maxVote; });
+			ChoiceResult winner = (maxChoices.Count() > 0)
+				? maxChoices.ToArray()[ R.Next(maxChoices.Count()) ]
+				: maxChoices.First()
+			;
 
-			Effect next = Effects.Find(x => x.Name == maxVotes.text);
+			Effect next = Effects.Find(x => x.Name == winner.text);
 
 			if (next.Timer != null && RecentEffects.Contains(next)) {
 				RecentEffects.Find(x => x.Name == next.Name).Start();
