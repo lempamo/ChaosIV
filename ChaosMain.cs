@@ -410,8 +410,8 @@ namespace ChaosIV
 		}
 
 		private void PollOnEnd(PollResult pollResult) {
-			int maxVote = pollResult.choices.Max((ChoiceResult i) => { return i.votes; });
-			var maxChoices = pollResult.choices.Where((ChoiceResult i) => { return i.votes == maxVote; });
+			int maxVote = pollResult.poll.choices.Max((ChoiceResult i) => { return i.votes; });
+			var maxChoices = pollResult.poll.choices.Where((ChoiceResult i) => { return i.votes == maxVote; });
 			ChoiceResult winner = (maxChoices.Count() > 0)
 				? maxChoices.ToArray()[ R.Next(maxChoices.Count()) ]
 				: maxChoices.First()

@@ -84,9 +84,11 @@ namespace ChaosIV
 						OnCreate?.Invoke();
 						break;
 
-					case "ended":
-						_waitPollResult = false;
-						OnEnd?.Invoke(pollResult);
+					case "update":
+						if (pollResult.poll.ended) {
+							_waitPollResult = false;
+							OnEnd?.Invoke(pollResult);
+						}
 						break;
 
 					case "error":
