@@ -23,7 +23,7 @@ namespace ChaosIV
 				_pipe = new NamedPipeServerStream("ChaosIVTwitchPollProxyPipe", PipeDirection.InOut, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous);
 
 				var asyncResult = _pipe.BeginWaitForConnection((IAsyncResult result) => {
-					GTA.Game.Console.Print("PupeConnected.");
+					GTA.Game.Console.Print("Pipe connected.");
 
 					_pipe.EndWaitForConnection(result);
 

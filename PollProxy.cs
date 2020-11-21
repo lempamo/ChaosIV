@@ -19,6 +19,8 @@ namespace ChaosIV
 		private bool _waitPollResult = false;
 
 		public Action OnConnect;
+		public Action OnDisconnect;
+		public Action<Error> OnError;
 		public Action OnCreate;
 		public Action<PollResult> OnEnd;
 		public Action OnAuth;
@@ -26,13 +28,15 @@ namespace ChaosIV
 		public PollProxy(int port, string ffzPassphrase, string scriptPath) {
 			_ffzPassphrase = ffzPassphrase;
 
+			OnDisconnect += OnClientDisconnect;
+
 			_pipeServer = new PipeServer();
 			_pipeServer.OnMessage += OnMessage;
 
 			_proxyProcess = new Process() {
 				EnableRaisingEvents = false,
 				StartInfo = {
-					FileName = scriptPath + @"\for Developers\ChaosIVTwitchPollProxy\bin\Release\netcoreapp3.1\ChaosIVTwitchPollProxy.exe",
+					FileName = scriptPath + @"\for Developers\ChaosIVTwitchPollProxy\bin\Release\net45\ChaosIVTwitchPollProxy.exe",
 					Arguments = $"{port}",
 					RedirectStandardOutput = false,
 					RedirectStandardInput = false,
@@ -59,7 +63,7 @@ namespace ChaosIV
 			}
 			else if (message == "disconnected") {
 				Game.Console.Print("FFZ disconnected");
-				OnClientDisconnect();
+				OnDisconnect?.Invoke();
 				return;
 			}
 
@@ -93,6 +97,8 @@ namespace ChaosIV
 
 					case "error":
 						Game.Console.Print($"FFZ error: {message}");
+						var error = JsonConvert.DeserializeObject<Error>(message);
+						OnError?.Invoke(error);
 						break;
 				}
 			}
@@ -131,7 +137,7 @@ namespace ChaosIV
 				return;
 			}
 			if (!_isAuthenticated) {
-				SendAuth();
+				//SendAuth();
 				return;
 			}
 

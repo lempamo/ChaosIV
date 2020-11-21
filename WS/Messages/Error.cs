@@ -4,5 +4,6 @@ namespace ChaosIV.WS.Messages
 	{
 		public string type { get; set; } = "error";
 		public string id { get; set; }
+		public string err { get; set; }
 	}
 }

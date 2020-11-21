@@ -106,6 +106,8 @@ namespace ChaosIV
 		int lagTicks = 0;
 
 		private PollProxy _twitchPollProxy;
+		private Timer _twitchPollCooldown;
+		private bool _isTwitchPollCd = false;
 		private int _twitchPollTime;
 
 		public ChaosMain() {
@@ -260,11 +262,17 @@ namespace ChaosIV
 
 			var ffzTwitchPollsEnabled = Settings.GetValueBool("ffzTwitchPolls", false);
 			if (ffzTwitchPollsEnabled) {
-				_twitchPollTime = Settings.GetValueInteger("ffzPollTime", 40);
+				_twitchPollTime = Settings.GetValueInteger("ffzPollTime", 60);
+				var pollCooldown = Settings.GetValueInteger("ffzPollCooldown", 60);
+
 				Game.Console.Print($"Starting Twitch polls with interval {_twitchPollTime}");
 
 				EffectTimer = new Timer();
 				EffectTimer.Interval = _twitchPollTime * 1000;
+
+				_twitchPollCooldown = new Timer();
+				_twitchPollCooldown.Interval = pollCooldown * 1000;
+				_twitchPollCooldown.Tick += new EventHandler(OnAfterPollCooldown);
 
 				var port = Settings.GetValueInteger("ffzPort", 8088);
 				var ffzPassphrase = Settings.GetValueString("ffzPassphrase");
@@ -272,6 +280,8 @@ namespace ChaosIV
 				var scriptPath = Path.GetDirectoryName(Filename);
 				_twitchPollProxy = new PollProxy(port, ffzPassphrase, scriptPath);
 				_twitchPollProxy.OnConnect += PollOnConnect;
+				_twitchPollProxy.OnDisconnect += PollOnDisconnect;
+				_twitchPollProxy.OnError += PollOnError;
 				_twitchPollProxy.OnCreate += PollOnCreate;
 				_twitchPollProxy.OnEnd += PollOnEnd;
 				_twitchPollProxy.OnAuth += PollClientAuth;
@@ -279,7 +289,7 @@ namespace ChaosIV
 			else {
 				Game.Console.Print($"Starting random effects with interval {EffectInterval}");
 				EffectTimer = new Timer();
-				EffectTimer.Tick += new EventHandler(DeployEffect);
+				EffectTimer.Tick += new EventHandler(DeployRandomEffect);
 				EffectTimer.Interval = EffectInterval;
 				EffectTimer.Start();
 			}
@@ -302,10 +312,16 @@ namespace ChaosIV
 			// No HUD
 			if (isHUDless) Function.Call("HIDE_HUD_AND_RADAR_THIS_FRAME");
 
+
 			// Draw Timer Bar
 			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 0.02f), Color.FromArgb(70, 10, 10, 10));
 			e.Graphics.DrawText("ChaosIV", new RectangleF(0f, 0f, 1f, 0.02f), TextAlignment.Center, Color.FromArgb(128, 128, 128), smol);
-			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, (float)((double)EffectTimer.ElapsedTime / EffectTimer.Interval), 0.02f), barcolor);
+			if (_isTwitchPollCd) {
+				e.Graphics.DrawRectangle(new RectangleF(0f, 0f, (float)(1 - (double)_twitchPollCooldown.ElapsedTime / _twitchPollCooldown.Interval), 0.02f), Color.FromArgb(128, 255, 255, 0));
+			}
+			else {
+				e.Graphics.DrawRectangle(new RectangleF(0f, 0f, (float)((double)EffectTimer.ElapsedTime / EffectTimer.Interval), 0.02f), barcolor);
+			}
 
 			// Draw Recent Effects
 			if (RecentEffects.Count >= 1) {
@@ -354,7 +370,7 @@ namespace ChaosIV
 			}
 		}
 
-		public void DeployEffect(object s, EventArgs e) {
+		public void DeployRandomEffect(object s, EventArgs e) {
 			Effect next = Effects[R.Next(Effects.Count)];
 
 			if (next.Timer != null && RecentEffects.Contains(next)) {
@@ -400,13 +416,39 @@ namespace ChaosIV
 			_twitchPollProxy.SendAuth();
 		}
 
+		private void PollOnDisconnect() {
+			EffectTimer.Stop();
+			_twitchPollCooldown.Stop();
+			Wait(2000);
+		}
+
+		private void PollOnError(Error error) {
+			// Somtetimes this error occurs. Waiting poll cooldown and trying again.
+			if (error.id == "cannot_poll" && error.err == "Unable to create poll.") {
+				_twitchPollCooldown.Start();
+				_isTwitchPollCd = true;
+			}
+		}
+
 		private void PollClientAuth() {
-			_twitchPollProxy.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
-        }
+			_twitchPollCooldown.Start();
+			_isTwitchPollCd = true;
+		}
 
         private void PollOnCreate() {
-			EffectTimer.Stop();
+			Game.Console.Print("Poll created YEP");
 			EffectTimer.Start();
+		}
+
+		public void OnAfterPollCooldown(object s, EventArgs e) {
+			_twitchPollCooldown.Stop();
+			_twitchPollProxy.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
+
+			_isTwitchPollCd = false;
+
+			// deploy random effect on new poll and start effect cooldown
+			DeployRandomEffect(null, null);
+			EffectTimer.Stop();
 		}
 
 		private void PollOnEnd(PollResult pollResult) {
@@ -462,7 +504,9 @@ namespace ChaosIV
 				}
 			}
 
-			_twitchPollProxy.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
+			_twitchPollCooldown.Start();
+			_isTwitchPollCd = true;
+			EffectTimer.Stop();
 		}
 
 		public new void Abort() {
