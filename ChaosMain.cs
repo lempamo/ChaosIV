@@ -515,7 +515,13 @@ namespace ChaosIV
 		}
 
 		protected string[] GetRandomEffectNames() {
-			return new string[] { Effects[R.Next(Effects.Count)].Name, Effects[R.Next(Effects.Count)].Name, Effects[R.Next(Effects.Count)].Name, };
+			var result = new string[R.Next(2, 6)];
+
+			for (var i = 0; i < result.Count(); i++) {
+				result[i] = Effects[R.Next(Effects.Count)].Name;
+			}
+
+			return result;
 		}
 
 		// !!! EFFECT METHODS BEGIN BELOW !!! //
