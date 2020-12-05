@@ -109,6 +109,7 @@ namespace ChaosIV
 		private Timer _twitchPollCooldown;
 		private bool _isTwitchPollCd = false;
 		private int _twitchPollTime;
+		private bool _twitchApplyRandomEffectOnCooldown;
 
 		public ChaosMain() {
 			Interval = 16;
@@ -264,6 +265,7 @@ namespace ChaosIV
 			if (ffzTwitchPollsEnabled) {
 				_twitchPollTime = Settings.GetValueInteger("ffzPollTime", 60);
 				var pollCooldown = Settings.GetValueInteger("ffzPollCooldown", 60);
+				_twitchApplyRandomEffectOnCooldown = Settings.GetValueBool("ffzApplyRandomEffectOnCooldown", true);
 
 				Game.Console.Print($"Starting Twitch polls with interval {_twitchPollTime}");
 
@@ -447,7 +449,9 @@ namespace ChaosIV
 			_isTwitchPollCd = false;
 
 			// deploy random effect on new poll and start effect cooldown
-			DeployRandomEffect(null, null);
+			if (_twitchApplyRandomEffectOnCooldown) {
+				DeployRandomEffect(null, null);
+			}
 			EffectTimer.Stop();
 		}
 
