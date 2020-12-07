@@ -28,14 +28,14 @@ For that purpose used additional cooldown round. So it's not recommended to use 
 Please note that you must be a Partner/Affiliate to use Twitch polls. 
 
 1. Start and load the game.
-2. Open ingame console. It shows loaded scripts:
+2. Open ingame console (`~`). It shows loaded scripts:
 ![Console screenshot](/images/gtaiv-scripthook-console.png)
 3. Open Twitch dashboard.
 4. Fill out FFZ poll-shim settings: 
 ![Poll-shim settings](/images/ffz-poll-shim-settings.png)
 5. Return to the game and wait for FFZ connection.
 First cycle after connection and authentication is cooldown round.
-6. Play
+6. Play. Use `reloadscripts` console command to fix disconnects loop.
 
 ## How to Contribute
 Make sure you have your `ASI loader` and `.NET ScriptHook` installed, and then clone the repo into the `for Developers` folder within the `scripts` folder.
