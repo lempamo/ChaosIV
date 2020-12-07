@@ -14,12 +14,12 @@ For that purpose used additional cooldown round. So it's not recommended to use 
 
 # Installation
 
-1. Install `ASI loader` and `.NET ScriptHook`.
+1. Install [`ASI loader`][4] (dinput8.dll) and [`.NET ScriptHook`][5] (for Steam game version [v1.7.1.7b][6] worked for me).
 2. For `Complete Edition`, install the Compatibility Patch: https://www.lcpdfr.com/downloads/gta4mods/g17media/26726-compatibility-patch-for-gta-iv-complete-edition/
 3. Install [ChaosIVTwitchPollProxy][1].
 4. Unzip the [ChaosIV-v.x.x.zip][2] file into your GTA IV installation folder.
 5. Adjust settings in `ChaosIV.ini`.
-6. Install [FrankerFaceZ][3] chrome extension.
+6. Install [FrankerFaceZ][3] Chrome extension.
 7. Install FFZ `poll-shim` plugin:
 ![How to add poll-shim plugin](/images/ffz-add-poll-shim.png)
 
@@ -47,3 +47,6 @@ Type `abortscripts` to stop scripts.
 [1]: https://github.com/shtrih/ChaosIVTwitchPollProxy/releases
 [2]: https://github.com/shtrih/ChaosIV/releases
 [3]: https://chrome.google.com/webstore/detail/frankerfacez/fadndhdgpmmaapbmfcknlfgcflmmmieb
+[4]: https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/tag/v4.52
+[5]: https://gtaforums.com/topic/946154-release-gtaiv-net-scripthook-v1718-support-for-gta-iv-1080-and-eflc-1130-by-arinc9-zolika1351/
+[6]: http://hazardx.com/files/gta4_net_scripthook-83
