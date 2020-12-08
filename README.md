@@ -37,6 +37,85 @@ Please note that you must be a Partner/Affiliate to use Twitch polls.
 First cycle after connection and authentication is cooldown round.
 6. Play. Use `reloadscripts` console command to fix disconnects loop.
 
+# OBS Poll Widget
+
+Also you can add the [Twitch Poll overlay][7] which allow you to display the currently active Poll on your channel onto your stream.
+Here CSS make widget visually similar with ChaosIV:
+```css
+
+:root{
+    --border-radius-large: 0em;
+    --color-background-overlay: transparent;
+    --progress-background-color: transparent;
+    --progress-winner-color: rgb(0 160 0 / 0.6);
+    --progress-votes-color: rgb(255 255 0 / 0.5);
+}
+
+p.tw-c-text-overlay-alt.tw-font-size-6 {
+    display: none;
+}
+
+p.tw-c-text-overlay.tw-font-size-4.tw-line-height-heading.tw-strong.tw-word-break-word {
+    display: none;
+}
+
+.tw-pd-b-05.tw-pd-t-05 {
+    padding-bottom: 0.1rem !important;
+    padding-top: 0.1rem !important;
+}
+
+.choice-progress.container.tw-border-radius-large.tw-overflow-hidden {
+    height: 3.7rem;
+    text-shadow: 1px 1px black;
+}
+
+.tw-pd-2 {
+    padding: 0rem !important;
+}
+
+.tw-border-radius-large.tw-c-background-overlay.tw-c-text-overlay.tw-pd-1 {
+    padding: 0rem !important;
+}
+
+p.tw-font-size-5.tw-line-height-heading.tw-semibold.tw-title.tw-title--inherit {
+    font-weight: 600 !important;
+    --minFontSize: 13px;
+    --maxFontSize: 20px;
+    --scaler: 2.4vw;
+    font-size: clamp( var(--minFontSize), var(--scaler), var(--maxFontSize) ) !important;
+}
+
+.choice-progress__fill.choice-progress__fill--default.container__progress.tw-block {
+    background: var(--progress-votes-color);
+}
+
+.tw-progress-bar {
+    display: none;
+}
+
+/* votes values */
+.tw-mg-r-1 {
+    margin-right: 0rem!important;
+    margin-left: 0.5rem!important;
+    display: none; /* remove this line to show user votes */
+}
+
+.tw-mg-l-1 {
+    margin-left: 0.5rem!important;
+}
+
+.tw-root--theme-dark .choice-progress,
+.choice-progress__fill.container__progress--background.tw-block
+{
+    background: var(--progress-background-color);
+}
+
+.choice-progress__fill.choice-progress__fill--winner.container__progress.tw-block {
+    background: var(--progress-winner-color);
+}
+```
+![OBS Poll Widget](./images/obs64_2020-12-08_14-01-45.jpg)
+
 ## How to Contribute
 Make sure you have your `ASI loader` and `.NET ScriptHook` installed, and then clone the repo into the `for Developers` folder within the `scripts` folder.
 
@@ -50,3 +129,4 @@ Type `abortscripts` to stop scripts.
 [4]: https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/tag/v4.52
 [5]: https://gtaforums.com/topic/946154-release-gtaiv-net-scripthook-v1718-support-for-gta-iv-1080-and-eflc-1130-by-arinc9-zolika1351/
 [6]: http://hazardx.com/files/gta4_net_scripthook-83
+[7]: https://help.twitch.tv/s/article/how-to-use-polls?language=en_US&sf222407025=1#overlay
