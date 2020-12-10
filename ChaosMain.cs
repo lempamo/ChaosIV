@@ -1268,27 +1268,27 @@ namespace ChaosIV
 		}
 
 		public void EffectVehicleSpawnBus() {
-			World.CreateVehicle(new Model("BUS"), Player.Character.Position.Around(2f));
+			World.CreateVehicle(new Model("BUS"), InFrontOfPlayerPosition());
 		}
 
 		public void EffectVehicleSpawnFaggio() {
-			World.CreateVehicle(new Model("FAGGIO"), Player.Character.Position.Around(2f));
+			World.CreateVehicle(new Model("FAGGIO"), InFrontOfPlayerPosition());
 		}
 
 		public void EffectVehicleSpawnInfernus() {
-			World.CreateVehicle(new Model("INFERNUS"), Player.Character.Position.Around(2f));
+			World.CreateVehicle(new Model("INFERNUS"), InFrontOfPlayerPosition());
 		}
 
 		public void EffectVehicleSpawnMaverick() {
-			World.CreateVehicle(new Model("MAVERICK"), Player.Character.Position.Around(2f));
+			World.CreateVehicle(new Model("MAVERICK"), InFrontOfPlayerPosition());
 		}
 
 		public void EffectVehicleSpawnPolice() {
-			World.CreateVehicle(new Model("POLICE"), Player.Character.Position.Around(2f));
+			World.CreateVehicle(new Model("POLICE"), InFrontOfPlayerPosition());
 		}
 
 		public void EffectVehicleSpawnRandom() {
-			World.CreateVehicle(new Model(Vehicles[R.Next(Vehicles.Count)]), Player.Character.Position.Around(2f));
+			World.CreateVehicle(new Model(Vehicles[R.Next(Vehicles.Count)]), InFrontOfPlayerPosition());
 		}
 
 		public void EffectVehicleSpawnRandomBoat() {
