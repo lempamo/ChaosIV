@@ -96,6 +96,15 @@ namespace ChaosIV
 			"VIGERO", "VIGERO2", "VINCENT", "VIRGO", "VOODOO", "WASHINGTON",
 			"WILLARD", "YANKEE", "ZOMBIEB"
 		};
+		List<string> Boats = new List<string>() {
+			"DINGHY",
+			"JETMAX",
+			"MARQUIS",
+			"PREDATOR",
+			"REEFER",
+			"SQUALO",
+			"TROPIC",
+		};
 
 		Font smol = new Font("Arial", 0.02f, FontScaling.ScreenUnits);
 		AnimationSet hood = new AnimationSet("amb@dance_maleidl_a");
@@ -235,6 +244,7 @@ namespace ChaosIV
             Effects.Add(new Effect("Spawn Maverick", EffectVehicleSpawnMaverick));
             Effects.Add(new Effect("Spawn Police Cruiser", EffectVehicleSpawnPolice));
             Effects.Add(new Effect("Spawn Random Vehicle", EffectVehicleSpawnRandom));
+            Effects.Add(new Effect("Spawn Random Boat", EffectVehicleSpawnRandomBoat));
             Effects.Add(new Effect("Need A Cab?", EffectVehicleSpawnTaxis));
             Effects.Add(new Effect("Spawn Tug", EffectVehicleSpawnTug));
             Effects.Add(new Effect("Black Traffic", EffectVehicleTrafficBlack, new Timer(88000), EffectVehicleTrafficBlack, EffectVehicleTrafficBlack, new[] { "Invisible Vehicles", "Blue Traffic", "Red Traffic", "White Traffic", "Green Traffic" }));
@@ -522,6 +532,14 @@ namespace ChaosIV
 			}
 
 			return result;
+		}
+
+		protected Vector3 InFrontOfPlayerPosition() {
+			if (Player.Character.isInVehicle()) {
+				return Vector3.Add(Player.Character.CurrentVehicle.Position, Vector3.Multiply(Player.Character.CurrentVehicle.Direction, 5f));
+			}
+
+			return Vector3.Add(Player.Character.Position, Vector3.Multiply(Player.Character.Direction, 3f));
 		}
 
 		// !!! EFFECT METHODS BEGIN BELOW !!! //
@@ -1271,6 +1289,10 @@ namespace ChaosIV
 
 		public void EffectVehicleSpawnRandom() {
 			World.CreateVehicle(new Model(Vehicles[R.Next(Vehicles.Count)]), Player.Character.Position.Around(2f));
+		}
+
+		public void EffectVehicleSpawnRandomBoat() {
+			World.CreateVehicle(new Model(Boats[R.Next(Boats.Count)]), InFrontOfPlayerPosition());
 		}
 
 		public void EffectVehicleSpawnTaxis() { // this one's for the speedrunners out there :^)
