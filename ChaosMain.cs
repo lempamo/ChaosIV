@@ -431,7 +431,7 @@ namespace ChaosIV
 		private void PollOnDisconnect() {
 			EffectTimer.Stop();
 			_twitchPollCooldown.Stop();
-			Wait(2000);
+			//Wait(2000);
 		}
 
 		private void PollOnError(Error error) {
@@ -455,8 +455,6 @@ namespace ChaosIV
 
 		public void OnAfterPollCooldown(object s, EventArgs e) {
 			_twitchPollCooldown.Stop();
-			_twitchPollProxy.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
-
 			_isTwitchPollCd = false;
 
 			// deploy random effect on new poll and start effect cooldown
@@ -464,6 +462,8 @@ namespace ChaosIV
 				DeployRandomEffect(null, null);
 			}
 			EffectTimer.Stop();
+
+			_twitchPollProxy.CreatePoll(GetRandomEffectNames(), in _twitchPollTime);
 		}
 
 		private void PollOnEnd(PollResult pollResult) {
