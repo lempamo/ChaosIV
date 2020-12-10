@@ -433,12 +433,13 @@ namespace ChaosIV
 		}
 
 		private void PollClientAuth() {
+			Game.Console.Print("FFZ Auth Success.");
 			_twitchPollCooldown.Start();
 			_isTwitchPollCd = true;
 		}
 
         private void PollOnCreate() {
-			Game.Console.Print("Poll created YEP");
+			//Game.Console.Print("Poll created YEP");
 			EffectTimer.Start();
 		}
 
@@ -511,11 +512,6 @@ namespace ChaosIV
 			_twitchPollCooldown.Start();
 			_isTwitchPollCd = true;
 			EffectTimer.Stop();
-		}
-
-		public new void Abort() {
-			Game.Console.Print("Aborting WS server!");
-			_twitchPollProxy.Stop();
 		}
 
 		protected string[] GetRandomEffectNames() {

@@ -28,8 +28,9 @@ namespace ChaosIV
 					_pipe.EndWaitForConnection(result);
 
 					_pipeReader = new StreamReader(_pipe);
-					_pipeWriter = new StreamWriter(_pipe);
-					_pipeWriter.AutoFlush = true;
+					_pipeWriter = new StreamWriter(_pipe) {
+						AutoFlush = true
+					};
 
 					_pipeTimer.Tick += new EventHandler(OnElapsed);
 					_pipeTimer.Interval = PIPE_INTERVAL;
@@ -67,9 +68,7 @@ namespace ChaosIV
 
 		public void Close() {
 			_pipeTimer.Stop();
-			_pipeReader.Close();
-			_pipeWriter.Close();
-			_pipe.Close();
+			_pipe.Dispose();
 		}
 	}
 }
