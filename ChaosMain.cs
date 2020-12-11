@@ -496,9 +496,16 @@ namespace ChaosIV
 
 		protected string[] GetRandomEffectNames() {
 			var result = new string[R.Next(2, 6)];
+			var randIdxs = new int[6];
+			int rand;
 
 			for (var i = 0; i < result.Count(); i++) {
-				result[i] = Effects[R.Next(Effects.Count)].Name;
+				do {
+					rand = R.Next(Effects.Count);
+				} while (Array.Exists(randIdxs, v => v == rand));
+
+				randIdxs[i] = rand;
+				result[i] = Effects[rand].Name;
 			}
 
 			return result;
