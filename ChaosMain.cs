@@ -385,43 +385,54 @@ namespace ChaosIV
 		public void DeployRandomEffect(object s, EventArgs e) {
 			Effect next = Effects[R.Next(Effects.Count)];
 
-			if (next.Timer != null && RecentEffects.Contains(next)) {
-				RecentEffects.Find(x => x.Name == next.Name).Start();
-			} else {
-				if (next.Conflicts != null) {
-					foreach(string c in next.Conflicts) {
-						if (RecentEffects.Find(x => x.Name == c).Name != null) {
-							RecentEffects.Find(x => x.Name == c).Stop?.Invoke();
-							RecentEffects.Find(x => x.Name == c).Timer.Stop();
-							Loops.Remove(RecentEffects.Find(x => x.Name == c).Loop);
-							RecentEffects.Remove(RecentEffects.Find(x => x.Name == c));
+			DeployEffect(next);
+
+			EffectTimer.Start();
+		}
+
+		public void DeployEffect(Effect nextEffect) {
+			if (nextEffect.Timer != null && RecentEffects.Contains(nextEffect)) {
+				RecentEffects.Find(x => x.Name == nextEffect.Name).Start();
+			}
+			else {
+				if (nextEffect.Conflicts != null) {
+					foreach (string c in nextEffect.Conflicts) {
+						Effect conflictEffect = RecentEffects.Find(x => x.Name == c);
+						if (conflictEffect.Name != null) {
+							Loops.Remove(conflictEffect.Loop);
+							conflictEffect.Stop?.Invoke();
+							conflictEffect.Timer?.Stop();
+							RecentEffects.Remove(conflictEffect);
 						}
 					}
 				}
 
-				next.Start();
-				if (next.Timer != null) next.Timer.Start();
-				if (next.Loop != null) Loops.Add(next.Loop);
-
-				if (RecentEffects.Count != 3) {
-					RecentEffects.Add(next);
-				} else {
+				if (RecentEffects.Count == 3) {
 					foreach (Effect f in RecentEffects) {
-						if (f.Timer != null) {
-							if (f.Timer.ElapsedTime > f.Timer.Interval) {
-								RecentEffects.Remove(f);
-								break;
-							}
-						} else {
+						if (f.Timer == null || f.Timer.ElapsedTime > f.Timer.Interval) {
+							Loops.Remove(f.Loop);
+							f.Stop?.Invoke();
+							f.Timer?.Stop();
 							RecentEffects.Remove(f);
 							break;
 						}
 					}
-					RecentEffects.Add(next);
+
+					if (RecentEffects.Count == 3) {
+						Loops.Remove(RecentEffects[0].Loop);
+						RecentEffects[0].Stop?.Invoke();
+						RecentEffects[0].Timer?.Stop();
+						RecentEffects.Remove(RecentEffects[0]);
+					}
+				}
+				RecentEffects.Add(nextEffect);
+
+				nextEffect.Start();
+				nextEffect.Timer?.Start();
+				if (nextEffect.Loop != null) {
+					Loops.Add(nextEffect.Loop);
 				}
 			}
-
-			EffectTimer.Start();
 		}
 
 		private void PollOnConnect() {
@@ -476,48 +487,7 @@ namespace ChaosIV
 
 			Effect next = Effects.Find(x => x.Name == winner.text);
 
-			if (next.Timer != null && RecentEffects.Contains(next)) {
-				RecentEffects.Find(x => x.Name == next.Name).Start();
-			}
-			else {
-				if (next.Conflicts != null) {
-					foreach (string c in next.Conflicts) {
-						Effect conflictEffect = RecentEffects.Find(x => x.Name == c);
-						if (conflictEffect.Name != null) {
-							Loops.Remove(conflictEffect.Loop);
-							conflictEffect.Stop?.Invoke();
-							conflictEffect.Timer?.Stop();
-							RecentEffects.Remove(conflictEffect);
-						}
-					}
-				}
-
-				if (RecentEffects.Count == 3) {
-					foreach (Effect f in RecentEffects) {
-						if (f.Timer == null || f.Timer.ElapsedTime > f.Timer.Interval) {
-							Loops.Remove(f.Loop);
-							f.Stop?.Invoke();
-							f.Timer?.Stop();
-							RecentEffects.Remove(f);
-							break;
-						}
-					}
-
-					if (RecentEffects.Count == 3) {
-						Loops.Remove(RecentEffects[0].Loop);
-						RecentEffects[0].Stop?.Invoke();
-						RecentEffects[0].Timer?.Stop();
-						RecentEffects.Remove(RecentEffects[0]);
-					}
-				}
-				RecentEffects.Add(next);
-
-				next.Start();
-				next.Timer?.Start();
-				if (next.Loop != null) {
-					Loops.Add(next.Loop);
-				}
-			}
+			DeployEffect(next);
 
 			_twitchPollCooldown.Start();
 			_isTwitchPollCd = true;
