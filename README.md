@@ -27,15 +27,17 @@ For that purpose used additional cooldown round. So it's not recommended to use 
 
 Please note that you must be a Partner/Affiliate to use Twitch polls. 
 
-1. Start and load the game.
-2. Open ingame console (`~`). It shows loaded scripts:
-![Console screenshot](/images/gtaiv-scripthook-console.png)
-3. Open Twitch dashboard.
-4. Fill out FFZ poll-shim settings: 
+1. Open Twitch dashboard.
+2. Fill out FFZ poll-shim settings: 
 ![Poll-shim settings](/images/ffz-poll-shim-settings.png)
-5. Return to the game and wait for FFZ connection.
+3. Make sure poll-shim is active:
+![Poll-shim settings](/images/ffz-poll-shim-active.png)
+4. Start and load the game.
+5. Open ingame console (`~`). It shows loaded scripts:
+![Console screenshot](/images/gtaiv-scripthook-console.png)
+6. Wait for FFZ connection.
 First cycle after connection and authentication is cooldown round.
-6. Play. Use `reloadscripts` console command to fix disconnects loop.
+7. Play. Use `reloadscripts` console command to fix disconnects loop.
 
 # OBS Poll Widget
 
