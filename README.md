@@ -42,7 +42,7 @@ First cycle after connection and authentication is cooldown round.
 # OBS Poll Widget
 
 Also you can add the [Twitch Poll overlay][7] which allow you to display the currently active Poll on your channel onto your stream.
-Here CSS make widget visually similar with ChaosIV:
+Here CSS make widget visually similar with ChaosIV (in source settings `width`: `360px`):
 ```css
 
 :root{
