@@ -97,7 +97,8 @@ p.tw-font-size-5.tw-line-height-heading.tw-semibold.tw-title.tw-title--inherit {
 
 /* votes values */
 .tw-mg-r-1 {
-    margin-right: 0rem!important;
+    /*margin-right: 0rem!important;*/
+    white-space: nowrap;
     margin-left: 0.5rem!important;
     display: none; /* remove this line to show user votes */
 }
