@@ -45,7 +45,8 @@ Also you can add the [Twitch Poll overlay][7] which allow you to display the cur
 Here CSS make widget visually similar with ChaosIV (in source settings `width`: `360px`):
 ```css
 
-:root{
+:root, #root {
+    --color-background-body: transparent;
     --border-radius-large: 0em;
     --color-background-overlay: transparent;
     --progress-background-color: transparent;
@@ -53,68 +54,68 @@ Here CSS make widget visually similar with ChaosIV (in source settings `width`: 
     --progress-votes-color: rgb(255 255 0 / 0.5);
 }
 
-p.tw-c-text-overlay-alt.tw-font-size-6 {
-    display: none;
+#root p.tw-c-text-overlay-alt {
+    display: none !important;
 }
 
-p.tw-c-text-overlay.tw-font-size-4.tw-line-height-heading.tw-strong.tw-word-break-word {
-    display: none;
+#root p.tw-c-text-overlay.tw-font-size-4.tw-line-height-heading.tw-strong.tw-word-break-word {
+    display: none !important;
 }
 
-.tw-pd-b-05.tw-pd-t-05 {
+#root .tw-pd-b-05.tw-pd-t-05 {
     padding-bottom: 0.1rem !important;
     padding-top: 0.1rem !important;
 }
 
-.choice-progress.container.tw-border-radius-large.tw-overflow-hidden {
-    height: 3.7rem;
-    text-shadow: 1px 1px black;
+#root .choice-progress.container.tw-border-radius-large.tw-overflow-hidden {
+    height: 3.2rem;
+    text-shadow: 1px 1px 1px black, 
+        -1px 1px 1px black, 
+        1px -1px 1px black, 
+        -1px -1px 1px black;
 }
 
-.tw-pd-2 {
+#root .tw-pd-2 {
     padding: 0rem !important;
 }
 
-.tw-border-radius-large.tw-c-background-overlay.tw-c-text-overlay.tw-pd-1 {
+#root .tw-pd-1 {
     padding: 0rem !important;
 }
 
-p.tw-font-size-5.tw-line-height-heading.tw-semibold.tw-title.tw-title--inherit {
+#root p.tw-font-size-5.tw-line-height-heading.tw-semibold.tw-title.tw-title--inherit {
     font-weight: 600 !important;
-    --minFontSize: 13px;
-    --maxFontSize: 20px;
-    --scaler: 2.4vw;
-    font-size: clamp( var(--minFontSize), var(--scaler), var(--maxFontSize) ) !important;
+    font-size: 15px !important;
 }
 
-.choice-progress__fill.choice-progress__fill--default.container__progress.tw-block {
+#root .choice-progress__fill.choice-progress__fill--default.container__progress.tw-block {
     background: var(--progress-votes-color);
 }
 
-.tw-progress-bar {
-    display: none;
+#root .tw-progress-bar {
+    display: none !important;
 }
 
 /* votes values */
-.tw-mg-r-1 {
+#root .tw-mg-r-1 {
     /*margin-right: 0rem!important;*/
     white-space: nowrap;
     margin-left: 0.5rem!important;
     display: none; /* remove this line to show user votes */
 }
 
-.tw-mg-l-1 {
+#root .tw-mg-l-1 {
     margin-left: 0.5rem!important;
 }
 
-.tw-root--theme-dark .choice-progress,
-.choice-progress__fill.container__progress--background.tw-block
+#root .tw-root--theme-dark .choice-progress,
+#root .choice-progress__fill.container__progress--background.tw-block
 {
-    background: var(--progress-background-color);
+    background: var(--progress-background-color) !important;
 }
 
-.choice-progress__fill.choice-progress__fill--winner.container__progress.tw-block {
-    background: var(--progress-winner-color);
+#root .choice-progress__fill.choice-progress__fill--winner.container__progress.tw-block {
+    background: var(--progress-winner-color) !important;
 }
 ```
 ![OBS Poll Widget](./images/obs64_2020-12-08_14-01-45.jpg)
