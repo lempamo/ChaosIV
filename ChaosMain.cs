@@ -319,11 +319,17 @@ namespace ChaosIV
 			e.Graphics.Scaling = FontScaling.ScreenUnits;
 
 			// Blind
-			if (isBlind) e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 1f), Color.Black);
+			if (isBlind) {
+				e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 1f), Color.Black);
+			}
 
 			// No HUD
-			if (isHUDless) Function.Call("HIDE_HUD_AND_RADAR_THIS_FRAME");
-
+			if (isHUDless) {
+				// The radar shows up every few hundred frames, idk why. So draw the rectangle for now
+				//Function.Call("HIDE_HUD_AND_RADAR_THIS_FRAME");
+				e.Graphics.DrawRectangle(new RectangleF(0.0529f, 0.755f, 0.112f, 0.19f), Color.Black);
+				e.Graphics.DrawText("No HUD", new RectangleF(0.0529f, 0.755f, 0.112f, 0.19f), TextAlignment.Center, Color.FromArgb(128, 128, 128), smol);
+			}
 
 			// Draw Timer Bar
 			e.Graphics.DrawRectangle(new RectangleF(0f, 0f, 1f, 0.02f), Color.FromArgb(70, 10, 10, 10));

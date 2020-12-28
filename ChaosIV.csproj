@@ -7,7 +7,7 @@
     <RepositoryUrl>https://github.com/lempamo/ChaosIV</RepositoryUrl>
     <Description>Chaos mod for GTA IV [prerelease build]</Description>
     <Platforms>AnyCPU;x86</Platforms>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
