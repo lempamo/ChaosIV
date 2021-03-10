@@ -18,5 +18,8 @@ Just copy all the downloaded files in to your main directory of GTA IV.
 Make sure that you have an ASI Loader and ScriptHook(DotNet).
 
 ## How to Contribute
-Make sure you have your ASI loader and .NET ScriptHook installed, and then clone the repo into the "for Developers" folder within the scripts folder.
-When you build the mod, GTA IV will automatically launch so you can test immediately.
+Do you have an idea to improve this mod, or did you happen to run into a bug? Please share your idea or the bug you found in the issues page, or even better: feel free to fork and contribute to this project with a Pull Request.
+
+Make sure you have Visual Studio installed, and that you add a reference to the file "ScriptHookDotNet.dll" in Visual Studio, otherwise you will run in to a hole lot of errors.
+
+If you dont have the **ScriptHookDotNet.dll** file, then here is a link for you to download this file: https://www.dropbox.com/s/9mhvnmy101aspkw/ScriptHookDotNet.dll?dl=1
