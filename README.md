@@ -8,18 +8,18 @@ A list of implemented effects can be found here: https://docs.google.com/spreads
 ## Requirements
 In order to use this mod, you will need an ASI Loader, ScriptHook and ScriptHookDotNet.
 
-If you want to use this mod with the Complete Edition of GTA IV, you can download this mod package: 
+If you want to use this mod with the Complete Edition of GTA IV, you can download this package: 
 https://www.gtainside.com/gta4/mods/161408-2020-complete-edition-asi-loader-scripthook/
 
-This package includes an ASI Loader, ScriptHook, ScriptHookDotNet and the Compatibility Patch. Just Drag & Drop all files in to you main directory of GTA IV.
+This package includes an **ASI Loader**, **ScriptHook**, **ScriptHookDotNet** and the **Compatibility Patch**. Just Drag & Drop all files in to you main directory of GTA IV.
 
 ## Installation
 Just copy all the downloaded files in to your main directory of GTA IV.
-Make sure that you have an ASI Loader and ScriptHook(DotNet).
+Make sure that you have an **ASI Loader** and **ScriptHook(DotNet)**.
 
 ## How to Contribute
-Do you have an idea to improve this mod, or did you happen to run into a bug? Please share your idea or the bug you found in the issues page, or even better: feel free to fork and contribute to this project with a Pull Request.
+Do you have an idea to improve this mod, or did you happen to run into a bug? Please share your idea or the bug you found in the **issues page**, or even better: feel free to fork and contribute to this project with a **Pull Request**.
 
-Make sure you have Visual Studio installed, and that you add a reference to the file "ScriptHookDotNet.dll" in Visual Studio, otherwise you will run in to a hole lot of errors.
+Make sure you have **Visual Studio** installed, and that you add a **reference** to the file "**ScriptHookDotNet.dll**" in **Visual Studio**, otherwise you will run in to a hole lot of **errors**.
 
 If you dont have the **ScriptHookDotNet.dll** file, then here is a link for you to download this file: https://www.dropbox.com/s/9mhvnmy101aspkw/ScriptHookDotNet.dll?dl=1
