@@ -1,4 +1,6 @@
-# ChaosIV
+<p align="center">
+  <img width="300" height="60" src="https://user-images.githubusercontent.com/39125931/110706519-484fe480-81f8-11eb-9869-25cf9aa944ae.png">
+</p>
 
 *ChaosIV* is a Chaos mod for Grand Theft Auto IV inspired by similar mods for GTA V and GTA:SA.
 The mod has been tested to work with 1.0.4.0, 1.0.7.0 and the Complete Edition, though it may likely also work with 1.0.8.0. 
