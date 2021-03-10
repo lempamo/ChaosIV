@@ -1,14 +1,21 @@
 # ChaosIV
 
 *ChaosIV* is a Chaos mod for Grand Theft Auto IV inspired by similar mods for GTA V and GTA:SA.
-The mod has been tested to work with 1.0.4.0 and 1.0.7.0, though it may likely also work with 1.0.8.0 and the Complete Edition. 
+The mod has been tested to work with 1.0.4.0, 1.0.7.0 and the Complete Edition, though it may likely also work with 1.0.8.0. 
 
 A list of implemented effects can be found here: https://docs.google.com/spreadsheets/d/16mKSpQb9KH387viPWK97ejFQ6xchB1lvvpeXNYW66rI/edit?usp=sharing
 
-This mod requires an ASI loader and .NET ScriptHook in order to be installed.
-To install, simply drop the ChaosIV.net.dll file into the scripts folder within your GTA IV installation.
+## Requirements
+In order to use this mod, you will need an ASI Loader, ScriptHook and ScriptHookDotNet.
 
-For Complete Edition, install the Compatibility Patch after the ASI Loader and ScriptHook: https://www.lcpdfr.com/downloads/gta4mods/g17media/26726-compatibility-patch-for-gta-iv-complete-edition/
+If you want to use this mod with the Complete Edition of GTA IV, you can download this mod package: 
+https://www.gtainside.com/gta4/mods/161408-2020-complete-edition-asi-loader-scripthook/
+
+This package includes an ASI Loader, ScriptHook, ScriptHookDotNet and the Compatibility Patch. Just Drag & Drop all files in to you main directory of GTA IV.
+
+## Installation
+Just copy all the downloaded files in to your main directory of GTA IV.
+Make sure that you have an ASI Loader and ScriptHook(DotNet).
 
 ## How to Contribute
 Make sure you have your ASI loader and .NET ScriptHook installed, and then clone the repo into the "for Developers" folder within the scripts folder.
