@@ -14,7 +14,7 @@ If you still want Twitch Chat Voting support, you can download the special [Chao
 ## Requirements
 In order to use this mod, you will need an ASI Loader, ScriptHook and ScriptHookDotNet.
 
-If you want to use this mod with the Complete Edition of GTA IV, you can download this package: 
+If you want to use this mod with the **Complete Edition** of GTA IV, you can download this package: 
 https://www.gtainside.com/gta4/mods/161408-2020-complete-edition-asi-loader-scripthook/
 
 This package includes an **ASI Loader**, **ScriptHook**, **ScriptHookDotNet** and the **Compatibility Patch**. Just Drag & Drop all files in to you main directory of GTA IV.
