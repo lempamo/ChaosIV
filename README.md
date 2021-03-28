@@ -39,6 +39,9 @@ Please note that you must be a Partner/Affiliate to use Twitch polls.
 First cycle after connection and authentication is cooldown round.
 7. Play. Use `reloadscripts` console command to fix disconnects loop.
 
+• If you have problems like you _can't open FFZ in dashboard (no ffz icon)_ or _`poll-shim` is not active on dashboard_ then try using the following URL: 
+`https://www.twitch.tv/popout/YOURUSERNAME/chat?ffz-settings=add_ons.poll_shim` (replace YOURUSERNAME with your own username). 
+
 # OBS Poll Widget
 
 Also you can add the [Twitch Poll overlay][7] which allow you to display the currently active Poll on your channel onto your stream.
