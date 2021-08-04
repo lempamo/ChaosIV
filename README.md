@@ -20,8 +20,9 @@ https://www.gtainside.com/gta4/mods/161408-2020-complete-edition-asi-loader-scri
 This package includes an **ASI Loader**, **ScriptHook**, **ScriptHookDotNet** and the **Compatibility Patch**. Just Drag & Drop all files in to you main directory of GTA IV.
 
 ## Installation
-Just copy all the downloaded files in to your main directory of GTA IV.
-Make sure that you have an **ASI Loader** and **ScriptHook(DotNet)**.
+Version 1.4: Copy all files into your scripts folder
+~~Just copy all the downloaded files in to your main directory of GTA IV.~~ (Only in upcoming version 1.5)
+Make sure that you have an **ASI Loader**, **ScriptHook** and **ScriptHookDotNet**.
 
 ## How to Contribute
 Do you have an idea to improve this mod, or did you happen to run into a bug? Please share your idea or the bug you found in the **[issues page](https://github.com/lempamo/ChaosIV/issues)**, or even better: feel free to fork and contribute to this project with a **[Pull Request](https://github.com/lempamo/ChaosIV/pulls)**.
