@@ -32,7 +32,7 @@ If you have ideas for new effects, then you can also open up a new issue in the 
 **Name of effect**  
 The name of the effect.  
 
-**Duration if timed effect (How many seconds should the effect last?)**
+**Duration if timed effect (How many seconds should the effect last?)**  
 How long should the effect last? In seconds.  
 
 **Effect Description**  
